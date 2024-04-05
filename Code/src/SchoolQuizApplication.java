@@ -7,25 +7,32 @@ import java.util.Scanner;
 public class SchoolQuizApplication {
     // Is the main program which helps the user on getting started and a menu for the user to navigate the program.
 
-    ArrayList<Module> associateModule;
+    private Module moduleList;
+
     // Instantiate an array which holds Modules.
 
-    static Scanner console = new Scanner(System.in);
-    // Instantiate a Scanner object.
+    private static Scanner console = new Scanner(System.in);
+    // Instantiate a Scanner object before everything else.
 
 
     public static void main(String[] args) {
         /* INSERT instantiation of Module, Bank, Questions... objects
            THEN instantiate the File object then run a load() function.
          */
-        SchoolQuizApplication menu = new SchoolQuizApplication();
+        Question userQuestion = new Question();
+        Bank userBank = new Bank();
+        Module userModule = new Module();
+
+    //  FILE ... = new File();
+        SchoolQuizApplication menu = new SchoolQuizApplication(userModule);
     }
 
 
-    public SchoolQuizApplication() {
+    public SchoolQuizApplication(Module setmoduleListObject) {
+        moduleList = setmoduleListObject;
         logIn();
-    }
 
+    }
 
     public void logIn() {
         String userInput;
@@ -36,7 +43,7 @@ public class SchoolQuizApplication {
             userInput = console.next();
             System.out.println(userInput);
 
-            switch (userInput) {
+            switch (userInput.toUpperCase()) {
                 case ("S"):
                     loggedIn = true;
                     printStudentMenu();
@@ -62,17 +69,18 @@ public class SchoolQuizApplication {
 
         do {
             System.out.println("-------Teacher Menu------- \n" +
-                               "1) Add Module \n" +
-                               "2) Add Question Bank \n" +
-                               "3) Add Question \n" +
-                               "4) Remove Module \n" +
-                               "5) Remove Question Bank \n" +
-                               "6) Remove Question \n" +
-                               "7) Change User \n" +
-                               "8) Exit \n" +
+                               "1) Show All Module And Question Bank" +
+                               "2) Add Module \n" +
+                               "3) Add Question Bank \n" +
+                               "4) Add Question \n" +
+                               "5) Remove Module \n" +
+                               "6) Remove Question Bank \n" +
+                               "7) Remove Question \n" +
+                               "8) Change User \n" +
+                               "9) Exit \n" +
                                "--------------------------");
 
-            System.out.println("Enter A Option (1-8): ");
+            System.out.println("Enter A Option (1-9): ");
 
             try{
                 userInput = console.nextInt();
@@ -91,27 +99,31 @@ public class SchoolQuizApplication {
     public boolean processTeacherMenu(int teacherOption){
         switch (teacherOption){
             case (1):
-                System.out.println("ADDING MODULE");
+                moduleList.displayModule();
                 break;
             case (2):
-                System.out.println("ADDING QB");
+                System.out.println("ADDING MODULE");
+                createModule();
                 break;
             case (3):
-                System.out.println("ADDING Q");
+                System.out.println("ADDING QB");
                 break;
             case (4):
-                System.out.println("R MODULE");
+                System.out.println("ADDING Q");
                 break;
             case (5):
-                System.out.println("R QB");
+                System.out.println("R MODULE");
                 break;
             case (6):
-                System.out.println("R Q");
+                System.out.println("R QB");
                 break;
             case (7):
-                logIn();
+                System.out.println("R Q");
                 break;
             case (8):
+                logIn();
+                break;
+            case (9):
                 System.out.println("E");
                 System.exit(0);
                 return true;
@@ -168,6 +180,32 @@ public class SchoolQuizApplication {
         }
         return false;
     }
+
+
+    public void createModule(){
+        String userInput;
+        boolean moduleCreated = false;
+
+        do{
+            System.out.println("Enter A Module Identifier: ");
+            userInput = console.next();
+            System.out.println("YOU TYPED: " + userInput);
+            System.out.println("SIZE IS: " + userInput.length());
+
+            if ((userInput.length()) <= 7){
+                moduleList.addModuleIdentifiers(userInput);
+                System.out.println("CREATED");
+                moduleCreated = true;
+            }
+            else{
+                System.out.println("Invalid Input, Try Again ");
+                System.out.println("Example: CS12320");
+            }
+
+        }while(!moduleCreated);
+    }
+
+
 }
 
 
