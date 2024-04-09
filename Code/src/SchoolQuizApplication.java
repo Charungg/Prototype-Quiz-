@@ -1,93 +1,104 @@
-import java.util.ArrayList;
-// ArrayList is used to instantiate an array which can shrink and grow in size.
-import java.util.Scanner;
 // Scanner is used to grab user input.
+import java.util.Scanner;
 
 
+// Is the main program which helps the user on getting started and a menu for the user to navigate the program.
 public class SchoolQuizApplication {
-    // Is the main program which helps the user on getting started and a menu for the user to navigate the program.
 
-    private Module moduleList;
+    private Module moduleList;  // Used to hold the module object.
 
-    // Instantiate an array which holds Modules.
+    private Bank bankList;  // Used to hold the bank object.
 
-    private static Scanner console = new Scanner(System.in);
-    // Instantiate a Scanner object before everything else.
+    private Question questionList;  // Used to hold the question object.
 
 
     public static void main(String[] args) {
         /* INSERT instantiation of Module, Bank, Questions... objects
            THEN instantiate the File object then run a load() function.
          */
-        Question userQuestion = new Question();
-        Bank userBank = new Bank();
         Module userModule = new Module();
+        Bank userBank = new Bank(userModule);
+        Question userQuestion = new Question(userBank);
 
-    //  FILE ... = new File();
-        SchoolQuizApplication menu = new SchoolQuizApplication(userModule);
+
+        //  FILE ... = new File();
+        SchoolQuizApplication menu = new SchoolQuizApplication(userModule, userBank, userQuestion);
+        menu.logIn();
+
+
+
+
     }
 
-
-    public SchoolQuizApplication(Module setmoduleListObject) {
-        moduleList = setmoduleListObject;
-        logIn();
-
+    // Allows the application to have access to module, bank and question objects.
+    public SchoolQuizApplication(Module setModuleList, Bank setBankList, Question setQuestionList) {
+        moduleList = setModuleList;
+        bankList = setBankList;
+        questionList = setQuestionList;
     }
 
+    // Used to determine whether the user is a student or teacher.
     public void logIn() {
         String userInput;
         boolean loggedIn = false;
+        Scanner console = new Scanner(System.in);
 
         do {
+            // User should input whether they are a teacher or student.
             System.out.println("Enter To Log In As Student(S) Or Teacher(T): ");
             userInput = console.next();
             System.out.println(userInput);
 
-            switch (userInput.toUpperCase()) {
-                case ("S"):
-                    loggedIn = true;
-                    printStudentMenu();
-                    break;
-                case ("T"):
-                    loggedIn = true;
-                    printTeacherMenu();
-                    break;
-                default:
-                    System.out.println("Invalid input, try again");
-                    break;
+            // If the user inputs the letter S then student menu will appear.
+            if (userInput.equalsIgnoreCase("s")){
+                loggedIn = true;
+                printStudentMenu();
+            }
+
+            // If the user inputs the letter T then teacher menu will appear.
+            else if (userInput.equalsIgnoreCase("t")){
+                loggedIn = true;
+                printTeacherMenu();
+            }
+
+            // If the user inputs neither letter then they will be prompt to try again.
+            else{
+                System.out.println("Invalid input, try again");
             }
         }
+        // If user hasn't entered an appropriate answer then it will ask for user input again.
         while (!loggedIn);
-        // System.out.println("RESULT = " + isTeacher);
-
     }
 
-
+    // Displays the teacher menu to the teacher user.
     public void printTeacherMenu() {
         int userInput;
         boolean exit = false;
+        Scanner console = new Scanner(System.in);
 
         do {
             System.out.println("-------Teacher Menu------- \n" +
-                               "1) Show All Module And Question Bank" +
-                               "2) Add Module \n" +
-                               "3) Add Question Bank \n" +
-                               "4) Add Question \n" +
-                               "5) Remove Module \n" +
-                               "6) Remove Question Bank \n" +
-                               "7) Remove Question \n" +
-                               "8) Change User \n" +
-                               "9) Exit \n" +
-                               "--------------------------");
+                    "1) Show All Module And Question Bank \n" +
+                    "2) Add Module \n" +
+                    "3) Add Question Bank \n" +
+                    "4) Add Question \n" +
+                    "5) Remove Module \n" +
+                    "6) Remove Question Bank \n" +
+                    "7) Remove Question \n" +
+                    "8) Change User \n" +
+                    "9) Exit \n" +
+                    "--------------------------");
 
             System.out.println("Enter A Option (1-9): ");
 
-            try{
+            // User should enter a number within the range of the provided options above.
+            try {
                 userInput = console.nextInt();
                 exit = processTeacherMenu(userInput);
             }
 
-            catch(Exception e){
+            // If the user enters a non-numerical character then the user will have to re-enter an option.
+            catch (Exception e) {
                 console.nextLine();
                 System.out.println("Invalid Input, Please Try Again");
             }
@@ -96,17 +107,20 @@ public class SchoolQuizApplication {
     }
 
 
-    public boolean processTeacherMenu(int teacherOption){
-        switch (teacherOption){
+    // After the user enters a numerical value within the teacher menu it will run the corresponding function.
+    public boolean processTeacherMenu(int teacherOption) {
+        // Each switch case represents a corresponding option from the teacher menu.
+        switch (teacherOption) {
             case (1):
                 moduleList.displayModule();
                 break;
             case (2):
                 System.out.println("ADDING MODULE");
-                createModule();
+                moduleList.createModule();
                 break;
             case (3):
                 System.out.println("ADDING QB");
+                bankList.createBank();
                 break;
             case (4):
                 System.out.println("ADDING Q");
@@ -126,7 +140,6 @@ public class SchoolQuizApplication {
             case (9):
                 System.out.println("E");
                 System.exit(0);
-                return true;
             default:
                 System.out.println("Invalid Input, Please Try Again");
         }
@@ -134,9 +147,11 @@ public class SchoolQuizApplication {
     }
 
 
-    public void printStudentMenu(){
+   // Displays the student menu to a student user.
+    public void printStudentMenu() {
         int userInput;
         boolean exit = false;
+        Scanner console = new Scanner(System.in);
 
         do {
             System.out.println("-------Student Menu------- \n" +
@@ -147,12 +162,14 @@ public class SchoolQuizApplication {
 
             System.out.println("Enter A Option (1-8): ");
 
-            try{
+            // User should enter a number within the range of the provided options above.
+            try {
                 userInput = console.nextInt();
                 exit = processStudentMenu(userInput);
             }
 
-            catch(Exception e){
+            // If the user enters a non-numerical character then the user will have to re-enter an option.
+            catch (Exception e) {
                 console.nextLine();
                 System.out.println("Invalid Input, Please Try Again");
             }
@@ -161,9 +178,10 @@ public class SchoolQuizApplication {
 
     }
 
-
-    public boolean processStudentMenu(int studentOption){
-        switch (studentOption){
+    // After the student user enters a numerical character within the range.
+    // It will then process the user input to run the corresponding task.
+    public boolean processStudentMenu(int studentOption) {
+        switch (studentOption) {
             case (1):
                 System.out.println("S QB");
                 break;
@@ -174,38 +192,11 @@ public class SchoolQuizApplication {
             case (3):
                 System.out.println("E");
                 System.exit(0);
-                break;
             default:
                 System.out.println("Invalid Input, Please Try Again");
         }
         return false;
     }
-
-
-    public void createModule(){
-        String userInput;
-        boolean moduleCreated = false;
-
-        do{
-            System.out.println("Enter A Module Identifier: ");
-            userInput = console.next();
-            System.out.println("YOU TYPED: " + userInput);
-            System.out.println("SIZE IS: " + userInput.length());
-
-            if ((userInput.length()) <= 7){
-                moduleList.addModuleIdentifiers(userInput);
-                System.out.println("CREATED");
-                moduleCreated = true;
-            }
-            else{
-                System.out.println("Invalid Input, Try Again ");
-                System.out.println("Example: CS12320");
-            }
-
-        }while(!moduleCreated);
-    }
-
-
 }
 
 
