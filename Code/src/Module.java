@@ -1,32 +1,45 @@
+// ArrayList is an array which can grow and shrink in size.
+// Useful in this scenario because you can zero to many modules.
 import java.util.ArrayList;
+// Used to grab user input.
 import java.util.Scanner;
 
+// 
 public class Module {
-
-    private Bank bankList;
     private ArrayList<String> moduleIdentifiers;
+
+
     public Module(){
         moduleIdentifiers = new ArrayList<String>();
         System.out.println("Module Created");
+
     }
 
-    public void addModuleIdentifiers(String setModuleIdentifiers){
-        moduleIdentifiers.add(setModuleIdentifiers);
+
+    public void createModule(){
+        String userInput;
+        boolean moduleCreated = false;
+        Scanner console = new Scanner(System.in);
+
+        do{
+            System.out.println("Enter A Module Identifier (Maximum 7 Characters): ");
+            userInput = console.next();
+            System.out.println("YOU TYPED: " + userInput);
+            System.out.println("SIZE IS: " + userInput.length());
+
+            if ((userInput.length()) <= 7){
+                moduleIdentifiers.add(userInput);
+                System.out.println("CREATED");
+                moduleCreated = true;
+            }
+            else{
+                System.out.println("Too many Characters! ");
+                System.out.println("Example: CS12320");
+            }
+
+        }while(!moduleCreated);
     }
 
-    public void addBank(){
-        /**
-         * Create Module (tick)
-         * Then Bank
-         * But For Which Module
-         * This One Okay I'll Check
-         * Found It
-         * I Ask For Bank Unique ID
-         * Check If Its length <= 15
-         * Then Link That Bank To The Module
-         */
-        // START FROM HERE...
-    }
 
     public void displayModule(){
         if (moduleIdentifiers.size()==0){
@@ -41,5 +54,14 @@ public class Module {
 
             System.out.println("---------------------");
         }
+    }
+
+
+    public String getModuleIdentifiers(int i){
+        return moduleIdentifiers.get(i);
+    }
+
+    public int getModuleIdentifiersSize(){
+        return moduleIdentifiers.size();
     }
 }
