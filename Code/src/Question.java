@@ -4,32 +4,26 @@ import java.util.Scanner;
 
 public class Question {
 
-    private Bank bankList;
+    Bank bankList;
 
-    private ArrayList<String> questionsIdentifiers;
+    ArrayList<String> questionsIdentifiers;
 
-    private ArrayList<String>[][] questionTextAndOptions;
-
-    private ArrayList<Integer> correctAnswer;
+    ArrayList<String> questionText;
 
 
 
-    public Question(Bank setBankList) {
-        bankList = setBankList;
+    public Question() {
         questionsIdentifiers = new ArrayList<String>();
+        questionText = new ArrayList<String>();
         System.out.println("Question CREATED");
     }
 
-    public void createQuestion(){
-        String userInput;
-        boolean questionCreated = false;
-        Scanner console = new Scanner(System.in);
+
+    public void createQuestion(Bank setBankList){
+        bankList = setBankList;
 
         setQuestionIdentifier();
-        setQuestionTextAndOptions();
-        setCorrectAnswer();
-
-
+        setQuestionText();
     }
 
     public void setQuestionIdentifier(){
@@ -41,22 +35,14 @@ public class Question {
         Scanner console = new Scanner(System.in);
 
         do{
-            boolean moduleFound = false;
-            boolean bankFound = false;
-
-            System.out.println("Enter a existing Module Identifier ");
+            System.out.println("Enter A Existing Module Identifier: ");
             userInputModuleIdentifier = console.next();
 
-            System.out.println("Enter a existing Bank Identifier ");
+            System.out.println("Enter A Existing Bank Identifier: ");
             userInputBankIdentifier = console.next();
 
             for (String i: bankIdentifiers.keySet()){
                 moduleName = bankList.getModuleIdentifier(bankIdentifiers.get(i));
-                System.out.println("TESTING");
-                System.out.println(bankIdentifiers.get(i)); // 0
-                System.out.println(i); //Donkey
-
-                System.out.println(bankList.getModuleIdentifier(0)); //Shrek
 
                 if (moduleName.equals(userInputModuleIdentifier) && i.equals(userInputBankIdentifier)){
                     questionIdentifierFound = true;
@@ -69,14 +55,15 @@ public class Question {
         questionsIdentifiers.add((userInputModuleIdentifier + ":" + userInputBankIdentifier));
     }
 
-    public void setQuestionTextAndOptions(){
+    public void setQuestionText(){
+        String userInputQuestionText;
+        Scanner console = new Scanner(System.in);
 
+        System.out.println("Enter A Question Text: ");
+        userInputQuestionText = console.next();
+        System.out.println("QT="+userInputQuestionText);
+        questionText.add(userInputQuestionText);
     }
-
-    public void setCorrectAnswer(){
-
-    }
-
 
 }
 

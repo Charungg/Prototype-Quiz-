@@ -8,14 +8,29 @@ public class Bank {
     private HashMap<String,Integer> bankIdentifiers;
 
 
-    public Bank(Module setModuleList) {
-        moduleList = setModuleList;
+    public Bank() {
         bankIdentifiers = new HashMap<String,Integer>();
         System.out.println("Bank CREATED");
     }
 
+    public void displayBank(){
+        if (bankIdentifiers.size()==0){
+            System.out.println("There Is No Bank");
+        }
 
-    public void createBank() {
+        else{
+            System.out.println("-----Display Bank-----");
+            for (String i:bankIdentifiers.keySet()){
+                System.out.println(getModuleIdentifier(bankIdentifiers.get(i)) + "-->" + i);
+
+            }
+            System.out.println("---------------------");
+        }
+    }
+
+
+    public void createBank(Module setModuleList) {
+        moduleList = setModuleList;
         String userInputBankIdentifier = userInputBankIdentifier();
         int userModuleElement = setModuleIdentifier();
 

@@ -13,28 +13,20 @@ public class SchoolQuizApplication {
 
 
     public static void main(String[] args) {
-        /* INSERT instantiation of Module, Bank, Questions... objects
-           THEN instantiate the File object then run a load() function.
-         */
-        Module userModule = new Module();
-        Bank userBank = new Bank(userModule);
-        Question userQuestion = new Question(userBank);
-
-
-        //  FILE ... = new File();
-        SchoolQuizApplication menu = new SchoolQuizApplication(userModule, userBank, userQuestion);
+        SchoolQuizApplication menu = new SchoolQuizApplication();
         menu.logIn();
-
-
-
-
     }
 
     // Allows the application to have access to module, bank and question objects.
-    public SchoolQuizApplication(Module setModuleList, Bank setBankList, Question setQuestionList) {
-        moduleList = setModuleList;
-        bankList = setBankList;
-        questionList = setQuestionList;
+    public SchoolQuizApplication() {
+
+        Module userModule = new Module();
+        Bank userBank = new Bank();
+        Question userQuestion = new Question();
+
+        moduleList = userModule;
+        bankList = userBank;
+        questionList = userQuestion;
     }
 
     // Used to determine whether the user is a student or teacher.
@@ -97,11 +89,12 @@ public class SchoolQuizApplication {
                 exit = processTeacherMenu(userInput);
             }
 
+
             // If the user enters a non-numerical character then the user will have to re-enter an option.
             catch (Exception e) {
-                console.nextLine();
                 System.out.println("Invalid Input, Please Try Again");
             }
+
 
         } while (!exit);
     }
@@ -113,6 +106,7 @@ public class SchoolQuizApplication {
         switch (teacherOption) {
             case (1):
                 moduleList.displayModule();
+                bankList.displayBank();
                 break;
             case (2):
                 System.out.println("ADDING MODULE");
@@ -120,18 +114,17 @@ public class SchoolQuizApplication {
                 break;
             case (3):
                 System.out.println("ADDING QB");
-                bankList.createBank();
+                bankList.createBank(moduleList);
                 break;
             case (4):
                 System.out.println("ADDING Q");
-                questionList.createQuestion();
+                questionList.createQuestion(bankList);
                 break;
             case (5):
                 System.out.println("R MODULE");
                 break;
             case (6):
                 System.out.println("R QB");
-//                bankList.removeQuestionBank(questionList.checkIfBankEmpty);
                 break;
             case (7):
                 System.out.println("R Q");

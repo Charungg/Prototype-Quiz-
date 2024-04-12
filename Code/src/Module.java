@@ -16,6 +16,20 @@ public class Module {
     }
 
 
+    public void displayModule(){
+        if (moduleIdentifiers.size()==0){
+            System.out.println("There Is No Module");
+        }
+
+        else{
+            System.out.println("----Display Module----");
+            for (int i=0; i<moduleIdentifiers.size(); i++){
+                System.out.println(moduleIdentifiers.get(i));
+            }
+            System.out.println("---------------------");
+        }
+    }
+
     public void createModule(){
         String userInput;
         boolean moduleCreated = false;
@@ -24,8 +38,6 @@ public class Module {
         do{
             System.out.println("Enter A Module Identifier (Maximum 7 Characters): ");
             userInput = console.next();
-            System.out.println("YOU TYPED: " + userInput);
-            System.out.println("SIZE IS: " + userInput.length());
 
             if ((userInput.length()) <= 7){
                 moduleIdentifiers.add(userInput);
@@ -38,22 +50,6 @@ public class Module {
             }
 
         }while(!moduleCreated);
-    }
-
-
-    public void displayModule(){
-        if (moduleIdentifiers.size()==0){
-            System.out.println("There Is No Module");
-        }
-
-        else{
-            System.out.println("-------Display-------");
-            for (int i=0; i<moduleIdentifiers.size(); i++){
-                System.out.println(moduleIdentifiers.get(i));
-            }
-
-            System.out.println("---------------------");
-        }
     }
 
 
