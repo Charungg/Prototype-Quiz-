@@ -11,7 +11,7 @@ public class SchoolQuizApplication {
 
     private Question questionList;  // Used to hold the question object.
 
-
+    // Upon starting the program it will bring the user to login as student or teacher.
     public static void main(String[] args) {
         SchoolQuizApplication menu = new SchoolQuizApplication();
         menu.logIn();
