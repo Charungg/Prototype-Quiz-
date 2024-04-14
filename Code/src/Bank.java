@@ -12,7 +12,8 @@ public class Bank {
     private HashMap<String,Integer> bankIdentifiers;
 
     // Constructor to instantiate the bank object.
-    public Bank() {
+    public Bank(Module setModuleList) {
+        moduleList = setModuleList;
         bankIdentifiers = new HashMap<String,Integer>();
         System.out.println("Bank CREATED");
     }
@@ -37,8 +38,8 @@ public class Bank {
 
 
     // Used to add the user inputted bank identifier and from which module identifiers into the bank identifiers HashMap.
-    public void createBank(Module setModuleList) {
-        moduleList = setModuleList;
+    public void createBank() {
+
         // Returns the user inputted bank identifier.
         String userInputBankIdentifier = userInputBankIdentifier();
         // Returns the index position from a moduleIdentifiers ArrayList which is associated to the bank identifier.

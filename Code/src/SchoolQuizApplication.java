@@ -5,11 +5,15 @@ import java.util.Scanner;
 // Is the main program which helps the user on getting started and a menu for the user to navigate the program.
 public class SchoolQuizApplication {
 
-    private Module moduleList;  // Used to hold the module object.
+    private Module moduleList;  // Used to hold the Module object.
 
-    private Bank bankList;  // Used to hold the bank object.
+    private Bank bankList;  // Used to hold the bank Object.
 
-    private Question questionList;  // Used to hold the question object.
+    private Question questionList;  // Used to hold the Question object.
+
+    private SingleChoiceQuestion singleChoiceQuestionList; // Used to hold the SingleChoiceQuestion object.
+
+    private FillTheBlanks fillTheBlanksList; // Used to hold the FillTheBlanks object.
 
     // Upon starting the program it will bring the user to login as student or teacher.
     public static void main(String[] args) {
@@ -21,12 +25,17 @@ public class SchoolQuizApplication {
     public SchoolQuizApplication() {
 
         Module userModule = new Module();
-        Bank userBank = new Bank();
-        Question userQuestion = new Question();
+        Bank userBank = new Bank(userModule);
+        Question userQuestion = new Question(userBank);
+        SingleChoiceQuestion userSingleChoiceQuestion = new SingleChoiceQuestion(userBank);
+        FillTheBlanks userFillInTheBlanks = new FillTheBlanks();
 
         moduleList = userModule;
         bankList = userBank;
         questionList = userQuestion;
+        singleChoiceQuestionList = userSingleChoiceQuestion;
+        fillTheBlanksList = userFillInTheBlanks;
+
     }
 
     // Used to determine whether the user is a student or teacher.
@@ -114,11 +123,11 @@ public class SchoolQuizApplication {
                 break;
             case (3):
                 System.out.println("ADDING QB");
-                bankList.createBank(moduleList);
+                bankList.createBank();
                 break;
             case (4):
                 System.out.println("ADDING Q");
-                questionList.createQuestion(bankList);
+                questionList.createQuestion(singleChoiceQuestionList, fillTheBlanksList);
                 break;
             case (5):
                 System.out.println("R MODULE");
@@ -165,7 +174,7 @@ public class SchoolQuizApplication {
 
             // If the user enters a non-numerical character then the user will have to re-enter an option.
             catch (Exception e) {
-                console.nextLine();
+//                console.nextLine();
                 System.out.println("Invalid Input, Please Try Again");
             }
 
