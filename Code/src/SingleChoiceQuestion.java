@@ -14,29 +14,32 @@ public class SingleChoiceQuestion extends Question{
 
     public SingleChoiceQuestion(Bank setBankList) {
         super(setBankList);
-        questionText = new ArrayList<String>();
         answerOptions = new ArrayList<>(vertexCount);
         correctAnswer = new ArrayList<Integer>();
     }
 
+    public void createTestQuestion(){
+        questionText.add("What Is Capital Of China?");
+        answerOptions.add(new ArrayList<String>());
+        answerOptions.get(answerOptions.size()-1).add("Barcelona");
+        answerOptions.add(new ArrayList<String>());
+        answerOptions.get(answerOptions.size()-1).add("London");
+        answerOptions.add(new ArrayList<String>());
+        answerOptions.get(answerOptions.size()-1).add("Bejing");
+
+        System.out.println(questionText);
+        System.out.println(answerOptions);
+
+        setQuestionBank("SingleChoiceQuestion",questionText.size()-1);
+    }
+
 
     public void createSingleChoiceQuestion(){
-        setQuestionIdentifier();
         setQuestionText();
         int amountOfAnswerChoice;
         amountOfAnswerChoice = setAmountOfAnswerOption();
         setAnswerOptions(amountOfAnswerChoice);
         setCorrectAnswer(amountOfAnswerChoice);
-
-
-//        System.out.println("End Of Process");
-//        System.out.println(questionsIdentifiers);
-//        System.out.println(questionText);
-//        System.out.println(answerOptions);
-//        System.out.println(correctAnswer);
-//        System.out.println("Done");
-
-
     }
 
     public int setAmountOfAnswerOption(){

@@ -36,6 +36,7 @@ public class SchoolQuizApplication {
         singleChoiceQuestionList = userSingleChoiceQuestion;
         fillTheBlanksList = userFillInTheBlanks;
 
+        singleChoiceQuestionList.setQuestionBank("Sda",2);
     }
 
     // Used to determine whether the user is a student or teacher.

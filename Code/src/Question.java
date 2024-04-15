@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -11,18 +12,49 @@ public class Question {
 
     protected ArrayList<String> questionText;
 
-    protected ArrayList<ArrayList> questionBank;
-
-
+    protected ArrayList<ArrayList<ArrayList>> listOfQuestions;
 
 
     // Constructor to instantiate the question object.
-    public Question(Bank setBankList) {
+    public Question(Bank setBankList){
         bankList = setBankList;
         questionsIdentifiers = new ArrayList<String>();
+        questionText = new ArrayList<String>();
+
+        // Creates the actual list to hold questionBank
+        listOfQuestions = new ArrayList<>();
+
+        // questionBank itself
+        listOfQuestions.add(new ArrayList<ArrayList>());
+
+        // Data such as the questionType and questionIndex
+        // I think
+//        listOfQuestions.get(0).add(new ArrayList());
+
+
     }
 
+    public void setQuestionBank(String questionType, int questionIndex){
+        listOfQuestions.get(0).add(new ArrayList());
+        listOfQuestions.get(0).get(0).add("SCQ");
+        listOfQuestions.get(0).get(0).add(0);
+        listOfQuestions.get(0).add(new ArrayList());
+        listOfQuestions.get(0).get(1).add("SCQ");
+        listOfQuestions.get(0).get(1).add(1);
+        listOfQuestions.get(0).add(new ArrayList());
+        listOfQuestions.get(0).get(2).add("FTB");
+        listOfQuestions.get(0).get(2).add(0);
+        System.out.println(listOfQuestions);
+
+
+    }
+
+
     public void createQuestion(SingleChoiceQuestion singleChoiceQuestionList, FillTheBlanks fillTheBlanksList){
+        setQuestionIdentifier();
+    }
+
+    public void userQuestionType(SingleChoiceQuestion singleChoiceQuestionList, FillTheBlanks fillTheBlanksList){
         int userSelectQuestionType = 0;
         boolean identifiedQuestionType = false;
         Scanner console = new Scanner(System.in);
