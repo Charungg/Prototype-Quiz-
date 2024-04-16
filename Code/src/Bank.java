@@ -1,22 +1,24 @@
 // HashMap is a dictionary used to reference to a specific thing.
 // Useful in this example to keep track of bank identifiers associated to which module.
-import java.util.HashMap;
+import java.util.*;
 // Used to grab user input.
-import java.util.Scanner;
+
 
 public class Bank {
 
     private Module moduleList; // Holds the module object used to abstract information about the module.
 
     // Using a HashMap to reference each bank identifiers is associated to what element of the moduleIdentifiers ArrayList
-    private HashMap<String,Integer> bankIdentifiers;
+    private HashMap<String, ArrayList<String>> bankIdentifiers;
+
 
     // Constructor to instantiate the bank object.
     public Bank(Module setModuleList) {
         moduleList = setModuleList;
-        bankIdentifiers = new HashMap<String,Integer>();
+        bankIdentifiers = new HashMap<>();
         System.out.println("Bank CREATED");
     }
+
 
     // Used to display how many bank identifier there is and associated to which module identifiers.
     public void displayBank(){
@@ -28,10 +30,13 @@ public class Bank {
         // Displays the user each bank identifiers and their corresponding module.
         else{
             System.out.println("-----Display Bank-----");
-            for (String i:bankIdentifiers.keySet()){
-                System.out.println(getModuleIdentifier(bankIdentifiers.get(i)) + "-->" + i);
+                for (String keyName : bankIdentifiers.keySet()){
+                    System.out.println(keyName + ":");
+                    for (int i=0; i<bankIdentifiers.get(keyName).size(); i++){
+                        System.out.println("    " + bankIdentifiers.get(keyName).get(i));
+                    }
+                }
 
-            }
             System.out.println("---------------------");
         }
     }
@@ -43,10 +48,12 @@ public class Bank {
         // Returns the user inputted bank identifier.
         String userInputBankIdentifier = userInputBankIdentifier();
         // Returns the index position from a moduleIdentifiers ArrayList which is associated to the bank identifier.
-        int userModuleIndex = setModuleIdentifier();
+        String userInputModuleIdentifier = userInputModuleIdentifier();
+        if (bankIdentifiers.get(userInputModuleIdentifier) == null){
+            bankIdentifiers.put(userInputModuleIdentifier, new ArrayList<>());
+        }
 
-        // Adds the bank identifiers with the index position of a module identifier into the bank identifiers HashMap.
-        bankIdentifiers.put(userInputBankIdentifier,userModuleIndex);
+        bankIdentifiers.get(userInputModuleIdentifier).add(userInputBankIdentifier);
         System.out.println(bankIdentifiers);
     }
 
@@ -79,7 +86,7 @@ public class Bank {
 
     // Checks whether a user input module identifier exist within the moduleIdentifier ArrayList.
     // If module identifiers exists then it returns the index position of module identifier.
-    public int setModuleIdentifier(){
+    public String userInputModuleIdentifier(){
         String userInputModuleIdentifier;
         // Used to check whether the module exist.
         boolean moduleFound = false;
@@ -94,8 +101,8 @@ public class Bank {
             userInputModuleIdentifier = console.next();
 
             // Goes through all module identifiers from the moduleIdentifiers and see if any matches with the user input.
-            for (moduleIdentifierIndex = 0; moduleIdentifierIndex < moduleList.getModuleIdentifiersSize(); moduleIdentifierIndex++) {
-                if (userInputModuleIdentifier.equals(moduleList.getModuleIdentifiers(moduleIdentifierIndex))){
+            for (moduleIdentifierIndex = 0; moduleIdentifierIndex < moduleList.getModuleIdentifierSize(); moduleIdentifierIndex++) {
+                if (userInputModuleIdentifier.equals(moduleList.getModuleIdentifierElement(moduleIdentifierIndex))){
                     System.out.println("Found Existing Module Identifier");
                     moduleFound = true;
                     break;
@@ -108,17 +115,31 @@ public class Bank {
 
         }while(!moduleFound);
 
-        return moduleIdentifierIndex;
+        return userInputModuleIdentifier;
     }
 
-    // Return bank identifiers in a HashMap format.
-    public HashMap<String,Integer> getBankIdentifiers(){
-        return bankIdentifiers;
+    public boolean moduleIdentifierExist(String moduleName){
+        if (bankIdentifiers.get(moduleName) != null){
+            return true;
+        }
+
+        else{
+            System.out.println("Module Identifier Does Not Exist");
+            return false;
+        }
     }
 
-    // Return module identifier from a given index number
-    public String getModuleIdentifier(int indexNumber){
-        return moduleList.getModuleIdentifiers(indexNumber);
+    public boolean bankIdentifierExist(String moduleName, String bankName){
+        System.out.println("Start = " + bankIdentifiers);
+        for (int i=0; i< bankIdentifiers.get(moduleName).size(); i++){
+            System.out.println("Middle = " + bankIdentifiers.get(moduleName).get(i));
+            if (bankIdentifiers.get(moduleName).get(i).equals(bankName)){
+                return true;
+            }
+        }
+
+        System.out.println("Bank Identifier Does Not Exist");
+        return false;
     }
 }
 

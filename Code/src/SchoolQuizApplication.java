@@ -36,7 +36,8 @@ public class SchoolQuizApplication {
         singleChoiceQuestionList = userSingleChoiceQuestion;
         fillTheBlanksList = userFillInTheBlanks;
 
-        singleChoiceQuestionList.setQuestionBank("Sda",2);
+//        singleChoiceQuestionList.setQuestionBank("Sda",2);
+
     }
 
     // Used to determine whether the user is a student or teacher.
@@ -74,7 +75,7 @@ public class SchoolQuizApplication {
 
     // Displays the teacher menu to the teacher user.
     public void printTeacherMenu() {
-        int userInput;
+        String userInput;
         boolean exit = false;
         Scanner console = new Scanner(System.in);
 
@@ -95,7 +96,7 @@ public class SchoolQuizApplication {
 
             // User should enter a number within the range of the provided options above.
             try {
-                userInput = console.nextInt();
+                userInput = console.next();
                 exit = processTeacherMenu(userInput);
             }
 
@@ -111,38 +112,38 @@ public class SchoolQuizApplication {
 
 
     // After the user enters a numerical value within the teacher menu it will run the corresponding function.
-    public boolean processTeacherMenu(int teacherOption) {
+    public boolean processTeacherMenu(String teacherOption) {
         // Each switch case represents a corresponding option from the teacher menu.
         switch (teacherOption) {
-            case (1):
+            case ("1"):
                 moduleList.displayModule();
                 bankList.displayBank();
                 break;
-            case (2):
+            case ("2"):
                 System.out.println("ADDING MODULE");
                 moduleList.createModule();
                 break;
-            case (3):
+            case ("3"):
                 System.out.println("ADDING QB");
                 bankList.createBank();
                 break;
-            case (4):
+            case ("4"):
                 System.out.println("ADDING Q");
                 questionList.createQuestion(singleChoiceQuestionList, fillTheBlanksList);
                 break;
-            case (5):
+            case ("5"):
                 System.out.println("R MODULE");
                 break;
-            case (6):
+            case ("6"):
                 System.out.println("R QB");
                 break;
-            case (7):
+            case ("7"):
                 System.out.println("R Q");
                 break;
-            case (8):
+            case ("8"):
                 logIn();
                 break;
-            case (9):
+            case ("9"):
                 System.out.println("E");
                 System.exit(0);
             default:

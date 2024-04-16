@@ -11,7 +11,6 @@ public class Module {
     public Module(){
         moduleIdentifiers = new ArrayList<String>();
         System.out.println("Module Created");
-
     }
 
     // Used to display how many module identifier there is.
@@ -58,13 +57,12 @@ public class Module {
         }while(!moduleCreated);
     }
 
-    // Used to get all the module identifiers.
-    public String getModuleIdentifiers(int i){
-        return moduleIdentifiers.get(i);
+    public String getModuleIdentifierElement(int moduleIdentifierIndex){
+        return moduleIdentifiers.get(moduleIdentifierIndex);
     }
 
-    // Grab the size of the module identifiers.
-    public int getModuleIdentifiersSize(){
+
+    public int getModuleIdentifierSize(){
         return moduleIdentifiers.size();
     }
 }

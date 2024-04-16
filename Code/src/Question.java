@@ -95,32 +95,32 @@ public class Question {
 
 
     public void setQuestionIdentifier(){
-        String userInputModuleIdentifier;
+        String userInputModuleIdentifier;                                     //CHECK THIS SHIT AHHHHHHHHHH
         String userInputBankIdentifier;
-        String moduleName;
-        boolean questionIdentifierFound = false;
-        HashMap<String,Integer> bankIdentifiers = bankList.getBankIdentifiers();
+        boolean questionIdentifierCreated = false;
         Scanner console = new Scanner(System.in);
 
         do{
+            boolean moduleIdentifierValid = false;
+            boolean bankIdentifierValid = false;
+
             System.out.println("Enter A Existing Module Identifier: ");
             userInputModuleIdentifier = console.next();
+            moduleIdentifierValid = bankList.moduleIdentifierExist(userInputModuleIdentifier);
 
-            System.out.println("Enter A Existing Bank Identifier: ");
-            userInputBankIdentifier = console.next();
-
-            for (String i: bankIdentifiers.keySet()){
-                moduleName = bankList.getModuleIdentifier(bankIdentifiers.get(i));
-
-                if (moduleName.equals(userInputModuleIdentifier) && i.equals(userInputBankIdentifier)){
-                    questionIdentifierFound = true;
-                    break;
-                }
+            if (moduleIdentifierValid){
+                System.out.println("Enter A Existing Bank Identifier: ");
+                userInputBankIdentifier = console.next();
+                bankIdentifierValid = bankList.bankIdentifierExist(userInputModuleIdentifier,userInputBankIdentifier);
             }
 
-        }while(!questionIdentifierFound);
-        questionsIdentifiers.add((userInputModuleIdentifier + ":" + userInputBankIdentifier));
-        System.out.println(questionsIdentifiers);
+            if(moduleIdentifierValid == true && bankIdentifierValid == true){
+                questionIdentifierCreated = true;
+            }
+
+
+        }while(!questionIdentifierCreated);
+
     }
 
 
