@@ -118,6 +118,7 @@ public class SchoolQuizApplication {
             case ("1"):
                 moduleList.displayModule();
                 bankList.displayBank();
+                questionList.displayQuestion();
                 break;
             case ("2"):
                 System.out.println("ADDING MODULE");

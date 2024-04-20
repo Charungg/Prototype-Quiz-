@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Question {
@@ -10,7 +11,7 @@ public class Question {
 
     protected ArrayList<String> questionsIdentifiers;
 
-    protected ArrayList<String> questionText;
+    protected ArrayList<ArrayList<String>> questionText;
 
     protected ArrayList<ArrayList<ArrayList>> listOfQuestions;
 
@@ -19,42 +20,86 @@ public class Question {
     public Question(Bank setBankList){
         bankList = setBankList;
         questionsIdentifiers = new ArrayList<String>();
-        questionText = new ArrayList<String>();
+        questionText = new ArrayList<>();
 
         // Creates the actual list to hold questionBank
         listOfQuestions = new ArrayList<>();
 
         // questionBank itself
-        listOfQuestions.add(new ArrayList<ArrayList>());
+//        listOfQuestions.add(new ArrayList<ArrayList>());
 
         // Data such as the questionType and questionIndex
         // I think
 //        listOfQuestions.get(0).add(new ArrayList());
-
-
     }
 
-    public void setQuestionBank(String questionType, int questionIndex){
-        listOfQuestions.get(0).add(new ArrayList());
-        listOfQuestions.get(0).get(0).add("SCQ");
-        listOfQuestions.get(0).get(0).add(0);
-        listOfQuestions.get(0).add(new ArrayList());
-        listOfQuestions.get(0).get(1).add("SCQ");
-        listOfQuestions.get(0).get(1).add(1);
-        listOfQuestions.get(0).add(new ArrayList());
-        listOfQuestions.get(0).get(2).add("FTB");
-        listOfQuestions.get(0).get(2).add(0);
-        System.out.println(listOfQuestions);
+    public void displayQuestion(){
+        if (questionsIdentifiers.isEmpty()){
+            System.out.println("There Is No Question");
+        }
+        else{
+            System.out.println("----Display Module----");
+            for (int i=0; i<questionsIdentifiers.size(); i++){
+                System.out.println(questionsIdentifiers.get(i));
+            }
+            System.out.println("---------------------");
+        }
+    }
+
+    public void setQuestionBank(String questionType, int questionIndexYAxis){
+        int size = listOfQuestions.size()-1;
+
+//        listOfQuestions.get(0).add(new ArrayList());
+//        listOfQuestions.get(0).get(0).add("SCQ");
+//        listOfQuestions.get(0).get(0).add(0);
+//        listOfQuestions.get(0).add(new ArrayList());
+//        listOfQuestions.get(0).get(1).add("SCQ");
+//        listOfQuestions.get(0).get(1).add(1);
+//        listOfQuestions.get(0).add(new ArrayList());
+//        listOfQuestions.get(0).get(2).add("FTB");
+//        listOfQuestions.get(0).get(2).add(0);
+//        System.out.println(listOfQuestions);
+
+
+
 
 
     }
 
 
     public void createQuestion(SingleChoiceQuestion singleChoiceQuestionList, FillTheBlanks fillTheBlanksList){
-        setQuestionIdentifier();
+        String userInputContinue;
+        boolean createMoreQuestion = false;
+        Scanner console = new Scanner(System.in);
+
+        do{
+            setQuestionIdentifier();
+            setQuestionType(singleChoiceQuestionList, fillTheBlanksList);
+
+
+            System.out.println("Do You Want To Add More Question? (y/n)");
+
+            try{
+                userInputContinue = console.next();
+
+
+            }
+
+            catch (Exception e){
+                System.out.println("Invalid Input, Try Again");
+            }
+
+
+
+
+        }while(!createMoreQuestion);
+
+
+
+
     }
 
-    public void userQuestionType(SingleChoiceQuestion singleChoiceQuestionList, FillTheBlanks fillTheBlanksList){
+    public void setQuestionType(SingleChoiceQuestion singleChoiceQuestionList, FillTheBlanks fillTheBlanksList){
         int userSelectQuestionType = 0;
         boolean identifiedQuestionType = false;
         Scanner console = new Scanner(System.in);
@@ -66,14 +111,18 @@ public class Question {
 
             try{
                 userSelectQuestionType = console.nextInt();
-                if (userSelectQuestionType >= 1 && userSelectQuestionType <=2){
-                    identifiedQuestionType = true;
-                }
+                switch (userSelectQuestionType){
+                    case 1:
+                        System.out.println("SingleChoiceQuestion");
+                        singleChoiceQuestionList.createSingleChoiceQuestion();
+                        identifiedQuestionType = true;
+                        break;
 
-                else{
-                    System.out.println("Invalid Input, Please Try Again");
+                    case 2:
+                        System.out.println("FillTheBlanks");
+                        identifiedQuestionType = true;
+                        break;
                 }
-
             }
             catch (Exception e){
                 System.out.println("Invalid Input, Please Try Again");
@@ -81,22 +130,12 @@ public class Question {
 
         }while(!identifiedQuestionType);
 
-        switch (userSelectQuestionType){
-            case 1:
-                System.out.println("SingleChoiceQuestion");
-                singleChoiceQuestionList.createSingleChoiceQuestion();
-                break;
-
-            case 2:
-                System.out.println("FillTheBlanks");
-                break;
-        }
     }
 
 
     public void setQuestionIdentifier(){
-        String userInputModuleIdentifier;                                     //CHECK THIS SHIT AHHHHHHHHHH
-        String userInputBankIdentifier;
+        String userInputModuleIdentifier;
+        String userInputBankIdentifier = null;
         boolean questionIdentifierCreated = false;
         Scanner console = new Scanner(System.in);
 
@@ -114,7 +153,8 @@ public class Question {
                 bankIdentifierValid = bankList.bankIdentifierExist(userInputModuleIdentifier,userInputBankIdentifier);
             }
 
-            if(moduleIdentifierValid == true && bankIdentifierValid == true){
+            if(moduleIdentifierValid && bankIdentifierValid){
+                questionsIdentifiers.add(userInputModuleIdentifier + ":" + userInputBankIdentifier);
                 questionIdentifierCreated = true;
             }
 
@@ -125,14 +165,14 @@ public class Question {
 
 
 
-    public void setQuestionText(){
+    public void setQuestionText(int indexPosition){
         String userInputQuestionText;
         Scanner console = new Scanner(System.in);
         console.useDelimiter("\\n");
 
         System.out.println("Enter A Question Text: ");
         userInputQuestionText = console.next();
-        questionText.add(userInputQuestionText);
+        questionText.get(indexPosition).add(userInputQuestionText);
     }
 
 }

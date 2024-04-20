@@ -31,7 +31,7 @@ public class Bank {
         else{
             System.out.println("-----Display Bank-----");
                 for (String keyName : bankIdentifiers.keySet()){
-                    System.out.println(keyName + ":");
+                    System.out.println(keyName);
                     for (int i=0; i<bankIdentifiers.get(keyName).size(); i++){
                         System.out.println("    " + bankIdentifiers.get(keyName).get(i));
                     }
@@ -130,9 +130,7 @@ public class Bank {
     }
 
     public boolean bankIdentifierExist(String moduleName, String bankName){
-        System.out.println("Start = " + bankIdentifiers);
         for (int i=0; i< bankIdentifiers.get(moduleName).size(); i++){
-            System.out.println("Middle = " + bankIdentifiers.get(moduleName).get(i));
             if (bankIdentifiers.get(moduleName).get(i).equals(bankName)){
                 return true;
             }

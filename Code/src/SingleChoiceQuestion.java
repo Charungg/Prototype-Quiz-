@@ -18,25 +18,12 @@ public class SingleChoiceQuestion extends Question{
         correctAnswer = new ArrayList<Integer>();
     }
 
-    public void createTestQuestion(){
-        questionText.add("What Is Capital Of China?");
-        answerOptions.add(new ArrayList<String>());
-        answerOptions.get(answerOptions.size()-1).add("Barcelona");
-        answerOptions.add(new ArrayList<String>());
-        answerOptions.get(answerOptions.size()-1).add("London");
-        answerOptions.add(new ArrayList<String>());
-        answerOptions.get(answerOptions.size()-1).add("Bejing");
 
-        System.out.println(questionText);
-        System.out.println(answerOptions);
-
-        setQuestionBank("SingleChoiceQuestion",questionText.size()-1);
-    }
 
 
     public void createSingleChoiceQuestion(){
-        setQuestionText();
         int amountOfAnswerChoice;
+        setQuestionText();
         amountOfAnswerChoice = setAmountOfAnswerOption();
         setAnswerOptions(amountOfAnswerChoice);
         setCorrectAnswer(amountOfAnswerChoice);
