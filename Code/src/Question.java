@@ -1,87 +1,136 @@
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class Question {
 
     private final Bank bankList;
 
-    private final ArrayList<String> questionsIdentifiers;
+    private final HashMap<String,ArrayList<SingleChoiceQuestion>> questionsIdentifiers;
 
-    protected final ArrayList<ArrayList<String>> questionText;
-
-
-    // The bottom two line of code is used to reference where the questions are located.
-    // When adding a single choice question it will be created in the single choice question object
-    // and contain their own attributes specific to that type, same goes with fill the blanks questions.
-    // However, the question object still needs access to all the questions.
-    // By storing what type and where the question answer are located it can be passed down to their
-    // corresponding objects to perform functions such as checking if user answer is correct.
-    protected ArrayList<ArrayList<String>> questionType;
-
-    protected ArrayList<ArrayList<Integer>> questionIndex;
-
+    protected  ArrayList<ArrayList<String>> questionText;
 
 
     // Constructor to instantiate the question object.
     public Question(Bank setBankList){
         bankList = setBankList;
-        questionsIdentifiers = new ArrayList<>();
+        questionsIdentifiers = new HashMap<>();
         questionText = new ArrayList<>();
     }
 
-    public void displayQuestion(){
-        if (questionsIdentifiers.isEmpty()){
-            System.out.println("There Is No Question");
-        }
-        else{
-            System.out.println("----Display Question----");
-            for (String identifier : questionsIdentifiers){
-                System.out.println(identifier);
-            }
-            System.out.println("---------------------");
-        }
-    }
 
 
-    public void createQuestion(SingleChoiceQuestion singleChoiceQuestionList, FillTheBlanks fillTheBlanksList){
-        String userInputContinue;
-        boolean validResponse;
-        boolean createMoreQuestion = true;
+    public void createQuestion(){
+        String uniqueIdentifier;
+        int userInputQuestionType;
+        boolean validQuestionType;
+        boolean addMoreQuestion;
         Scanner console = new Scanner(System.in);
 
+        uniqueIdentifier = setQuestionIdentifier();
+        System.out.println(uniqueIdentifier);
 
-        setQuestionIdentifier();
-        questionText.add(new ArrayList<>());
+        questionsIdentifiers.put(uniqueIdentifier, new ArrayList<>());
+
 
         do{
-            setQuestionType(singleChoiceQuestionList, fillTheBlanksList);
+            try{
+                Question questionObject;
+                userInputQuestionType = console.nextInt();
+                validQuestionType = false;
+
+                do{
+                    System.out.println("""
+                               Enter A Question Type: \s
+                               1) Single Choice Question \s
+                               2) Fill The Blanks \s
+                               """);
 
 
-            System.out.println("Do You Want To Add More Question? (y/n)");
 
-            validResponse = false;
-            do{
-                userInputContinue = console.next();
 
-                switch (userInputContinue.toLowerCase()){
-                    case "y":
-                        validResponse = true;
-                        break;
+                    switch (userInputQuestionType){
+                        case (1):
+                            questionObject = new SingleChoiceQuestion(bankList);
+                            validQuestionType = true;
+                            break;
+                        default:
+                            System.out.println("Invalid Input, Enter Within Range");
 
-                    case "n":
-                        validResponse = true;
-                        createMoreQuestion = false;
-                        break;
-
-                    default:
-                        System.out.println("Invalid Input, Try Again");
-                        break;
                     }
-            }while(!validResponse);
+                }while(!validQuestionType);
 
-        }while(createMoreQuestion);
+            }
+            catch (Exception e){
+                console.nextLine();
+                System.out.println("Enter A Integer");
+            }
+
+
+
+
+            questionsIdentifiers.get(uniqueIdentifier).add(new SingleChoiceQuestion(bankList));
+        }while(addMoreQuestion);
+
+
     }
+
+
+
+
+//    public void displayQuestion(){
+//        if (questionsIdentifiers.isEmpty()){
+//            System.out.println("There Is No Question");
+//        }
+//        else{
+//            System.out.println("----Display Question----");
+//            for (String identifier : questionsIdentifiers){
+//                System.out.println(identifier);
+//            }
+//            System.out.println("---------------------");
+//        }
+//    }
+
+
+//    public void createQuestion(SingleChoiceQuestion singleChoiceQuestionList, FillTheBlanks fillTheBlanksList){
+//        String userInputContinue;
+//        boolean validResponse;
+//        boolean createMoreQuestion = true;
+//        Scanner console = new Scanner(System.in);
+//
+//
+//        setQuestionIdentifier();
+//        questionText.add(new ArrayList<>());
+//
+//        do{
+//            setQuestionType(singleChoiceQuestionList, fillTheBlanksList);
+//
+//
+//            System.out.println("Do You Want To Add More Question? (y/n)");
+//
+//            validResponse = false;
+//            do{
+//                userInputContinue = console.next();
+//
+//                switch (userInputContinue.toLowerCase()){
+//                    case "y":
+//                        validResponse = true;
+//                        break;
+//
+//                    case "n":
+//                        validResponse = true;
+//                        createMoreQuestion = false;
+//                        break;
+//
+//                    default:
+//                        System.out.println("Invalid Input, Try Again");
+//                        break;
+//                    }
+//            }while(!validResponse);
+//
+//        }while(createMoreQuestion);
+//    }
 
     public void setQuestionType(SingleChoiceQuestion singleChoiceQuestionList, FillTheBlanks fillTheBlanksList){
         int userSelectQuestionType;
@@ -120,7 +169,7 @@ public class Question {
     }
 
 
-    public void setQuestionIdentifier(){
+    public String setQuestionIdentifier(){
         String userInputModuleIdentifier;
         String userInputBankIdentifier;
         boolean questionIdentifierCreated = false;
@@ -138,7 +187,7 @@ public class Question {
 
 
             if(bankList.moduleAndBankIdentifiersExist(userInputModuleIdentifier, userInputBankIdentifier)){
-                questionsIdentifiers.add(userInputModuleIdentifier + ":" + userInputBankIdentifier);
+                return (userInputModuleIdentifier + ":" + userInputBankIdentifier);
                 questionIdentifierCreated = true;
             }
 
@@ -160,7 +209,7 @@ public class Question {
         questionText.get(index).add(userInputQuestionText);
         System.out.println(questionText);
     }
-
-
 }
+
+
 
