@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Module {
-    private ArrayList<String> moduleIdentifiers; // Used to hold all the unique identifiers of the module.
+    private final ArrayList<String> moduleIdentifiers; // Used to hold all the unique identifiers of the module.
 
     // Constructor to instantiate the module object.
     public Module(){
-        moduleIdentifiers = new ArrayList<String>();
+        moduleIdentifiers = new ArrayList<>();
         System.out.println("Module Created");
     }
 
@@ -23,8 +23,8 @@ public class Module {
         // Else loop and display all the module identifiers to the user.
         else{
             System.out.println("----Display Module----");
-            for (int i=0; i<moduleIdentifiers.size(); i++){
-                System.out.println(moduleIdentifiers.get(i));
+            for (String moduleIdentifier: moduleIdentifiers){
+                System.out.println(moduleIdentifier);
             }
             System.out.println("---------------------");
         }
@@ -57,11 +57,12 @@ public class Module {
         }while(!moduleCreated);
     }
 
+    // Used to get a specific element from the module identifier.
     public String getModuleIdentifierElement(int moduleIdentifierIndex){
         return moduleIdentifiers.get(moduleIdentifierIndex);
     }
 
-
+    // Returns the size of the moduleIdentifier.
     public int getModuleIdentifierSize(){
         return moduleIdentifiers.size();
     }

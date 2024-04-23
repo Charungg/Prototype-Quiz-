@@ -3,27 +3,28 @@ import java.util.ArrayList;
 
 public class SingleChoiceQuestion extends Question{
 
-    private Question questionList;
+    private final Question questionList;
 
     private ArrayList<ArrayList<String>> answerOptions;
 
-    private int vertexCount = 10;
+    private final int amountOfQuestionOptions = 10;
 
     public ArrayList<Integer> correctAnswer;
 
 
-    public SingleChoiceQuestion(Bank setBankList) {
+    public SingleChoiceQuestion(Bank setBankList, Question setQuestionList) {
         super(setBankList);
-        answerOptions = new ArrayList<>(vertexCount);
+        questionList = setQuestionList;
+        answerOptions = new ArrayList<>(amountOfQuestionOptions);
         correctAnswer = new ArrayList<Integer>();
     }
 
-
-
-
     public void createSingleChoiceQuestion(){
         int amountOfAnswerChoice;
-        setQuestionText();
+        int questionIdentifierIndex = (questionList.getQuestionIdentifierSize()) - 1;
+
+
+        questionList.setQuestionText(questionIdentifierIndex);
         amountOfAnswerChoice = setAmountOfAnswerOption();
         setAnswerOptions(amountOfAnswerChoice);
         setCorrectAnswer(amountOfAnswerChoice);
@@ -47,10 +48,12 @@ public class SingleChoiceQuestion extends Question{
             }
 
             catch(Exception e){
+                console.nextLine();
                 System.out.println("Invalid Input, Please Try Again");
             }
 
         }while(!amountIsValid);
+
         return amountOfAnswerOption;
     }
 
@@ -64,7 +67,7 @@ public class SingleChoiceQuestion extends Question{
         for (int i=0; i<amountOfAnswerChoice; i++){
             System.out.println("Enter Answer Choice " + (i+1) + ": ");
             userInputAnswerChoice = console.next();
-            answerOptions.get(answerOptions.size()-1).add(userInputAnswerChoice);
+            answerOptions.getLast().add(userInputAnswerChoice);
         }
 
         System.out.println(answerOptions);
@@ -92,5 +95,6 @@ public class SingleChoiceQuestion extends Question{
 
         }while(!correctAnswerGiven);
         correctAnswer.add(correctAnswerIndex-1);
+        System.out.println(correctAnswer);
     }
 }

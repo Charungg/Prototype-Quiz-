@@ -6,10 +6,10 @@ import java.util.*;
 
 public class Bank {
 
-    private Module moduleList; // Holds the module object used to abstract information about the module.
+    private final Module moduleList; // Holds the module object used to abstract information about the module.
 
     // Using a HashMap to reference each bank identifiers is associated to what element of the moduleIdentifiers ArrayList
-    private HashMap<String, ArrayList<String>> bankIdentifiers;
+    private final HashMap<String, ArrayList<String>> bankIdentifiers;
 
 
     // Constructor to instantiate the bank object.
@@ -118,25 +118,31 @@ public class Bank {
         return userInputModuleIdentifier;
     }
 
-    public boolean moduleIdentifierExist(String moduleName){
-        if (bankIdentifiers.get(moduleName) != null){
-            return true;
-        }
+    // This checks whether the given argument of module name and bank name exist within bank identifier hash map.
+    public boolean moduleAndBankIdentifiersExist(String moduleNameExist, String bankNameExist){
+        // This is a for loop that goes all the module names first.
+        for (String moduleName: bankIdentifiers.keySet()){
+            // Checks whether the given module names matches up with a key.
+            if (moduleName.equals(moduleNameExist)) {
+                // The hash map I created also holds an arrayList of bank name as many bank identifier can be associated
+                // with one module, which is why beneath it's a loop that goes through all the element within the arrayList
+                // which contains the bank names.
+                for (int index=0; index<bankIdentifiers.get(moduleName).size(); index++){
+                    // Checks whether the module key contains a bank name value matches with the given bank name.
+                    if (bankIdentifiers.get(moduleName).get(index).equals(bankNameExist)){
+                        System.out.println("Question Identifier Exist");
+                        // Both module and bank name has been found therefore returning a pass verification.
+                        return true;
+                    }
+                }
 
-        else{
-            System.out.println("Module Identifier Does Not Exist");
-            return false;
-        }
-    }
-
-    public boolean bankIdentifierExist(String moduleName, String bankName){
-        for (int i=0; i< bankIdentifiers.get(moduleName).size(); i++){
-            if (bankIdentifiers.get(moduleName).get(i).equals(bankName)){
-                return true;
+                // Bank name cannot be found therefore returns a failed verification.
+                System.out.println("Bank Name Does Not Exist");
+                return false;
             }
         }
-
-        System.out.println("Bank Identifier Does Not Exist");
+        // Module name cannot be found therefore returns a failed verification.
+        System.out.println("Module Name Does Not Exist");
         return false;
     }
 }

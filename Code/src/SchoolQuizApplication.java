@@ -5,15 +5,15 @@ import java.util.Scanner;
 // Is the main program which helps the user on getting started and a menu for the user to navigate the program.
 public class SchoolQuizApplication {
 
-    private Module moduleList;  // Used to hold the Module object.
+    private final Module moduleList;  // Used to hold the Module object.
 
-    private Bank bankList;  // Used to hold the bank Object.
+    private final Bank bankList;  // Used to hold the bank Object.
 
-    private Question questionList;  // Used to hold the Question object.
+    private final Question questionList;  // Used to hold the Question object.
 
-    private SingleChoiceQuestion singleChoiceQuestionList; // Used to hold the SingleChoiceQuestion object.
+    private final SingleChoiceQuestion singleChoiceQuestionList; // Used to hold the SingleChoiceQuestion object.
 
-    private FillTheBlanks fillTheBlanksList; // Used to hold the FillTheBlanks object.
+    private final FillTheBlanks fillTheBlanksList; // Used to hold the FillTheBlanks object.
 
     // Upon starting the program it will bring the user to login as student or teacher.
     public static void main(String[] args) {
@@ -23,11 +23,10 @@ public class SchoolQuizApplication {
 
     // Allows the application to have access to module, bank and question objects.
     public SchoolQuizApplication() {
-
         Module userModule = new Module();
         Bank userBank = new Bank(userModule);
         Question userQuestion = new Question(userBank);
-        SingleChoiceQuestion userSingleChoiceQuestion = new SingleChoiceQuestion(userBank);
+        SingleChoiceQuestion userSingleChoiceQuestion = new SingleChoiceQuestion(userBank, userQuestion);
         FillTheBlanks userFillInTheBlanks = new FillTheBlanks();
 
         moduleList = userModule;
@@ -35,9 +34,6 @@ public class SchoolQuizApplication {
         questionList = userQuestion;
         singleChoiceQuestionList = userSingleChoiceQuestion;
         fillTheBlanksList = userFillInTheBlanks;
-
-//        singleChoiceQuestionList.setQuestionBank("Sda",2);
-
     }
 
     // Used to determine whether the user is a student or teacher.
@@ -75,34 +71,36 @@ public class SchoolQuizApplication {
 
     // Displays the teacher menu to the teacher user.
     public void printTeacherMenu() {
-        String userInput;
+        int userInput;
         boolean exit = false;
         Scanner console = new Scanner(System.in);
 
         do {
-            System.out.println("-------Teacher Menu------- \n" +
-                    "1) Show All Module And Question Bank \n" +
-                    "2) Add Module \n" +
-                    "3) Add Question Bank \n" +
-                    "4) Add Question \n" +
-                    "5) Remove Module \n" +
-                    "6) Remove Question Bank \n" +
-                    "7) Remove Question \n" +
-                    "8) Change User \n" +
-                    "9) Exit \n" +
-                    "--------------------------");
+            System.out.println("""
+                    -------Teacher Menu-------
+                    1) Show All Module And Question Bank\s
+                    2) Add Module\s
+                    3) Add Question Bank\s
+                    4) Add Question\s
+                    5) Remove Module\s
+                    6) Remove Question Bank\s
+                    7) Remove Question\s
+                    8) Change User\s
+                    9) Exit\s
+                    --------------------------""");
 
             System.out.println("Enter A Option (1-9): ");
 
             // User should enter a number within the range of the provided options above.
             try {
-                userInput = console.next();
+                userInput = console.nextInt();
                 exit = processTeacherMenu(userInput);
             }
 
 
             // If the user enters a non-numerical character then the user will have to re-enter an option.
             catch (Exception e) {
+                console.nextLine();
                 System.out.println("Invalid Input, Please Try Again");
             }
 
@@ -112,39 +110,39 @@ public class SchoolQuizApplication {
 
 
     // After the user enters a numerical value within the teacher menu it will run the corresponding function.
-    public boolean processTeacherMenu(String teacherOption) {
+    public boolean processTeacherMenu(int teacherOption) {
         // Each switch case represents a corresponding option from the teacher menu.
         switch (teacherOption) {
-            case ("1"):
+            case (1):
                 moduleList.displayModule();
                 bankList.displayBank();
                 questionList.displayQuestion();
                 break;
-            case ("2"):
+            case (2):
                 System.out.println("ADDING MODULE");
                 moduleList.createModule();
                 break;
-            case ("3"):
+            case (3):
                 System.out.println("ADDING QB");
                 bankList.createBank();
                 break;
-            case ("4"):
+            case (4):
                 System.out.println("ADDING Q");
                 questionList.createQuestion(singleChoiceQuestionList, fillTheBlanksList);
                 break;
-            case ("5"):
+            case (5):
                 System.out.println("R MODULE");
                 break;
-            case ("6"):
+            case (6):
                 System.out.println("R QB");
                 break;
-            case ("7"):
+            case (7):
                 System.out.println("R Q");
                 break;
-            case ("8"):
+            case (8):
                 logIn();
                 break;
-            case ("9"):
+            case (9):
                 System.out.println("E");
                 System.exit(0);
             default:
@@ -161,11 +159,12 @@ public class SchoolQuizApplication {
         Scanner console = new Scanner(System.in);
 
         do {
-            System.out.println("-------Student Menu------- \n" +
-                    "1) Search QuestionBank \n" +
-                    "2) Change User \n" +
-                    "3) Exit \n" +
-                    "---------------------------");
+            System.out.println("""
+                    -------Student Menu-------\s
+                    1) Search QuestionBank\s
+                    2) Change User\s
+                    3) Exit\s
+                    ---------------------------""");
 
             System.out.println("Enter A Option (1-8): ");
 
