@@ -21,10 +21,7 @@ public class SingleChoiceQuestion extends Question{
 
     public void createSingleChoiceQuestion(){
         int amountOfAnswerChoice;
-        int questionIdentifierIndex = (questionList.getQuestionIdentifierSize()) - 1;
-
-
-        questionList.setQuestionText(questionIdentifierIndex);
+        questionList.setQuestionText();
         amountOfAnswerChoice = setAmountOfAnswerOption();
         setAnswerOptions(amountOfAnswerChoice);
         setCorrectAnswer(amountOfAnswerChoice);
@@ -36,7 +33,7 @@ public class SingleChoiceQuestion extends Question{
         Scanner console = new Scanner (System.in);
 
         do{
-            System.out.println("Enter Amount Of Question Choice (1-10): ");
+            System.out.println("Enter Amount Of Question Choice (2-10): ");
             try{
                 amountOfAnswerOption = console.nextInt();
                 if (amountOfAnswerOption > 1 && amountOfAnswerOption <= 10){

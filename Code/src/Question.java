@@ -1,15 +1,25 @@
 
 import java.util.ArrayList;
-
 import java.util.Scanner;
 
 public class Question {
 
     private final Bank bankList;
 
-    protected ArrayList<String> questionsIdentifiers;
+    private final ArrayList<String> questionsIdentifiers;
 
-    protected ArrayList<ArrayList<String>> questionText;
+    protected final ArrayList<ArrayList<String>> questionText;
+
+
+    // The bottom two line of code is used to reference where the questions are located.
+    // When adding a single choice question it will be created in the single choice question object
+    // and contain their own attributes specific to that type, same goes with fill the blanks questions.
+    // However, the question object still needs access to all the questions.
+    // By storing what type and where the question answer are located it can be passed down to their
+    // corresponding objects to perform functions such as checking if user answer is correct.
+    protected ArrayList<ArrayList<String>> questionType;
+
+    protected ArrayList<ArrayList<Integer>> questionIndex;
 
 
 
@@ -95,6 +105,7 @@ public class Question {
 
                     case 2:
                         System.out.println("FillTheBlanks");
+                        fillTheBlanksList.createFillTheBlanks();
                         identifiedQuestionType = true;
                         break;
                 }
@@ -136,12 +147,13 @@ public class Question {
     }
 
 
-    public void setQuestionText(int index){
-        System.out.println(questionText);
-        System.out.println(index);
+    public void setQuestionText(){
+        int index = questionsIdentifiers.size()-1;
 
         String userInputQuestionText;
         Scanner console = new Scanner(System.in);
+        // Accepts whole sentence as long it's not on a new line.
+        console.useDelimiter("\\n");
 
         System.out.println("Enter A Question Text: ");
         userInputQuestionText = console.next();
@@ -149,9 +161,6 @@ public class Question {
         System.out.println(questionText);
     }
 
-    public int getQuestionIdentifierSize(){
-        return questionsIdentifiers.size();
-    }
 
 }
 

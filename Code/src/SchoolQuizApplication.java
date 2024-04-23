@@ -27,7 +27,7 @@ public class SchoolQuizApplication {
         Bank userBank = new Bank(userModule);
         Question userQuestion = new Question(userBank);
         SingleChoiceQuestion userSingleChoiceQuestion = new SingleChoiceQuestion(userBank, userQuestion);
-        FillTheBlanks userFillInTheBlanks = new FillTheBlanks();
+        FillTheBlanks userFillInTheBlanks = new FillTheBlanks(userBank, userQuestion);
 
         moduleList = userModule;
         bankList = userBank;

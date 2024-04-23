@@ -57,7 +57,7 @@ public class Module {
         }while(!moduleCreated);
     }
 
-    // Used to get a specific element from the module identifier.
+    // Returns a specific element from the moduleIdentifier.
     public String getModuleIdentifierElement(int moduleIdentifierIndex){
         return moduleIdentifiers.get(moduleIdentifierIndex);
     }
