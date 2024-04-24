@@ -28,7 +28,6 @@ public class SchoolQuizApplication {
         moduleList = userModule;
         bankList = userBank;
         questionList = userQuestion;
-
     }
 
     // Used to determine whether the user is a student or teacher.
@@ -109,6 +108,7 @@ public class SchoolQuizApplication {
         // Each switch case represents a corresponding option from the teacher menu.
         switch (teacherOption) {
             case (1):
+                // Re-read Teacher should be able to search for them independantly and specifically/
                 moduleList.displayModule();
                 bankList.displayBank();
                 break;
