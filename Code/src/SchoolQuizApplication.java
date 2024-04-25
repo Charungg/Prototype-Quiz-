@@ -11,9 +11,7 @@ public class SchoolQuizApplication {
 
     private final Question questionList;  // Used to hold the Question object.
 
-    private final SingleChoiceQuestion singleChoiceQuestionList; // Used to hold the SingleChoiceQuestion object.
 
-    private final FillTheBlanks fillTheBlanksList; // Used to hold the FillTheBlanks object.
 
     // Upon starting the program it will bring the user to login as student or teacher.
     public static void main(String[] args) {
@@ -26,14 +24,10 @@ public class SchoolQuizApplication {
         Module userModule = new Module();
         Bank userBank = new Bank(userModule);
         Question userQuestion = new Question(userBank);
-        SingleChoiceQuestion userSingleChoiceQuestion = new SingleChoiceQuestion(userBank, userQuestion);
-        FillTheBlanks userFillInTheBlanks = new FillTheBlanks(userBank, userQuestion);
 
         moduleList = userModule;
         bankList = userBank;
         questionList = userQuestion;
-        singleChoiceQuestionList = userSingleChoiceQuestion;
-        fillTheBlanksList = userFillInTheBlanks;
     }
 
     // Used to determine whether the user is a student or teacher.
@@ -114,9 +108,9 @@ public class SchoolQuizApplication {
         // Each switch case represents a corresponding option from the teacher menu.
         switch (teacherOption) {
             case (1):
+                // Re-read Teacher should be able to search for them independantly and specifically/
                 moduleList.displayModule();
                 bankList.displayBank();
-                questionList.displayQuestion();
                 break;
             case (2):
                 System.out.println("ADDING MODULE");
@@ -128,7 +122,7 @@ public class SchoolQuizApplication {
                 break;
             case (4):
                 System.out.println("ADDING Q");
-                questionList.createQuestion(singleChoiceQuestionList, fillTheBlanksList);
+                questionList.createQuestion();
                 break;
             case (5):
                 System.out.println("R MODULE");

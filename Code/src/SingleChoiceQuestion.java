@@ -2,96 +2,117 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class SingleChoiceQuestion extends Question{
+    private int amountOfAnswerChoice;
 
-    private final Question questionList;
+    private ArrayList<String> answerChoice;
 
-    private ArrayList<ArrayList<String>> answerOptions;
+    private static final int maximumOfAnswerChoice = 10;
 
-    private final int amountOfQuestionOptions = 10;
-
-    public ArrayList<Integer> correctAnswer;
+    private int correctChoiceIndex;
 
 
-    public SingleChoiceQuestion(Bank setBankList, Question setQuestionList) {
+    public SingleChoiceQuestion(Bank setBankList) {
         super(setBankList);
-        questionList = setQuestionList;
-        answerOptions = new ArrayList<>(amountOfQuestionOptions);
-        correctAnswer = new ArrayList<Integer>();
+        answerChoice = new ArrayList<>(maximumOfAnswerChoice);
+        createSingleChoiceQuestion();
     }
+
+
+    public void displayQuestion(){
+        System.out.println(questionText);
+        for (int choiceIndex=0; choiceIndex<amountOfAnswerChoice; choiceIndex++){
+            System.out.println(choiceIndex + ") " + answerChoice.get(choiceIndex));
+        }
+        System.out.println(correctChoiceIndex);
+    }
+
 
     public void createSingleChoiceQuestion(){
-        int amountOfAnswerChoice;
-        questionList.setQuestionText();
-        amountOfAnswerChoice = setAmountOfAnswerOption();
-        setAnswerOptions(amountOfAnswerChoice);
-        setCorrectAnswer(amountOfAnswerChoice);
+        setQuestionText();
+        amountOfAnswerChoice = setAmountOfAnswerChoice();
+        setAnswerChoice(amountOfAnswerChoice);
+        setCorrectAnswer();
     }
 
-    public int setAmountOfAnswerOption(){
-        int amountOfAnswerOption = 0;
-        boolean amountIsValid = false;
-        Scanner console = new Scanner (System.in);
+
+    public int setAmountOfAnswerChoice(){
+        int amountOfAnswerChoice = 0;
+        boolean amountValid = false;
+        Scanner console = new Scanner(System.in);
 
         do{
-            System.out.println("Enter Amount Of Question Choice (2-10): ");
+
+            System.out.println("Enter Amount Of Answer Choice (1-10): ");
             try{
-                amountOfAnswerOption = console.nextInt();
-                if (amountOfAnswerOption > 1 && amountOfAnswerOption <= 10){
-                    amountIsValid = true;
+                amountOfAnswerChoice = console.nextInt();
+                if (amountOfAnswerChoice >=1 && amountOfAnswerChoice <= 10){
+                    amountValid = true;
                 }
-                else{
-                    System.out.println("Invalid Input, Please Try Again");
-                }
+
             }
 
             catch(Exception e){
                 console.nextLine();
-                System.out.println("Invalid Input, Please Try Again");
+                System.out.println("Please Enter A Integer");
             }
 
-        }while(!amountIsValid);
 
-        return amountOfAnswerOption;
+        }while(!amountValid);
+
+        return amountOfAnswerChoice;
     }
 
-    public void setAnswerOptions(int amountOfAnswerChoice){
-        String userInputAnswerChoice;
-        Scanner console = new Scanner (System.in);
+
+    public void setAnswerChoice(int amountOfAnswerChoice){
+        String answerChoiceText;
+        Scanner console = new Scanner(System.in);
         console.useDelimiter("\\n");
-        // Instantiate a new element into the array.
-        answerOptions.add(new ArrayList<String>());
 
-        for (int i=0; i<amountOfAnswerChoice; i++){
-            System.out.println("Enter Answer Choice " + (i+1) + ": ");
-            userInputAnswerChoice = console.next();
-            answerOptions.getLast().add(userInputAnswerChoice);
+        for (int questionNumber=1; questionNumber<=amountOfAnswerChoice; questionNumber++){
+            System.out.println("Enter Answer Choice " + questionNumber);
+            answerChoiceText = console.next();
+            answerChoice.add(answerChoiceText);
         }
-
-        System.out.println(answerOptions);
     }
 
-    public void setCorrectAnswer(int amountOfAnswerChoice){
-        Scanner console = new Scanner((System.in));
-        int correctAnswerIndex = 0;
-        boolean correctAnswerGiven = false;
+
+    // Not made withe error checking in mind, wanted to test.
+    // So fix data types and range after.
+
+    // Working on it atm.
+    public void setCorrectAnswer(){
+        int correctAnswerElementPosition;
+        boolean answerInputValid = false;
+        Scanner console = new Scanner(System.in);
+
         do{
-            System.out.println("Enter The Correct Answer Choice (1-" + amountOfAnswerChoice + "): ");
+            System.out.println("Enter The Correct Answer (1-" + amountOfAnswerChoice + "): ");
+            for (int choiceIndex=0; choiceIndex<amountOfAnswerChoice; choiceIndex++){
+                System.out.println((choiceIndex+1) + ") " + answerChoice.get(choiceIndex));
+            }
+
             try{
-                correctAnswerIndex = console.nextInt();
-                if (correctAnswerIndex >=1 && correctAnswerIndex <= amountOfAnswerChoice){
-                    correctAnswerGiven = true;
+                correctAnswerElementPosition = console.nextInt();
+                if(correctAnswerElementPosition >=1 && correctAnswerElementPosition <= amountOfAnswerChoice){
+                    correctChoiceIndex = correctAnswerElementPosition - 1;
+                    answerInputValid = true;
                 }
-                else{
-                    System.out.println("Invalid Input, Please Try Again");
-                }
+
             }
 
-            catch (Exception e){
-                System.out.println("Invalid Input, Please Try Again");
+            catch(Exception e){
+                console.nextLine();
+                System.out.println("Invalid Input, Enter Within Range: ");
             }
+        }while(!answerInputValid);
 
-        }while(!correctAnswerGiven);
-        correctAnswer.add(correctAnswerIndex-1);
-        System.out.println(correctAnswer);
+
+
+
     }
+
+
+
+
+
 }
