@@ -18,21 +18,28 @@ public class Question {
         questionsIdentifiers = new HashMap<>();
     }
 
-    public final void createQuestion(){
-        String uniqueIdentifier;
-        boolean createMoreQuestion = false;
-        Scanner console = new Scanner(System.in);
 
-        uniqueIdentifier = setQuestionIdentifier();
-        System.out.println(questionsIdentifiers);
-
-        //START FROM HERE
-
-
+    public void displayQuestion(){
+        for (String questionObject: questionsIdentifiers.keySet()){
+            System.out.println(questionObject);
+        }
     }
 
 
-    // Needed
+    public final void createQuestion(){
+        String uniqueIdentifier;
+        String moreQuestionAnswer;
+        boolean createMoreQuestion = true;
+        Scanner console = new Scanner(System.in);
+
+        uniqueIdentifier = setQuestionIdentifier();
+        uniqueIdentifierExist(uniqueIdentifier);
+
+        setQuestionType(uniqueIdentifier);
+        questionsIdentifiers.get(uniqueIdentifier).getLast().displayQuestion();
+    }
+
+
     public final String setQuestionIdentifier(){
         String uniqueIdentifier;
         String userInputModuleIdentifier;
@@ -61,10 +68,66 @@ public class Question {
         return uniqueIdentifier;
     }
 
-    public final void addQuestion(){
+
+    public void uniqueIdentifierExist(String uniqueIdentifier){
+        if (questionsIdentifiers.get(uniqueIdentifier) == null){
+            questionsIdentifiers.put(uniqueIdentifier,new ArrayList<>());
+            System.out.println("New Question Identifier");
+        }
+    }
+
+
+    public void setQuestionText(){
         Scanner console = new Scanner(System.in);
 
+        System.out.println("Enter A Question Text: ");
+        questionText = console.next();
+    }
 
+
+    public final void setQuestionType(String uniqueIdentifier){
+        int questionType;
+        boolean validQuestionType;
+
+        validQuestionType = false;
+        do{
+            questionType = setQuestionType();
+            switch(questionType){
+                case (1):
+                    questionsIdentifiers.get(uniqueIdentifier).add(new SingleChoiceQuestion(bankList));
+                    validQuestionType = true;
+                    break;
+                case (2):
+                    questionsIdentifiers.get(uniqueIdentifier).add(new SingleChoiceQuestion(bankList)); // FTB EDITION LATER
+                    validQuestionType = true;
+                    break;
+                default:
+                    System.out.println("Invalid Input, Enter A Integer From 1 - 2");
+            }
+        }while(!validQuestionType);
+    }
+
+
+    public final int setQuestionType(){
+        int questionType = -1;
+        Scanner console = new Scanner(System.in);
+
+        try{
+            System.out.println("""
+                                --------------------------
+                                1) Single Choice Question\s
+                                2) Fill The Blanks\s
+                                
+                                Enter A Question Type (1-2)\s
+                                --------------------------
+                                """);
+            questionType = console.nextInt();
+        }
+        catch (Exception e){
+            console.nextLine();
+            System.out.println("Invalid Input, Try Again");
+        }
+        return questionType;
     }
 }
 
