@@ -30,6 +30,7 @@ public class SchoolQuizApplication {
         questionList = userQuestion;
     }
 
+
     // Used to determine whether the user is a student or teacher.
     public void logIn() {
         String userInput;

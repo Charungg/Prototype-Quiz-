@@ -19,12 +19,13 @@ public class Question {
     }
 
 
-    public void displayQuestion(){
-        for (String questionObject: questionsIdentifiers.keySet()){
-            System.out.println(questionObject);
+    public void displayQuestion() {
+        for (String questionObjectKey : questionsIdentifiers.keySet()) {
+            System.out.println(questionObjectKey + ":");
+//            for (int questionIndex = 0; questionIndex<
+//    }
         }
     }
-
 
     public final void createQuestion(){
         String uniqueIdentifier;
@@ -47,11 +48,7 @@ public class Question {
 
         }while(createMoreQuestion);
 
-        System.out.println("TESTING TWO QUESTION OUTPUT");
-        questionsIdentifiers.get(uniqueIdentifier).get(0).displayQuestion();
-        questionsIdentifiers.get(uniqueIdentifier).get(1).displayQuestion();
-        System.out.println("TESTING TWO QUESTION OUTPUT");
-
+        displayQuestion();
     }
 
 

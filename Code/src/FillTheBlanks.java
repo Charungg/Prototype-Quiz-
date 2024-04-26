@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 public class FillTheBlanks extends Question{
 
-    private int amountOfGaps;
+    private int amountOfBlanks;
 
-    private ArrayList<String> answersFillTheBlanks;
+    private ArrayList<String> answerForBlanks;
 
     public FillTheBlanks(Bank setBankList) {
         super(setBankList);
-        answersFillTheBlanks = new ArrayList<>();
+        answerForBlanks = new ArrayList<>();
         createFillTheBlanks();
     }
 
@@ -18,13 +18,19 @@ public class FillTheBlanks extends Question{
         System.out.println("Question Text: ");
         System.out.println("    " + questionText);
 
-        System.out.println("Amount Of Gaps: " + amountOfGaps);
+        System.out.println("Amount Of Blanks: " + amountOfBlanks);
+
+        System.out.println("Answers for Blanks: ");
+        for (String answer: answerForBlanks){
+            System.out.println(answerForBlanks);
+        }
     }
 
     public void createFillTheBlanks() {
         setQuestionTextUnderScore();
         System.out.println("FTB Question Text = " + questionText);
-        setAmountOfGaps();
+        setAmountOfBlanks();
+        setAnswersBlanks();
 
         displayQuestion();
     }
@@ -51,13 +57,28 @@ public class FillTheBlanks extends Question{
     }
 
     // TBC This did not work have to rework it.
-    public void setAmountOfGaps(){
-//        String underScores = "___";
-//        // sentenceSize has been reduced by 3 because last 2 characters of questionText will never contain three underscores.
-//        // so -2 on the length and another -1 to reference the index rather than the element.
-//        int sentenceSize = questionText.length() - 3;
-//        for (int index = 0; index<sentenceSize; index++){
-//            System.out.println(questionText.indexOf(index));
-//        }
+    public void setAmountOfBlanks(){
+        String underScores = "___";
+        // sentenceSize has been reduced by 3 because last 2 characters of questionText will never contain three underscores.
+        // so -2 on the length and another -1 to reference the index rather than the element.
+        int sentenceSize = questionText.length() - 2;
+        for (int index = 0; index<sentenceSize; index++){
+            System.out.println("Sub-String: " + questionText.substring(index,index+3));
+            if (questionText.substring(index,index+3).equals(underScores)){
+                amountOfBlanks = amountOfBlanks + 1;
+            }
+        }
+    }
+
+
+    public void setAnswersBlanks(){
+        String answerText;
+        Scanner console = new Scanner(System.in);
+
+        for (int gapNumber = 1; gapNumber<=amountOfBlanks; gapNumber++){
+            System.out.println("Enter Answer For Blank " + gapNumber + ":");
+            answerText = console.next();
+            answerForBlanks.add(answerText);
+        }
     }
 }
