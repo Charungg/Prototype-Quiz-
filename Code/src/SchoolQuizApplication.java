@@ -108,7 +108,7 @@ public class SchoolQuizApplication {
         // Each switch case represents a corresponding option from the teacher menu.
         switch (teacherOption) {
             case (1):
-                // Re-read Teacher should be able to search for them independantly and specifically/
+                // Re-read Teacher should be able to search for them independently and specifically/
                 moduleList.displayModule();
                 bankList.displayBank();
                 break;

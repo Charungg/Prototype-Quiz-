@@ -28,15 +28,30 @@ public class Question {
 
     public final void createQuestion(){
         String uniqueIdentifier;
-        String moreQuestionAnswer;
-        boolean createMoreQuestion = true;
-        Scanner console = new Scanner(System.in);
+        boolean createMoreQuestion;
 
+        // Uses the parent class to set the question unique ID.
         uniqueIdentifier = setQuestionIdentifier();
+
+        // Checks whether the unique identifier already within the hashmap.
         uniqueIdentifierExist(uniqueIdentifier);
 
-        setQuestionType(uniqueIdentifier);
-        questionsIdentifiers.get(uniqueIdentifier).getLast().displayQuestion();
+        // The do while loop is designed for to create a question, in this case it's either a single choice question
+        // or a fill the blanks question. Then moreQuestion question will determine whether the user want to create
+        // more question either by a yes or no answer which will return true or false correspondingly.
+
+        do{
+            setQuestionType(uniqueIdentifier);
+            createMoreQuestion = moreQuestion();
+            questionsIdentifiers.get(uniqueIdentifier).getLast().displayQuestion();
+
+        }while(createMoreQuestion);
+
+        System.out.println("TESTING TWO QUESTION OUTPUT");
+        questionsIdentifiers.get(uniqueIdentifier).get(0).displayQuestion();
+        questionsIdentifiers.get(uniqueIdentifier).get(1).displayQuestion();
+        System.out.println("TESTING TWO QUESTION OUTPUT");
+
     }
 
 
@@ -68,7 +83,8 @@ public class Question {
         return uniqueIdentifier;
     }
 
-
+    // Checks whether the valid unique identifier already has an existing arrayList within the hashMap.
+    // If the uniqueIdentifier does not contain an ArrayList then it will instantiate a new one which is tied to it.
     public void uniqueIdentifierExist(String uniqueIdentifier){
         if (questionsIdentifiers.get(uniqueIdentifier) == null){
             questionsIdentifiers.put(uniqueIdentifier,new ArrayList<>());
@@ -78,11 +94,15 @@ public class Question {
 
 
     public void setQuestionText(){
+        String userQuestionText;
         Scanner console = new Scanner(System.in);
+        // Allows the user to enter question text which contains spaces rather than one continues text.
+        // However, this does not consider if the user enters a new line.
         console.useDelimiter("\\n");
 
         System.out.println("Enter A Question Text: ");
-        questionText = console.next();
+        userQuestionText = console.next();
+        questionText = userQuestionText;
     }
 
 
@@ -92,14 +112,14 @@ public class Question {
 
         validQuestionType = false;
         do{
-            questionType = setQuestionType();
+            questionType = inputQuestionType();
             switch(questionType){
                 case (1):
                     questionsIdentifiers.get(uniqueIdentifier).add(new SingleChoiceQuestion(bankList));
                     validQuestionType = true;
                     break;
                 case (2):
-                    questionsIdentifiers.get(uniqueIdentifier).add(new SingleChoiceQuestion(bankList)); // FTB EDITION LATER
+                    questionsIdentifiers.get(uniqueIdentifier).add(new FillTheBlanks(bankList));
                     validQuestionType = true;
                     break;
                 default:
@@ -109,7 +129,7 @@ public class Question {
     }
 
 
-    public final int setQuestionType(){
+    public final int inputQuestionType(){
         int questionType = -1;
         Scanner console = new Scanner(System.in);
 
@@ -127,7 +147,31 @@ public class Question {
             console.nextLine();
             System.out.println("Invalid Input, Try Again");
         }
+
         return questionType;
+    }
+
+    public boolean moreQuestion(){
+        String moreQuestionAnswerInput;
+        Scanner console = new Scanner(System.in);
+
+        do{
+            System.out.println("Do You Want To Add More Question (Y/N): ");
+            moreQuestionAnswerInput = console.next();
+
+            if (moreQuestionAnswerInput.equalsIgnoreCase("y")){
+                return true;
+            }
+
+            else if (moreQuestionAnswerInput.equalsIgnoreCase("n")){
+                return false;
+            }
+
+            else{
+                System.out.println("Please Enter Y Or N ");
+            }
+
+        }while(true);
     }
 }
 

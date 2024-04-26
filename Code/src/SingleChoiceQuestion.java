@@ -19,24 +19,29 @@ public class SingleChoiceQuestion extends Question{
 
 
     public void displayQuestion(){
-        System.out.println(questionText);
-        for (int choiceIndex=0; choiceIndex<amountOfAnswerChoice; choiceIndex++){
-            System.out.println(choiceIndex + ") " + answerChoice.get(choiceIndex));
+        System.out.println("Question Text: ");
+        System.out.println("    " + questionText);
+
+        System.out.println("Answer Option: ");
+        for (int choiceIndex=1; choiceIndex<=amountOfAnswerChoice; choiceIndex++){
+            System.out.println("    " + choiceIndex + ") " + answerChoice.get(choiceIndex -1));
         }
-        System.out.println(correctChoiceIndex);
+
+        System.out.println("Correct Answer Index: ");
+        System.out.println("    " + correctChoiceIndex);
     }
 
 
     public void createSingleChoiceQuestion(){
         setQuestionText();
-        amountOfAnswerChoice = setAmountOfAnswerChoice();
-        setAnswerChoice(amountOfAnswerChoice);
+        setAmountOfAnswerChoice();
+        setAnswerChoice();
         setCorrectAnswer();
     }
 
 
-    public int setAmountOfAnswerChoice(){
-        int amountOfAnswerChoice = 0;
+    public void setAmountOfAnswerChoice(){
+        int amountOfAnswerChoiceIs = 0;
         boolean amountValid = false;
         Scanner console = new Scanner(System.in);
 
@@ -44,8 +49,8 @@ public class SingleChoiceQuestion extends Question{
 
             System.out.println("Enter Amount Of Answer Choice (1-10): ");
             try{
-                amountOfAnswerChoice = console.nextInt();
-                if (amountOfAnswerChoice >=1 && amountOfAnswerChoice <= 10){
+                amountOfAnswerChoiceIs = console.nextInt();
+                if (amountOfAnswerChoiceIs >=1 && amountOfAnswerChoiceIs <= 10){
                     amountValid = true;
                 }
 
@@ -59,11 +64,11 @@ public class SingleChoiceQuestion extends Question{
 
         }while(!amountValid);
 
-        return amountOfAnswerChoice;
+        amountOfAnswerChoice = amountOfAnswerChoiceIs;
     }
 
 
-    public void setAnswerChoice(int amountOfAnswerChoice){
+    public void setAnswerChoice(){
         String answerChoiceText;
         Scanner console = new Scanner(System.in);
         console.useDelimiter("\\n");
@@ -105,10 +110,6 @@ public class SingleChoiceQuestion extends Question{
                 System.out.println("Invalid Input, Enter Within Range: ");
             }
         }while(!answerInputValid);
-
-
-
-
     }
 
 
