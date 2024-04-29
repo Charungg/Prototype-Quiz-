@@ -247,6 +247,13 @@ public class Question {
     public boolean isQuestionIdentifierEmpty(String uniqueIdentifier){
         return questionsIdentifiers.get(uniqueIdentifier) == null;
     }
+
+
+
+    // Used for the Quiz class to copy the ArrayList of Questions which will be used for the student to answer.
+    public ArrayList<Question> getQuestionList(String uniqueIdentifier){
+        return questionsIdentifiers.get(uniqueIdentifier);
+    }
 }
 
 // Error occurs when I remove a question when there is nothing can be removed.

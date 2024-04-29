@@ -74,6 +74,7 @@ public class FillTheBlanks extends Question{
     public void setAnswersBlanks(){
         String answerText;
         Scanner console = new Scanner(System.in);
+        console.useDelimiter("\\n");
 
         for (int gapNumber = 1; gapNumber<=amountOfBlanks; gapNumber++){
             System.out.println("Enter Answer For Blank " + gapNumber + ":");

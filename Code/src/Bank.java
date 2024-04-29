@@ -42,6 +42,13 @@ public class Bank {
     }
 
 
+    public void displayBankFromModule(String moduleName){
+        for (String bankName: bankIdentifiers.get(moduleName)){
+            System.out.println(bankName);
+        }
+    }
+
+
     // Used to add the user inputted bank identifier and from which module identifiers into the bank identifiers HashMap.
     public void createBank() {
 

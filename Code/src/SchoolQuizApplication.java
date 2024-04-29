@@ -12,6 +12,7 @@ public class SchoolQuizApplication {
 
     private final Question questionList;  // Used to hold the Question object.
 
+    private final Quiz quizProgram;
 
 
     // Upon starting the program it will bring the user to login as student or teacher.
@@ -25,10 +26,12 @@ public class SchoolQuizApplication {
         Module userModule = new Module();
         Bank userBank = new Bank(userModule);
         Question userQuestion = new Question(userBank);
+        Quiz userQuiz = new Quiz(userQuestion,userBank);
 
         moduleList = userModule;
         bankList = userBank;
         questionList = userQuestion;
+        quizProgram = userQuiz;
     }
 
 
@@ -191,6 +194,7 @@ public class SchoolQuizApplication {
         switch (studentOption) {
             case (1):
                 System.out.println("S QB");
+                quizProgram.searchQuestionBank();
                 break;
             case (2):
                 System.out.println("C U");

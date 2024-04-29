@@ -73,9 +73,6 @@ public class Module {
         Scanner console = new Scanner(System.in);
 
         System.out.println("Enter Module Name To Be Deleted ");
-//        for (String moduleName: moduleIdentifiers){
-//            System.out.println(moduleName);
-//        }
         moduleNameInput = console.next();
         if (bankList.isModuleEmpty(moduleNameInput)){
             moduleIdentifiers.remove(moduleNameInput);
