@@ -6,7 +6,7 @@ public class FillTheBlanks extends Question{
 
     private int amountOfBlanks;
 
-    private ArrayList<String> answerForBlanks;
+    private final ArrayList<String> answerForBlanks;
 
     public FillTheBlanks(Bank setBankList) {
         super(setBankList);

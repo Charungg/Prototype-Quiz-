@@ -66,4 +66,26 @@ public class Module {
     public int getModuleIdentifierSize(){
         return moduleIdentifiers.size();
     }
+
+
+    public void removeModule(Bank bankList){
+        String moduleNameInput;
+        Scanner console = new Scanner(System.in);
+
+        System.out.println("Enter Module Name To Be Deleted ");
+//        for (String moduleName: moduleIdentifiers){
+//            System.out.println(moduleName);
+//        }
+        moduleNameInput = console.next();
+        if (bankList.isModuleEmpty(moduleNameInput)){
+            moduleIdentifiers.remove(moduleNameInput);
+            System.out.println("Module Removed");
+        }
+
+        else{
+            System.out.println("Module Name Cannot Be Removed Since It's Not Empty");
+        }
+
+
+    }
 }

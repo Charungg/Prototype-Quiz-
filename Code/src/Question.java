@@ -22,19 +22,25 @@ public class Question {
 
     // Used to display all question identifier along with each question associated with the question identifier.
     public void displayQuestion() {
-        // This loops through each question identifier by going through the key set of the hashmap.
-        for (String questionObjectKey : questionsIdentifiers.keySet()) {
-            System.out.println("--------------------" + questionObjectKey + "--------------------");
+        if (questionsIdentifiers.isEmpty()){
+            System.out.println("There Is No Question");
+        }
 
-            // For every key getting looped through it will then loop through the value set of that specific question identifier.
-            // For example once getting a key, CS12320:QuestionBank01 it will go through the value of that key.
-            // But the key is a ArrayList which holds onto multiple questions which will be looped through and running the .displayQuestion
-            // function which will display details of each question.
-            for (Question questionObjectValue : questionsIdentifiers.get(questionObjectKey)){
-                questionObjectValue.displayQuestion();
-                System.out.println();
+        else{
+            // This loops through each question identifier by going through the key set of the hashmap.
+            for (String questionObjectKey : questionsIdentifiers.keySet()) {
+                System.out.println("--------------------" + questionObjectKey + "--------------------");
+
+                // For every key getting looped through it will then loop through the value set of that specific question identifier.
+                // For example once getting a key, CS12320:QuestionBank01 it will go through the value of that key.
+                // But the key is a ArrayList which holds onto multiple questions which will be looped through and running the .displayQuestion
+                // function which will display details of each question.
+                for (Question questionObjectValue : questionsIdentifiers.get(questionObjectKey)){
+                    questionObjectValue.displayQuestion();
+                    System.out.println();
+                }
+                System.out.println("---------------------------------------------------------------");
             }
-            System.out.println("---------------------------------------------------------------");
         }
     }
 
@@ -194,7 +200,7 @@ public class Question {
 
         // Create a temporarily ArrayList which holds the ArrayList of questions from a specific question identifier.
         // This is done to improve clarity of the code because without it many code will be repeated to get the ArrayList of question ID.
-        ArrayList<Question> questionObjects = new ArrayList<>();
+        ArrayList<Question> questionObjects;
         // By passing the uniqueIdentifier through the questionIdentifier it will return ArrayList of the Questions associated to it.
         questionObjects = questionsIdentifiers.get(uniqueIdentifier);
 
@@ -239,9 +245,11 @@ public class Question {
     }
 
     public boolean isQuestionIdentifierEmpty(String uniqueIdentifier){
-        return questionsIdentifiers.get(uniqueIdentifier).isEmpty();
+        return questionsIdentifiers.get(uniqueIdentifier) == null;
     }
 }
+
+// Error occurs when I remove a question when there is nothing can be removed.
 
 
 

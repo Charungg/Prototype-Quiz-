@@ -96,8 +96,7 @@ public class Bank {
 
 
         do {
-            System.out.println("Enter A Existing Module Identifier To Link To From Bank Identifier: ");
-            moduleList.displayModule();
+            System.out.println("Enter A Existing Module: ");
             userInputModuleIdentifier = console.next();
 
             // Goes through all module identifiers from the moduleIdentifiers and see if any matches with the user input.
@@ -157,6 +156,7 @@ public class Bank {
             if (questionList.isQuestionIdentifierEmpty(moduleNameInput + ":" +bankNameInput)) {
                 bankIdentifiers.get(moduleNameInput).remove(bankNameInput);
                 System.out.println("Bank Removed");
+                removeBankIfEmpty(moduleNameInput);
             }
 
             else{
@@ -166,9 +166,17 @@ public class Bank {
     }
 
 
-//    public removeBankIfEmpty(){
-//
-//    }
+    public void removeBankIfEmpty(String moduleName){
+        if (bankIdentifiers.get(moduleName).isEmpty()){
+            bankIdentifiers.remove(moduleName);
+            System.out.println("Removed Bank Since It's Empty");
+        }
+    }
+
+
+    public boolean isModuleEmpty(String moduleName){
+        return bankIdentifiers.get(moduleName) == null;
+    }
 }
 
 

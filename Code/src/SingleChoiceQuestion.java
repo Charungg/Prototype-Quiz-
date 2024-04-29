@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SingleChoiceQuestion extends Question{
     private int amountOfAnswerChoice;
 
-    private ArrayList<String> answerChoice;
+    private final ArrayList<String> answerChoice;
 
     private static final int maximumOfAnswerChoice = 10;
 

@@ -114,6 +114,7 @@ public class SchoolQuizApplication {
                 moduleList.displayModule();
                 bankList.displayBank();
                 questionList.displayQuestion();
+                System.out.println();
                 break;
             case (2):
                 System.out.println("ADDING MODULE");
@@ -129,10 +130,11 @@ public class SchoolQuizApplication {
                 break;
             case (5):
                 System.out.println("R MODULE");
+                moduleList.removeModule(bankList);
                 break;
             case (6):
                 System.out.println("R QB");
-//                bankList.removeBank(questionList);
+                bankList.removeBank(questionList);
                 break;
             case (7):
                 System.out.println("R Q");
