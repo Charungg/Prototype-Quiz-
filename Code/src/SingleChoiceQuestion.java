@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -56,7 +57,7 @@ public class SingleChoiceQuestion extends Question{
 
             }
 
-            catch(Exception e){
+            catch(InputMismatchException e){
                 console.nextLine();
                 System.out.println("Please Enter A Integer");
             }
@@ -105,7 +106,7 @@ public class SingleChoiceQuestion extends Question{
 
             }
 
-            catch(Exception e){
+            catch(InputMismatchException e){
                 console.nextLine();
                 System.out.println("Invalid Input, Enter Within Range: ");
             }

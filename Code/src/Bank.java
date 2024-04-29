@@ -145,6 +145,30 @@ public class Bank {
         System.out.println("Module Name Does Not Exist");
         return false;
     }
+
+    // Test this.
+    public void removeBank(Question questionList){
+        String moduleNameInput;
+        String bankNameInput;
+
+        moduleNameInput = userInputModuleIdentifier();
+        bankNameInput = userInputBankIdentifier();
+        if (moduleAndBankIdentifiersExist(moduleNameInput,bankNameInput)){
+            if (questionList.isQuestionIdentifierEmpty(moduleNameInput + ":" +bankNameInput)) {
+                bankIdentifiers.get(moduleNameInput).remove(bankNameInput);
+                System.out.println("Bank Removed");
+            }
+
+            else{
+                System.out.println("Bank Cannot Be Removed Since It's Not Empty");
+            }
+        }
+    }
+
+
+//    public removeBankIfEmpty(){
+//
+//    }
 }
 
 

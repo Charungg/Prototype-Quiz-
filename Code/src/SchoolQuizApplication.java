@@ -1,4 +1,5 @@
 // Scanner is used to grab user input.
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -94,7 +95,7 @@ public class SchoolQuizApplication {
 
 
             // If the user enters a non-numerical character then the user will have to re-enter an option.
-            catch (Exception e) {
+            catch (InputMismatchException e) {
                 console.nextLine();
                 System.out.println("Invalid Input, Please Try Again");
             }
@@ -112,6 +113,7 @@ public class SchoolQuizApplication {
                 // Re-read Teacher should be able to search for them independently and specifically/
                 moduleList.displayModule();
                 bankList.displayBank();
+                questionList.displayQuestion();
                 break;
             case (2):
                 System.out.println("ADDING MODULE");
@@ -130,9 +132,11 @@ public class SchoolQuizApplication {
                 break;
             case (6):
                 System.out.println("R QB");
+//                bankList.removeBank(questionList);
                 break;
             case (7):
                 System.out.println("R Q");
+                questionList.removeQuestion();
                 break;
             case (8):
                 logIn();
@@ -170,7 +174,7 @@ public class SchoolQuizApplication {
             }
 
             // If the user enters a non-numerical character then the user will have to re-enter an option.
-            catch (Exception e) {
+            catch (InputMismatchException e) {
 //                console.nextLine();
                 System.out.println("Invalid Input, Please Try Again");
             }

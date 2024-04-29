@@ -18,11 +18,11 @@ public class FillTheBlanks extends Question{
         System.out.println("Question Text: ");
         System.out.println("    " + questionText);
 
-        System.out.println("Amount Of Blanks: " + amountOfBlanks);
+        System.out.println("Amount Of Blanks: \n" + "    " + amountOfBlanks);
 
         System.out.println("Answers for Blanks: ");
         for (String answer: answerForBlanks){
-            System.out.println(answerForBlanks);
+            System.out.println("    " + answer);
         }
     }
 

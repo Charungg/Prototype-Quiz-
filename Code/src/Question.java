@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.HashMap;
 
@@ -19,11 +20,21 @@ public class Question {
     }
 
 
+    // Used to display all question identifier along with each question associated with the question identifier.
     public void displayQuestion() {
+        // This loops through each question identifier by going through the key set of the hashmap.
         for (String questionObjectKey : questionsIdentifiers.keySet()) {
-            System.out.println(questionObjectKey + ":");
-//            for (int questionIndex = 0; questionIndex<
-//    }
+            System.out.println("--------------------" + questionObjectKey + "--------------------");
+
+            // For every key getting looped through it will then loop through the value set of that specific question identifier.
+            // For example once getting a key, CS12320:QuestionBank01 it will go through the value of that key.
+            // But the key is a ArrayList which holds onto multiple questions which will be looped through and running the .displayQuestion
+            // function which will display details of each question.
+            for (Question questionObjectValue : questionsIdentifiers.get(questionObjectKey)){
+                questionObjectValue.displayQuestion();
+                System.out.println();
+            }
+            System.out.println("---------------------------------------------------------------");
         }
     }
 
@@ -75,10 +86,10 @@ public class Question {
         }while(!questionIdentifierCreated);
 
         uniqueIdentifier = userInputModuleIdentifier + ":" + userInputBankIdentifier;
-        questionsIdentifiers.put(uniqueIdentifier, new ArrayList<>());
 
         return uniqueIdentifier;
     }
+
 
     // Checks whether the valid unique identifier already has an existing arrayList within the hashMap.
     // If the uniqueIdentifier does not contain an ArrayList then it will instantiate a new one which is tied to it.
@@ -140,7 +151,7 @@ public class Question {
                                 """);
             questionType = console.nextInt();
         }
-        catch (Exception e){
+        catch (InputMismatchException e){
             console.nextLine();
             System.out.println("Invalid Input, Try Again");
         }
@@ -169,6 +180,66 @@ public class Question {
             }
 
         }while(true);
+    }
+
+
+    public void removeQuestion(){
+        int questionSelection;
+        String uniqueIdentifier;
+        boolean questionRemoved = false;
+        Scanner console = new Scanner(System.in);
+
+        // Gets the unique question identifier.
+        uniqueIdentifier = setQuestionIdentifier();
+
+        // Create a temporarily ArrayList which holds the ArrayList of questions from a specific question identifier.
+        // This is done to improve clarity of the code because without it many code will be repeated to get the ArrayList of question ID.
+        ArrayList<Question> questionObjects = new ArrayList<>();
+        // By passing the uniqueIdentifier through the questionIdentifier it will return ArrayList of the Questions associated to it.
+        questionObjects = questionsIdentifiers.get(uniqueIdentifier);
+
+        do{
+            System.out.println("Enter A Question Number To Be Deleted: ");
+            for (int index = 1 ; index<=questionObjects.size(); index++){
+                System.out.println("--------------------" + index + "--------------------");
+                questionObjects.get(index - 1).displayQuestion();
+                System.out.println();
+            }
+
+            try{
+                questionSelection = console.nextInt();
+                if (questionSelection >= 1 && questionSelection <= questionObjects.size()){
+                    questionsIdentifiers.get(uniqueIdentifier).remove(questionSelection - 1);
+                    System.out.println("Question Removed");
+                    questionRemoved = true;
+                }
+
+                else{
+                    System.out.println("Enter Question Number Does Not Exist");
+                }
+            }
+
+            catch(InputMismatchException e){
+                console.nextLine();
+                System.out.println("Please Enter An Integer");
+            }
+        }while(!questionRemoved);
+
+        // Removes the unique identifier from the HashMap if it contains zero questions.
+        removeQuestionIdentifierIfEmpty(uniqueIdentifier);
+    }
+
+
+    // I've decided to implement a removal of question
+    public void removeQuestionIdentifierIfEmpty(String uniqueIdentifier){
+        if (questionsIdentifiers.get(uniqueIdentifier).isEmpty()){
+            questionsIdentifiers.remove(uniqueIdentifier);
+            System.out.println("Seems Like It's Empty, Removed Question Identifier");
+        }
+    }
+
+    public boolean isQuestionIdentifierEmpty(String uniqueIdentifier){
+        return questionsIdentifiers.get(uniqueIdentifier).isEmpty();
     }
 }
 
