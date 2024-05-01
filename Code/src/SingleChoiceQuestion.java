@@ -11,7 +11,7 @@ public class SingleChoiceQuestion extends Question{
 
     private int correctChoiceIndex;
 
-
+    // These functions below are designed specifically to instantiate single choice questions.
     public SingleChoiceQuestion(Bank setBankList) {
         super(setBankList);
         answerChoice = new ArrayList<>(maximumOfAnswerChoice);
@@ -82,10 +82,6 @@ public class SingleChoiceQuestion extends Question{
     }
 
 
-    // Not made withe error checking in mind, wanted to test.
-    // So fix data types and range after.
-
-    // Working on it atm.
     public void setCorrectAnswer(){
         int correctAnswerElementPosition;
         boolean answerInputValid = false;
@@ -115,6 +111,39 @@ public class SingleChoiceQuestion extends Question{
 
 
 
+    // Now these functions below are designed for the quiz session.
+    public boolean startQuizQuestion(){
+        int userAnswer = -1;
+        boolean validAnswer = false;
+        Scanner console = new Scanner(System.in);
+
+        do{
+            System.out.println("Single Choice Question:");
+            System.out.print("    " + questionText);
+
+            System.out.println("Answer:");
+            for (int numberedChoice = 1; numberedChoice<=amountOfAnswerChoice; numberedChoice++){
+                System.out.println("    " + numberedChoice + ") " + answerChoice.get(numberedChoice - 1));
+            }
+            try{
+                System.out.println("Enter The Correct Number Answer: ");
+                userAnswer = console.nextInt();
+                if (userAnswer>=1 && userAnswer<=amountOfAnswerChoice){
+                    validAnswer = true;
+                }
+
+                else{
+                    System.out.println("Invalid Input, Answer Number Does Not Exist");
+                }
+            }
+            catch(InputMismatchException e){
+                console.nextLine();
+                System.out.println("Invalid Input, Must Enter A Integer");
+            }
 
 
+        }while(!validAnswer);
+
+        return (userAnswer - 1 )== correctChoiceIndex;
+    }
 }

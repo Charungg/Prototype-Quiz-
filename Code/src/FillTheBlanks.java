@@ -82,4 +82,23 @@ public class FillTheBlanks extends Question{
             answerForBlanks.add(answerText);
         }
     }
+
+
+
+    // Functions below are designed specifically for quiz session.
+    public boolean startQuizQuestion(){
+        ArrayList<String> userAnswerList = new ArrayList<>();
+        Scanner console = new Scanner(System.in);
+        console.useDelimiter("\\n");
+
+        System.out.println("Fill The Blanks Question:");
+        System.out.println("    " + questionText);
+
+        for (int blankNumber = 1; blankNumber<=amountOfBlanks; blankNumber++){
+            System.out.println("Enter The Correct Number Answer For Blank " + blankNumber + ": ");
+            userAnswerList.add(console.next());
+        }
+
+        return userAnswerList == answerForBlanks;
+    }
 }

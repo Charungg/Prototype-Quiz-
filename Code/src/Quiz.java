@@ -16,16 +16,17 @@ public class Quiz {
 
     private int amountOfQuestionDone;
 
-    private int correctAnswers;
+    private ArrayList<Integer> correctAnswers;
 
     public Quiz(Question setQuestionList, Bank setBankList){
         questionList = setQuestionList;
         bankList = setBankList;
         listOfQuestions = new ArrayList<>();
+        correctAnswers = new ArrayList<>();
     }
 
 
-    public void searchQuestionBank(){
+    public void quizSession(){
         String moduleName;
 
         moduleName = listModuleBanks();
@@ -38,6 +39,8 @@ public class Quiz {
 
         shuffleQuestions();
         System.out.println(listOfQuestions);
+
+        startQuiz();
     }
 
 
@@ -100,6 +103,9 @@ public class Quiz {
 
                 if (userAmount <=questionBankSize && userAmount >= 0){
                     amountOfQuestion = userAmount;
+                    for (int index=0; index<amountOfQuestion; index++){
+                        correctAnswers.add(-1);
+                    }
                     amountNonNegative = true;
                 }
 
@@ -127,11 +133,109 @@ public class Quiz {
             listOfQuestions.remove(amountOfQuestion);
         }
     }
-    public void startQuiz(){}
+    public void startQuiz(){
+        currentQuestion = 0;
+        boolean quizSessionOn = true;
+        Question questionObject;
 
-    public void nextQuestion(){}
+        do{
+            questionObject = listOfQuestions.get(currentQuestion);
+            question(questionObject);
+            quizSessionOn = userNavigation();
+        }while(quizSessionOn);
 
-    public void previousQuestion(){}
 
-    public void endQuiz(){}
+    }
+
+
+    public void question(Question questionObject){
+        boolean isAnswerCorrect = false;
+        switch((questionObject.getClass()).toString()){
+            case ("class SingleChoiceQuestion"):
+                isAnswerCorrect = ((SingleChoiceQuestion) questionObject).startQuizQuestion();
+                break;
+            case ("class FillTheBlanks"):
+                isAnswerCorrect = ((FillTheBlanks) questionObject).startQuizQuestion();
+                break;
+        }
+
+        if (isAnswerCorrect){
+            correctAnswers.set(currentQuestion,1);
+        }
+
+        else{
+            correctAnswers.set(currentQuestion,0);
+        }
+    }
+
+    public boolean userNavigation(){
+        int userInput;
+        boolean validNavigation = false;
+        Scanner console = new Scanner(System.in);
+
+        do{
+            System.out.println("""
+                    1) Next Question\s
+                    2) Previous Question\s
+                    3) End Quiz\s
+                    Enter Numbered Function: \s
+                    """);
+
+            try{
+                userInput = console.nextInt();
+
+                switch(userInput){
+                    case (1):
+                        validNavigation = nextQuestion();
+                        return true;
+                    case (2):
+                        validNavigation = previousQuestion();
+                        return true;
+                    case (3):
+                        endQuiz();
+                        validNavigation = true;
+                        break;
+                    default:
+                        System.out.println("Invalid Input, Please Enter 1-3");
+                }
+            }
+
+            catch(InputMismatchException e){
+                console.nextLine();
+                System.out.println("Invalid Input, Please Enter An Integer");
+            }
+        }while(!validNavigation);
+        return false;
+    }
+
+    public boolean nextQuestion(){
+        if (currentQuestion < amountOfQuestion){
+            currentQuestion = currentQuestion + 1;
+            System.out.println("Next Question");
+            return true;
+        }
+        else{
+            System.out.println("This Is The Last Question");
+            return false;
+        }
+    }
+
+    public boolean previousQuestion(){
+        if (currentQuestion > 1){
+            currentQuestion = currentQuestion - 1;
+            System.out.println("Previous Question");
+            return true;
+        }
+        else{
+            System.out.println("This Is The First Question");
+            return false;
+        }
+    }
+
+    public void endQuiz(){
+        System.out.println("correctAnswers = " + correctAnswers);
+    }
+
+    // TBC I know the amount of questions there is, is one less.
+    // CurrentQuestions does not take into account of index number -1 factor I think.
 }

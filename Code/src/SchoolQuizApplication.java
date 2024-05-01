@@ -170,7 +170,7 @@ public class SchoolQuizApplication {
                     3) Exit\s
                     ---------------------------""");
 
-            System.out.println("Enter A Option (1-8): ");
+            System.out.println("Enter A Option (1-3): ");
 
             // User should enter a number within the range of the provided options above.
             try {
@@ -194,7 +194,7 @@ public class SchoolQuizApplication {
         switch (studentOption) {
             case (1):
                 System.out.println("S QB");
-                quizProgram.searchQuestionBank();
+                quizProgram.quizSession();
                 break;
             case (2):
                 System.out.println("C U");
