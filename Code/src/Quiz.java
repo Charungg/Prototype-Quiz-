@@ -143,9 +143,11 @@ public class Quiz {
         Question questionObject;
 
         do{
+            System.out.println("Question " + currentQuestion);
             questionObject = listOfQuestions.get(currentQuestion);
             question(questionObject);
             quizSessionOn = userNavigation();
+            System.out.println();
         }while(quizSessionOn);
     }
 
@@ -217,7 +219,7 @@ public class Quiz {
             return true;
         }
         else{
-            System.out.println("This Is The Last Question");
+            System.out.println("This Is The Last Question!!");
             return false;
         }
     }
@@ -229,7 +231,7 @@ public class Quiz {
             return true;
         }
         else{
-            System.out.println("This Is The First Question");
+            System.out.println("This Is The First Question!!");
             return false;
         }
     }

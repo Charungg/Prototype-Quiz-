@@ -126,7 +126,7 @@ public class Question {
 
         validQuestionType = false;
         do{
-            questionType = inputQuestionType();
+            questionType = setQuestionType();
             switch(questionType){
                 case (1):
                     questionsIdentifiers.get(uniqueIdentifier).add(new SingleChoiceQuestion(bankList));
@@ -143,7 +143,7 @@ public class Question {
     }
 
 
-    public final int inputQuestionType(){
+    public final int setQuestionType(){
         int questionType = -1;
         Scanner console = new Scanner(System.in);
 
@@ -189,6 +189,8 @@ public class Question {
     }
 
 
+
+    // These functions below are designed for removing questions.
     public void removeQuestion(){
         int questionSelection;
         String uniqueIdentifier;
@@ -235,28 +237,29 @@ public class Question {
         removeQuestionIdentifierIfEmpty(uniqueIdentifier);
     }
 
+    // Checks if question identifier exist within the HashMap questionIdentifier Key
+    public boolean isQuestionIdentifierEmpty(String uniqueIdentifier){
+        return questionsIdentifiers.get(uniqueIdentifier).isEmpty();
+    }
 
-    // I've decided to implement a removal of question
+
+    // Removes question identifier from key in HashMap if it does not contain any question.
     public void removeQuestionIdentifierIfEmpty(String uniqueIdentifier){
-        if (questionsIdentifiers.get(uniqueIdentifier).isEmpty()){
+        // Checks if argument question identifier has no question.
+        if (isQuestionIdentifierEmpty(uniqueIdentifier)){
+            // If true then it will remove question identifier from HashMap.
             questionsIdentifiers.remove(uniqueIdentifier);
             System.out.println("Seems Like It's Empty, Removed Question Identifier");
         }
     }
 
-    public boolean isQuestionIdentifierEmpty(String uniqueIdentifier){
-        return questionsIdentifiers.get(uniqueIdentifier) == null;
-    }
 
-
-
-    // Used for the Quiz class to copy the ArrayList of Questions which will be used for the student to answer.
+    // Used for the Quiz object to copy the ArrayList of Questions from a specific question identifier
+    // which will be used for the student to answer.
     public ArrayList<Question> getQuestionList(String uniqueIdentifier){
         return questionsIdentifiers.get(uniqueIdentifier);
     }
 }
-
-// Error occurs when I remove a question when there is nothing can be removed.
 
 
 

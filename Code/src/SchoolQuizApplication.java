@@ -12,7 +12,7 @@ public class SchoolQuizApplication {
 
     private final Question questionList;  // Used to hold the Question object.
 
-    private final Quiz quizProgram;
+    private final Quiz quizProgram; // Used to hold the Quiz object.
 
 
     // Upon starting the program it will bring the user to login as student or teacher.
@@ -23,11 +23,17 @@ public class SchoolQuizApplication {
 
     // Allows the application to have access to module, bank and question objects.
     public SchoolQuizApplication() {
+        // Below I instantiated Module, Bank and Question objects, they get passed through the next instantiation.
+        // For example the Bank needs to have access to the Module object to check what module identifier is valid and links to.
         Module userModule = new Module();
         Bank userBank = new Bank(userModule);
         Question userQuestion = new Question(userBank);
+        // Quiz object will get the Question and Bank arguments to have access to valid Bank which will be used to gain
+        // access to an ArrayList of questions.
         Quiz userQuiz = new Quiz(userQuestion,userBank);
 
+        // Application will hold every instantiated object apart from SingleChoiceQuestion and FillTheBlanks class which is inheriting
+        // from the Question class, in order to run specific functions of whatever the user navigates to.
         moduleList = userModule;
         bankList = userBank;
         questionList = userQuestion;

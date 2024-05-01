@@ -57,28 +57,43 @@ public class Module {
         }while(!moduleCreated);
     }
 
-    // Returns a specific element from the moduleIdentifier.
-    public String getModuleIdentifierElement(int moduleIdentifierIndex){
-        return moduleIdentifiers.get(moduleIdentifierIndex);
+    // Return True if given parameter of moduleName exist within the moduleIdentifier.
+    public boolean moduleIdentifierExist(String moduleName){
+        // Loops through moduleIdentifier which gives an existing module identifier from the ArrayList.
+        for (String moduleID: moduleIdentifiers){
+            // If Argument of moduleName is the same as an existing module Identifier then
+            // user input module name does exist within the system, so return true.
+            if (moduleID.equals(moduleName)){
+                return true;
+            }
+        }
+        // After the loop and if condition is not met then that means the module name does not exist
+        // therefore returning false since  argument is non-existent.
+        return false;
     }
 
-    // Returns the size of the moduleIdentifier.
-    public int getModuleIdentifierSize(){
-        return moduleIdentifiers.size();
-    }
-
-
+    // Design to remove the moduleIdentifier from the ArrayList which contains all
+    // the module names that exist.
     public void removeModule(Bank bankList){
         String moduleNameInput;
         Scanner console = new Scanner(System.in);
 
+        // Gets user input of a module name.
         System.out.println("Enter Module Name To Be Deleted ");
         moduleNameInput = console.next();
+
+        // Checks if the module name not exist within Bank object which holds module names as keys
+        // and their corresponding bankIdentifier
         if (bankList.isModuleEmpty(moduleNameInput)){
+            // If module name does not exist in Bank object then in Module object it will remove
+            // module name from moduleIdentifier, if module name does not exist within moduleIdentifier
+            // then nothing will be removed.
             moduleIdentifiers.remove(moduleNameInput);
             System.out.println("Module Removed");
         }
 
+        // If check fails then that means Bank object has the module name which means you can't remove the module
+        // since it's not empty.
         else{
             System.out.println("Module Name Cannot Be Removed Since It's Not Empty");
         }

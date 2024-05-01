@@ -123,7 +123,7 @@ public class SingleChoiceQuestion extends Question{
 
             System.out.println("Answer:");
             for (int numberedChoice = 1; numberedChoice<=amountOfAnswerChoice; numberedChoice++){
-                System.out.println("    " + numberedChoice + ") " + answerChoice.get(numberedChoice - 1));
+                System.out.println("    " + ") " + answerChoice.get(numberedChoice - 1));
             }
             try{
                 System.out.println("Enter The Correct Number Answer: ");
