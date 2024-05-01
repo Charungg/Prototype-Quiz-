@@ -8,13 +8,13 @@ public class Quiz {
 
     private Question questionList;
 
+    private long quizTimer;
+
     private ArrayList<Question> listOfQuestions;
 
     private int amountOfQuestion;
 
     private int currentQuestion;
-
-    private int amountOfQuestionDone;
 
     private ArrayList<Integer> correctAnswers;
 
@@ -133,9 +133,13 @@ public class Quiz {
             listOfQuestions.remove(amountOfQuestion);
         }
     }
+
+
     public void startQuiz(){
+        final int millisToSecond = 1000;
         currentQuestion = 0;
-        boolean quizSessionOn = true;
+        quizTimer = System.currentTimeMillis() / millisToSecond;
+        boolean quizSessionOn;
         Question questionObject;
 
         do{
@@ -143,8 +147,6 @@ public class Quiz {
             question(questionObject);
             quizSessionOn = userNavigation();
         }while(quizSessionOn);
-
-
     }
 
 
@@ -209,7 +211,7 @@ public class Quiz {
     }
 
     public boolean nextQuestion(){
-        if (currentQuestion < amountOfQuestion){
+        if (currentQuestion + 1 < amountOfQuestion){
             currentQuestion = currentQuestion + 1;
             System.out.println("Next Question");
             return true;
@@ -221,7 +223,7 @@ public class Quiz {
     }
 
     public boolean previousQuestion(){
-        if (currentQuestion > 1){
+        if (currentQuestion -1 > -1){
             currentQuestion = currentQuestion - 1;
             System.out.println("Previous Question");
             return true;
@@ -233,9 +235,32 @@ public class Quiz {
     }
 
     public void endQuiz(){
-        System.out.println("correctAnswers = " + correctAnswers);
-    }
+        int scoreCorrect = 0;
+        int unAnsweredQuestion = 0;
+        final int millisToSecond = 1000;
+        final int secondToMinute = 60;
+        long timeTook = (System.currentTimeMillis() / millisToSecond) - quizTimer;
 
-    // TBC I know the amount of questions there is, is one less.
-    // CurrentQuestions does not take into account of index number -1 factor I think.
+        System.out.println("quizTimer = " + quizTimer);
+        System.out.println("timeTook = " + timeTook);
+
+        for (int isAnswerCorrect: correctAnswers){
+            switch (isAnswerCorrect){
+                case (1):
+                    scoreCorrect = scoreCorrect + 1;
+                    break;
+                case (-1):
+                    unAnsweredQuestion = unAnsweredQuestion + 1;
+                    break;
+                case (0):
+                    break;
+                default:
+                    System.out.println("Checking Answer Error Occurred: " + isAnswerCorrect);
+            }
+        }
+
+        System.out.println("You Took " + timeTook / secondToMinute + " Minute " + timeTook % secondToMinute + " Seconds.");
+        System.out.println("Your Score Is: " + scoreCorrect + " / " + amountOfQuestion + ".");
+        System.out.println("You Didn't Answer " + unAnsweredQuestion + " Questions.");
+    }
 }
