@@ -1,4 +1,6 @@
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -258,6 +260,20 @@ public class Question {
     // which will be used for the student to answer.
     public ArrayList<Question> getQuestionList(String uniqueIdentifier){
         return questionsIdentifiers.get(uniqueIdentifier);
+    }
+
+
+
+    // Functions below are designed to save and load the Question class.
+    public void saveQuestion(FileWriter file){
+        try{
+            file.close();
+        }
+
+        catch(IOException e){
+            System.out.println("Saving Module Error Occurred: ");
+            e.printStackTrace();
+        }
     }
 }
 

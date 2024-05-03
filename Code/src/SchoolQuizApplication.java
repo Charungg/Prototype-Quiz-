@@ -14,6 +14,8 @@ public class SchoolQuizApplication {
 
     private final Quiz quizProgram; // Used to hold the Quiz object.
 
+    private final FileSchool fileData; //
+
 
     // Upon starting the program it will bring the user to login as student or teacher.
     public static void main(String[] args) {
@@ -28,9 +30,13 @@ public class SchoolQuizApplication {
         Module userModule = new Module();
         Bank userBank = new Bank(userModule);
         Question userQuestion = new Question(userBank);
+
         // Quiz object will get the Question and Bank arguments to have access to valid Bank which will be used to gain
         // access to an ArrayList of questions.
         Quiz userQuiz = new Quiz(userQuestion,userBank);
+
+        // Create an instance of FileSchool of which it will load any existing module, bank and question from text files.
+        FileSchool userFile = new FileSchool(userModule,userBank,userQuestion);
 
         // Application will hold every instantiated object apart from SingleChoiceQuestion and FillTheBlanks class which is inheriting
         // from the Question class, in order to run specific functions of whatever the user navigates to.
@@ -38,6 +44,7 @@ public class SchoolQuizApplication {
         bankList = userBank;
         questionList = userQuestion;
         quizProgram = userQuiz;
+        fileData = userFile;
     }
 
 
@@ -153,6 +160,7 @@ public class SchoolQuizApplication {
                 logIn();
                 break;
             case (9):
+                fileData.saveApp();
                 System.out.println("E");
                 System.exit(0);
             default:
@@ -207,6 +215,7 @@ public class SchoolQuizApplication {
                 logIn();
                 break;
             case (3):
+                fileData.saveApp();
                 System.out.println("E");
                 System.exit(0);
             default:

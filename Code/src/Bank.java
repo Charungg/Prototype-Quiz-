@@ -1,5 +1,7 @@
 // ArrayList is a collection used to store specific data types (must be specified)
 // that will grow and shrink in size.
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 // HashMap is a dictionary used to reference to a specific thing.
@@ -221,6 +223,26 @@ public class Bank {
     // Checks if module identifier is empty/not exist within the HashMap bankIdentifier.
     public boolean isModuleEmpty(String moduleName){
         return bankIdentifiers.get(moduleName) == null;
+    }
+
+
+
+    // Functions below are designed to save and load the Bank class.
+    public void saveBank(FileWriter file){
+        try{
+            for (String moduleName: bankIdentifiers.keySet()){
+                file.write(moduleName + ":\n");
+                for (String bankName: bankIdentifiers.get(moduleName)){
+                    file.write("    " + bankName + "\n");
+                }
+            }
+            file.close();
+        }
+
+        catch(IOException e){
+            System.out.println("Saving Module Error Occurred: ");
+            e.printStackTrace();
+        }
     }
 }
 

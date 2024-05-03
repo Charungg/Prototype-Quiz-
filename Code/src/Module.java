@@ -1,5 +1,7 @@
 // ArrayList is an array which can grow and shrink in size.
 // Useful in this scenario because you can zero to many modules.
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 // Used to grab user input.
 import java.util.Scanner;
@@ -97,7 +99,22 @@ public class Module {
         else{
             System.out.println("Module Name Cannot Be Removed Since It's Not Empty");
         }
+    }
 
 
+
+    // Functions below are designed to save and load the Module class.
+    public void saveModule(FileWriter file){
+        try{
+            for (String moduleName : moduleIdentifiers){
+                file.write(moduleName + "\n");
+            }
+            file.close();
+        }
+
+        catch(IOException e){
+            System.out.println("Saving Module Error Occurred: ");
+            e.printStackTrace();
+        }
     }
 }
