@@ -44,7 +44,7 @@ public class Bank {
                 // These loops grab a new key name for each iteration that exist within the bankIdentifier HashMap.
                 for (String keyName : bankIdentifiers.keySet()){
                     // Displays key name without any spaces before it.
-                    System.out.println(keyName);
+                    System.out.println(keyName + ":");
                     // Within the key name another loop will happen which displays all
                     // corresponding value of the key through index.
                     for (int i=0; i<bankIdentifiers.get(keyName).size(); i++){
@@ -244,6 +244,29 @@ public class Bank {
             e.printStackTrace();
         }
     }
+
+
+    public void loadBank(Scanner reader){
+
+        String textFileLine;
+        String moduleName = null;
+
+        while (reader.hasNextLine()){
+            textFileLine = reader.nextLine();
+
+            if (textFileLine.contains(":")){
+                moduleName = textFileLine.replace(":","");
+                bankIdentifiers.put(moduleName,new ArrayList<>());
+            }
+
+            else{
+                textFileLine = textFileLine.replace(" ", "");
+                bankIdentifiers.get(moduleName).add(textFileLine);
+            }
+        }
+        System.out.println("Loaded Bank");
+    }
 }
+
 
 

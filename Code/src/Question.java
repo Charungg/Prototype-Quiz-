@@ -267,6 +267,22 @@ public class Question {
     // Functions below are designed to save and load the Question class.
     public void saveQuestion(FileWriter file){
         try{
+            for (String questionName: questionsIdentifiers.keySet()){
+                file.write(questionName + ":\n");
+                for (Question questionObject : questionsIdentifiers.get(questionName)){
+                    switch(questionObject.getClass().toString()){
+                        case ("class SingleChoiceQuestion"):
+                            ((SingleChoiceQuestion) questionObject).saveQuestion(file);
+                            break;
+                        case ("class FillTheBlanks"):
+                            ((FillTheBlanks) questionObject).saveQuestion(file);
+                            break;
+                        default:
+                            System.out.println("Question Type Cannot Be Found");
+                    }
+                }
+                file.write("\n");
+            }
             file.close();
         }
 
@@ -274,6 +290,49 @@ public class Question {
             System.out.println("Saving Module Error Occurred: ");
             e.printStackTrace();
         }
+    }
+
+
+    public void loadQuestion(Scanner reader){
+        String textFileLine;
+        String questionName;
+        String className;
+        boolean allQuestionAdded;
+
+        System.out.println("\nStart Environment");
+        while(reader.hasNextLine()){
+            textFileLine = reader.nextLine();
+            System.out.println(textFileLine);
+
+            if (textFileLine.contains(":")){
+                System.out.println("Found ID");
+                questionName = textFileLine.substring(0,textFileLine.length()-1);
+                System.out.println("questionName = " + questionName);
+                questionsIdentifiers.put(questionName,new ArrayList<>());
+
+                allQuestionAdded = false;
+                do{
+                    className = reader.nextLine();
+                    System.out.println("className = " + className);
+
+                    switch (className){
+                        case ("SingleChoiceQuestion"):
+                            questionsIdentifiers.get(questionName).add(new SingleChoiceQuestion(bankList,reader));
+                            break;
+                        case ("FillTheBlanks"):
+                            questionsIdentifiers.get(questionName).add(new FillTheBlanks(bankList,reader));
+                            break;
+                        case(""):
+                            System.out.println("Next QuestionID");
+                            allQuestionAdded = true;
+                            break;
+                        default:
+                            System.out.println("Question Type Cannot Be Found");
+                    }
+                }while(!allQuestionAdded && reader.hasNextLine());
+            }
+        }
+        System.out.println("End Environment");
     }
 }
 

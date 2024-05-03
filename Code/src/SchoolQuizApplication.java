@@ -45,6 +45,10 @@ public class SchoolQuizApplication {
         questionList = userQuestion;
         quizProgram = userQuiz;
         fileData = userFile;
+
+        // Load any previous modules, banks and questions from text files.
+
+        fileData.loadApp();
     }
 
 

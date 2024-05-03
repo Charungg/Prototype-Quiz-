@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -100,5 +102,36 @@ public class FillTheBlanks extends Question{
         }
 
         return userAnswerList == answerForBlanks;
+    }
+
+
+
+    public void saveQuestion(FileWriter file){
+        try{
+            file.write("FillTheBlanks\n");
+            file.write(questionText + "\n");
+            file.write(amountOfBlanks + "\n");
+            for (String answerBlank : answerForBlanks){
+                file.write(answerBlank + "\n");
+            }
+        }
+
+        catch(IOException e){
+            System.out.println("Saving Fill The Blanks Failed: ");
+            e.printStackTrace();
+        }
+    }
+
+
+    public FillTheBlanks (Bank setBankList,Scanner reader){
+        super(setBankList);
+        answerForBlanks = new ArrayList<>();
+
+        questionText = reader.nextLine();
+        amountOfBlanks = Integer.parseInt(reader.nextLine());
+
+        for (int setAnswer = 0; setAnswer<amountOfBlanks; setAnswer++){
+            answerForBlanks.add(reader.nextLine());
+        }
     }
 }

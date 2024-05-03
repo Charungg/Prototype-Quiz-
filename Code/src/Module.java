@@ -117,4 +117,12 @@ public class Module {
             e.printStackTrace();
         }
     }
+
+
+    public void loadModule(Scanner reader){
+        while (reader.hasNextLine()){
+            moduleIdentifiers.add(reader.nextLine());
+        }
+        System.out.println("Loaded Module");
+    }
 }

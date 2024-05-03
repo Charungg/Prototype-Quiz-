@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -123,7 +125,7 @@ public class SingleChoiceQuestion extends Question{
 
             System.out.println("Answer:");
             for (int numberedChoice = 1; numberedChoice<=amountOfAnswerChoice; numberedChoice++){
-                System.out.println("    " + ") " + answerChoice.get(numberedChoice - 1));
+                System.out.println("    " + numberedChoice + ") " + answerChoice.get(numberedChoice - 1));
             }
             try{
                 System.out.println("Enter The Correct Number Answer: ");
@@ -146,4 +148,39 @@ public class SingleChoiceQuestion extends Question{
 
         return (userAnswer - 1 )== correctChoiceIndex;
     }
+
+
+
+    public void saveQuestion(FileWriter file){
+        try{
+            file.write("SingleChoiceQuestion\n");
+            file.write(questionText + "\n");
+            file.write(amountOfAnswerChoice + "\n");
+            for (String answerChoice : answerChoice){
+                file.write(answerChoice + "\n");
+            }
+            file.write(correctChoiceIndex + "\n");
+        }
+
+        catch(IOException e){
+            System.out.println("Saving Single Choice Question Failed: ");
+            e.printStackTrace();
+        }
+    }
+
+
+    public SingleChoiceQuestion(Bank setBankList,Scanner reader){
+        super(setBankList);
+        answerChoice = new ArrayList<>();
+
+        questionText = reader.nextLine();
+        amountOfAnswerChoice = Integer.parseInt(reader.nextLine());
+
+        for (int setChoice = 0; setChoice < amountOfAnswerChoice; setChoice++){
+            answerChoice.add(reader.nextLine());
+        }
+
+        correctChoiceIndex = Integer.parseInt(reader.nextLine());
+    }
+
 }

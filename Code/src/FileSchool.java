@@ -1,7 +1,5 @@
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.Scanner;
 
 public class FileSchool {
     private Module moduleList;
@@ -63,7 +61,20 @@ public class FileSchool {
 
 
 
-    public void loadApp(){}
+    public void loadApp(){
+        try{
+            if (moduleFile.exists()){
+                moduleList.loadModule(new Scanner(moduleFile));
+                bankList.loadBank(new Scanner(bankFile));
+                questionList.loadQuestion(new Scanner(questionFile));
+            }
+        }
+
+        catch(FileNotFoundException e){
+            System.out.println("Module File Cannot Be Found");
+            e.printStackTrace();
+        }
+    }
 
 
 }
