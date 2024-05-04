@@ -111,9 +111,9 @@ public class Module {
 
 
     // Method to load the module identifiers within the module text file.
-    // Parameter reader next line will contain module identififer.
+    // Parameter reader next line will contain module identifier.
     public void loadModule(Scanner reader){
-        // Continue to add module identififer from text file as there is still text next.
+        // Continue to add module identifier from text file as there is still text next.
         while (reader.hasNextLine()){
             moduleIdentifiers.add(reader.nextLine());
         }

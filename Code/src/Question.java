@@ -83,7 +83,7 @@ public class Question {
             // Determines if the user wants to create more questions
             createMoreQuestion = moreQuestion();
 
-            // Displays question details of the question that just got instaniated.
+            // Displays question details of the question that just got instantiated.
             questionsIdentifiers.get(uniqueIdentifier).getLast().displayQuestion();
 
         }while(createMoreQuestion);

@@ -71,7 +71,7 @@ public class Bank {
     public void createBank() {
 
         // Returns the user inputted bank identifier.
-        String userInputBankIdentifier = setBankIdentifier();
+        String userInputBankIdentifier = askUserBankIdentifier();
         // Returns the index position from a moduleIdentifiers ArrayList which is associated to the bank identifier.
         String userInputModuleIdentifier = setModuleIdentifier();
 
@@ -87,7 +87,7 @@ public class Bank {
 
 
     // Designed to return a minimum of 15 character bank identifier inputted by the user.
-    public String setBankIdentifier() {
+    public String askUserBankIdentifier() {
         String bankIdentifier;
         // bankNameValid is used to check if the user has inputted in a correct format.
         boolean bankNameValid = false;
@@ -184,7 +184,7 @@ public class Bank {
 
         // Grabs user input of module identifier and bank identifier
         moduleName = setModuleIdentifier();
-        bankName = setBankIdentifier();
+        bankName = askUserBankIdentifier();
 
         // After grabbing inputs it will be passed to a function and passing arguments of module and bank user input
         // of which the function will return true if module and bank identifier correspond to each other and exist
@@ -237,11 +237,11 @@ public class Bank {
     // Method to save bank identifier into bank text file.
     public void saveBank(FileWriter file){
         try{
-            // Loops through the bankIdentififer key which contains the module name.
+            // Loops through the bankIdentifier key which contains the module name.
             for (String moduleName: bankIdentifiers.keySet()){
 
                 // Writes the module name in the module text file that contains a colon
-                // to signify it's a module identififer.
+                // to signify it's a module identifier.
                 file.write(moduleName + ":\n");
 
                 // Loops through the all the values which contains the bank identifier
@@ -249,7 +249,7 @@ public class Bank {
                 for (String bankName: bankIdentifiers.get(moduleName)){
 
                     // Writes the bank name which contains four empty space before it
-                    /// to signify it's a bank identififer
+                    /// to signify it's a bank identifier
                     file.write("    " + bankName + "\n");
                 }
             }
@@ -262,7 +262,7 @@ public class Bank {
     }
 
 
-    // Method to load the bank identififer from the bank text file.
+    // Method to load the bank identifier from the bank text file.
     // Parameter reader will continue where text file line is left off.
     public void loadBank(Scanner reader){
 
@@ -274,10 +274,10 @@ public class Bank {
             textFileLine = reader.nextLine();
 
             // If line in text file contains a colon then it's
-            // a module identififer.
+            // a module identifier.
             if (textFileLine.contains(":")){
 
-                // Remove the colon from the line, so it just contains the module identififer.
+                // Remove the colon from the line, so it just contains the module identifier.
                 moduleName = textFileLine.replace(":","");
 
                 // Put module name as key and a new ArrayList that holds bank name.
