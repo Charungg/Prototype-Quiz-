@@ -65,7 +65,6 @@ public class FillTheBlanks extends Question{
         // so -2 on the length and another -1 to reference the index rather than the element.
         int sentenceSize = questionText.length() - 2;
         for (int index = 0; index<sentenceSize; index++){
-            System.out.println("Sub-String: " + questionText.substring(index,index+3));
             if (questionText.substring(index,index+3).equals(underScores)){
                 amountOfBlanks = amountOfBlanks + 1;
             }

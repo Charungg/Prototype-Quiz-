@@ -1,18 +1,31 @@
-
+// FileWriter allows the object to write in the module text file.
+// IOException is the catch for FileWriter
 import java.io.FileWriter;
 import java.io.IOException;
+
+// ArrayList is an array which can grow and shrink in size.
+// Useful in this scenario because you can zero to many modules.
 import java.util.ArrayList;
-import java.util.InputMismatchException;
+
+// Scanner for user input.
+// InputMismatchException is the Exception for Scanner.
 import java.util.Scanner;
+import java.util.InputMismatchException;
+
+// HashMap is used to store many unique key that can contain many non-unique values.
 import java.util.HashMap;
 
 public class Question {
 
-    private final Bank bankList;
+    private final Bank bankList; // Used to extra information about the bank.
 
+    // HashMap which contains the question identifiers as keys which can holds zero
+    // to many Question child class which are the question specific type, such as
+    // SingleChoiceQuestion or FillTheBlanks.
     private final HashMap<String,ArrayList<Question>> questionsIdentifiers;
 
-    protected String questionText;
+    protected String questionText; // Is used for subclass to have inherited question text
+                                   // without duplicated code on each subclass.
 
 
     // Constructor to instantiate the question object.
@@ -46,6 +59,9 @@ public class Question {
         }
     }
 
+
+    // Creates a question object of a specific type (SingleChoice or FillTheBlanks) and adds it into the
+    // HashMap questionIdentififer.
     public final void createQuestion(){
         String uniqueIdentifier;
         boolean createMoreQuestion;
@@ -61,16 +77,25 @@ public class Question {
         // more question either by a yes or no answer which will return true or false correspondingly.
 
         do{
+            // Asks the user to select a question type and instantiate it and add it to HashMap.
             setQuestionType(uniqueIdentifier);
+
+            // Determines if the user wants to create more questions
             createMoreQuestion = moreQuestion();
+
+            // Displays question details of the question that just got instaniated.
             questionsIdentifiers.get(uniqueIdentifier).getLast().displayQuestion();
 
         }while(createMoreQuestion);
 
+        System.out.println("Question Created");
+
+        //Displays all questions.
         displayQuestion();
     }
 
 
+    // Method to set question identifier in HashMap key.
     public final String setQuestionIdentifier(){
         String uniqueIdentifier;
         String userInputModuleIdentifier;
@@ -79,10 +104,12 @@ public class Question {
         Scanner console = new Scanner(System.in);
 
         do{
+            // User input of module identififer.
             System.out.println("Enter A Existing Module Identifier: ");
             userInputModuleIdentifier = console.next();
 
 
+            // User input of bank identififer.
             System.out.println("Enter A Existing Bank Identifier: ");
             userInputBankIdentifier = console.next();
 
@@ -239,11 +266,12 @@ public class Question {
         removeQuestionIdentifierIfEmpty(uniqueIdentifier);
     }
 
-    // Checks if question identifier exist within the HashMap questionIdentifier Key
+    // Checks if question identifier is empty within the HashMap questionIdentifier Key.
     public boolean isQuestionIdentifierEmpty(String uniqueIdentifier){
         return questionsIdentifiers.get(uniqueIdentifier).isEmpty();
     }
 
+    // Checks if question identififer exist within the HashMap questionIdentififer.
     public boolean isQuestionIdentifierExist(String uniqueIdentifier){
         return questionsIdentifiers.get(uniqueIdentifier) ==null;
     }
@@ -273,7 +301,9 @@ public class Question {
         try{
             for (String questionName: questionsIdentifiers.keySet()){
                 file.write(questionName + ":\n");
+
                 for (Question questionObject : questionsIdentifiers.get(questionName)){
+
                     switch(questionObject.getClass().toString()){
                         case ("class SingleChoiceQuestion"):
                             ((SingleChoiceQuestion) questionObject).saveQuestion(file);
@@ -285,7 +315,6 @@ public class Question {
                             System.out.println("Question Type Cannot Be Found");
                     }
                 }
-                file.write("\n");
             }
             file.close();
         }
@@ -302,21 +331,17 @@ public class Question {
         String className;
         boolean allQuestionAdded;
 
-        System.out.println("\nStart Environment");
         while(reader.hasNextLine()){
             textFileLine = reader.nextLine();
             System.out.println(textFileLine);
 
             if (textFileLine.contains(":")){
-                System.out.println("Found ID");
                 questionName = textFileLine.substring(0,textFileLine.length()-1);
-                System.out.println("questionName = " + questionName);
                 questionsIdentifiers.put(questionName,new ArrayList<>());
 
                 allQuestionAdded = false;
                 do{
                     className = reader.nextLine();
-                    System.out.println("className = " + className);
 
                     switch (className){
                         case ("SingleChoiceQuestion"):
@@ -335,7 +360,6 @@ public class Question {
                 }while(!allQuestionAdded && reader.hasNextLine());
             }
         }
-        System.out.println("End Environment");
     }
 }
 

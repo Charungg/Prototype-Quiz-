@@ -14,12 +14,13 @@ public class SchoolQuizApplication {
 
     private final Quiz quizProgram; // Used to hold the Quiz object.
 
-    private final FileSchool fileData; //
+    private final FileSchool fileData; //Used to hold the FileSchool object.
 
 
     // Upon starting the program it will bring the user to login as student or teacher.
     public static void main(String[] args) {
         SchoolQuizApplication menu = new SchoolQuizApplication();
+        // Program starts asking the user to login as a student or teacher.
         menu.logIn();
     }
 
@@ -47,7 +48,6 @@ public class SchoolQuizApplication {
         fileData = userFile;
 
         // Load any previous modules, banks and questions from text files.
-
         fileData.loadApp();
     }
 
@@ -130,7 +130,6 @@ public class SchoolQuizApplication {
         // Each switch case represents a corresponding option from the teacher menu.
         switch (teacherOption) {
             case (1):
-                // Re-read Teacher should be able to search for them independently and specifically/
                 bankList.searchQuestionBank();
                 System.out.println();
                 break;
@@ -197,7 +196,7 @@ public class SchoolQuizApplication {
 
             // If the user enters a non-numerical character then the user will have to re-enter an option.
             catch (InputMismatchException e) {
-//                console.nextLine();
+                console.nextLine();
                 System.out.println("Invalid Input, Please Try Again");
             }
 

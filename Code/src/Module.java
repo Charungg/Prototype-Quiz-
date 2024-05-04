@@ -1,8 +1,12 @@
-// ArrayList is an array which can grow and shrink in size.
-// Useful in this scenario because you can zero to many modules.
+// FileWriter allows the object to write in the module text file.
+// IOException is the catch for FileWriter
 import java.io.FileWriter;
 import java.io.IOException;
+
+// ArrayList is an array which can grow and shrink in size.
+// Useful in this scenario because you can zero to many modules.
 import java.util.ArrayList;
+
 // Used to grab user input.
 import java.util.Scanner;
 
@@ -12,7 +16,6 @@ public class Module {
     // Constructor to instantiate the module object.
     public Module(){
         moduleIdentifiers = new ArrayList<>();
-        System.out.println("Module Created");
     }
 
 
@@ -30,7 +33,7 @@ public class Module {
             // User input must be at least 7 characters long.
             if ((userInput.length()) <= 7){
                 moduleIdentifiers.add(userInput);
-                System.out.println("CREATED");
+                System.out.println("Module Created");
                 moduleCreated = true;
             }
 
@@ -42,6 +45,7 @@ public class Module {
 
         }while(!moduleCreated);
     }
+
 
     // Return True if given parameter of moduleName exist within the moduleIdentifier.
     public boolean moduleIdentifierExist(String moduleName){
@@ -57,6 +61,7 @@ public class Module {
         // therefore returning false since  argument is non-existent.
         return false;
     }
+
 
     // Design to remove the moduleIdentifier from the ArrayList which contains all
     // the module names that exist.
@@ -88,8 +93,11 @@ public class Module {
 
 
     // Functions below are designed to save and load the Module class.
+
+    // Used to save module identifiers in a text file.
     public void saveModule(FileWriter file){
         try{
+            // Loops through all the module identifiers and write in text file line by line.
             for (String moduleName : moduleIdentifiers){
                 file.write(moduleName + "\n");
             }
@@ -102,7 +110,10 @@ public class Module {
     }
 
 
+    // Method to load the module identifiers within the module text file.
+    // Parameter reader next line will contain module identififer.
     public void loadModule(Scanner reader){
+        // Continue to add module identififer from text file as there is still text next.
         while (reader.hasNextLine()){
             moduleIdentifiers.add(reader.nextLine());
         }

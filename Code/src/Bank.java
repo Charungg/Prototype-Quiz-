@@ -1,7 +1,10 @@
-// ArrayList is a collection used to store specific data types (must be specified)
-// that will grow and shrink in size.
+// FileWriter allows the object to write in the module text file.
+// IOException is the catch for FileWriter
 import java.io.FileWriter;
 import java.io.IOException;
+
+// ArrayList is an array which can grow and shrink in size.
+// Useful in this scenario because you can zero to many modules.
 import java.util.ArrayList;
 
 // HashMap is a dictionary used to reference to a specific thing.
@@ -27,7 +30,6 @@ public class Bank {
     public Bank(Module setModuleList) {
         moduleList = setModuleList;
         bankIdentifiers = new HashMap<>();
-        System.out.println("Bank CREATED");
     }
 
 
@@ -54,8 +56,6 @@ public class Bank {
         }
     }
 
-    // Use this for FR something!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
     // Designed to display just the values (bank identifier) of the given key name (module identifier).
     // The function will be passed a module name which will run a function beforehand that checks if it's valid .
     public void displayBankFromModule(String moduleName){
@@ -74,13 +74,17 @@ public class Bank {
         String userInputBankIdentifier = setBankIdentifier();
         // Returns the index position from a moduleIdentifiers ArrayList which is associated to the bank identifier.
         String userInputModuleIdentifier = setModuleIdentifier();
+
+        // Checks if bank identififer does not contain the module identififer as a key.
+        // If module does not exist then it will put in the HashMap with a new ArrayList for bank identififer.
         if (bankIdentifiers.get(userInputModuleIdentifier) == null){
             bankIdentifiers.put(userInputModuleIdentifier, new ArrayList<>());
         }
 
         bankIdentifiers.get(userInputModuleIdentifier).add(userInputBankIdentifier);
-        System.out.println(bankIdentifiers);
+        System.out.println("Bank Created");
     }
+
 
     // Designed to return a minimum of 15 character bank identifier inputted by the user.
     public String setBankIdentifier() {
@@ -108,6 +112,7 @@ public class Bank {
         // Returns a minimum of 15 character string.
         return bankIdentifier;
     }
+
 
     // Checks whether a user input module identifier exist within the moduleIdentifier ArrayList.
     // If module identifiers exists then it returns the index position of module identifier.
@@ -139,6 +144,7 @@ public class Bank {
 
         return moduleIdentifier;
     }
+
 
     // This checks whether the given argument of module name and bank name exist within bank identifier hash map.
     public boolean moduleAndBankIdentifiersExist(String moduleNameExist, String bankNameExist){
@@ -227,11 +233,23 @@ public class Bank {
 
 
     // Functions below are designed to save and load the Bank class.
+
+    // Method to save bank identifier into bank text file.
     public void saveBank(FileWriter file){
         try{
+            // Loops through the bankIdentififer key which contains the module name.
             for (String moduleName: bankIdentifiers.keySet()){
+
+                // Writes the module name in the module text file that contains a colon
+                // to signify it's a module identififer.
                 file.write(moduleName + ":\n");
+
+                // Loops through the all the values which contains the bank identifier
+                // of a specific module name.
                 for (String bankName: bankIdentifiers.get(moduleName)){
+
+                    // Writes the bank name which contains four empty space before it
+                    /// to signify it's a bank identififer
                     file.write("    " + bankName + "\n");
                 }
             }
@@ -244,20 +262,32 @@ public class Bank {
     }
 
 
+    // Method to load the bank identififer from the bank text file.
+    // Parameter reader will continue where text file line is left off.
     public void loadBank(Scanner reader){
 
         String textFileLine;
         String moduleName = null;
 
+        // Continues to loop as long bank text file next line is not empty.
         while (reader.hasNextLine()){
             textFileLine = reader.nextLine();
 
+            // If line in text file contains a colon then it's
+            // a module identififer.
             if (textFileLine.contains(":")){
+
+                // Remove the colon from the line, so it just contains the module identififer.
                 moduleName = textFileLine.replace(":","");
+
+                // Put module name as key and a new ArrayList that holds bank name.
                 bankIdentifiers.put(moduleName,new ArrayList<>());
             }
 
+            // After module name is set then the next couple of line should be bank names which
+            // is indicated by four blank spaces before the bank name
             else{
+                // Removes spaces from the bank before adding into the ArrayList
                 textFileLine = textFileLine.replace(" ", "");
                 bankIdentifiers.get(moduleName).add(textFileLine);
             }
