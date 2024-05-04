@@ -144,6 +144,7 @@ public class SingleChoiceQuestion extends Question{
             }
 
 
+
         }while(!validAnswer);
 
         return (userAnswer - 1 )== correctChoiceIndex;
@@ -164,7 +165,6 @@ public class SingleChoiceQuestion extends Question{
 
         catch(IOException e){
             System.out.println("Saving Single Choice Question Failed: ");
-            e.printStackTrace();
         }
     }
 

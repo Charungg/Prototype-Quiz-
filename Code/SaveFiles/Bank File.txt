@@ -1,6 +1,3 @@
 shrek:
     donkey
     dragon
-charlie:
-    volleyball
-    food

@@ -94,7 +94,7 @@ public class SchoolQuizApplication {
         do {
             System.out.println("""
                     -------Teacher Menu-------
-                    1) Show All Module And Question Bank\s
+                    1) Search Question Bank\s
                     2) Add Module\s
                     3) Add Question Bank\s
                     4) Add Question\s
@@ -102,7 +102,7 @@ public class SchoolQuizApplication {
                     6) Remove Question Bank\s
                     7) Remove Question\s
                     8) Change User\s
-                    9) Exit\s
+                    9) Exit And Save\s
                     --------------------------""");
 
             System.out.println("Enter A Option (1-9): ");
@@ -131,9 +131,7 @@ public class SchoolQuizApplication {
         switch (teacherOption) {
             case (1):
                 // Re-read Teacher should be able to search for them independently and specifically/
-                moduleList.displayModule();
-                bankList.displayBank();
-                questionList.displayQuestion();
+                bankList.searchQuestionBank();
                 System.out.println();
                 break;
             case (2):
@@ -149,15 +147,15 @@ public class SchoolQuizApplication {
                 questionList.createQuestion();
                 break;
             case (5):
-                System.out.println("R MODULE");
+                System.out.println("REMOVING MODULE");
                 moduleList.removeModule(bankList);
                 break;
             case (6):
-                System.out.println("R QB");
+                System.out.println("REMOVING Question Bank");
                 bankList.removeBank(questionList);
                 break;
             case (7):
-                System.out.println("R Q");
+                System.out.println("Removing Question");
                 questionList.removeQuestion();
                 break;
             case (8):
@@ -165,7 +163,7 @@ public class SchoolQuizApplication {
                 break;
             case (9):
                 fileData.saveApp();
-                System.out.println("E");
+                System.out.println("Exit And Save");
                 System.exit(0);
             default:
                 System.out.println("Invalid Input, Please Try Again");
@@ -183,12 +181,13 @@ public class SchoolQuizApplication {
         do {
             System.out.println("""
                     -------Student Menu-------\s
-                    1) Search QuestionBank\s
-                    2) Change User\s
-                    3) Exit\s
+                    1) Search Question Bank\s
+                    2) Start Quiz\s
+                    3) Change User\s
+                    4) Exit And Save\s
                     ---------------------------""");
 
-            System.out.println("Enter A Option (1-3): ");
+            System.out.println("Enter A Option (1-4): ");
 
             // User should enter a number within the range of the provided options above.
             try {
@@ -211,16 +210,19 @@ public class SchoolQuizApplication {
     public boolean processStudentMenu(int studentOption) {
         switch (studentOption) {
             case (1):
-                System.out.println("S QB");
-                quizProgram.quizSession();
+                System.out.println("Searching Question Bank");
+                bankList.searchQuestionBank();
                 break;
             case (2):
-                System.out.println("C U");
-                logIn();
+                quizProgram.quizSession();
                 break;
             case (3):
+                System.out.println("Change User");
+                logIn();
+                break;
+            case (4):
                 fileData.saveApp();
-                System.out.println("E");
+                System.out.println("Exist And Save");
                 System.exit(0);
             default:
                 System.out.println("Invalid Input, Please Try Again");

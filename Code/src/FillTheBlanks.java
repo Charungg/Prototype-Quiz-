@@ -101,7 +101,7 @@ public class FillTheBlanks extends Question{
             userAnswerList.add(console.next());
         }
 
-        return userAnswerList == answerForBlanks;
+        return userAnswerList.equals(answerForBlanks);
     }
 
 
@@ -118,7 +118,6 @@ public class FillTheBlanks extends Question{
 
         catch(IOException e){
             System.out.println("Saving Fill The Blanks Failed: ");
-            e.printStackTrace();
         }
     }
 

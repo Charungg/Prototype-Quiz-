@@ -4,9 +4,9 @@ import java.util.Scanner;
 import java.util.Collections;
 public class Quiz {
 
-    private Bank bankList;
+    private final Bank bankList;
 
-    private Question questionList;
+    private final Question questionList;
 
     private long quizTimer;
 
@@ -16,7 +16,7 @@ public class Quiz {
 
     private int currentQuestion;
 
-    private ArrayList<Integer> correctAnswers;
+    private final ArrayList<Integer> correctAnswers;
 
     public Quiz(Question setQuestionList, Bank setBankList){
         questionList = setQuestionList;
@@ -143,7 +143,7 @@ public class Quiz {
         Question questionObject;
 
         do{
-            System.out.println("Question " + currentQuestion);
+            System.out.println("Question " + (currentQuestion + 1));
             questionObject = listOfQuestions.get(currentQuestion);
             question(questionObject);
             quizSessionOn = userNavigation();
@@ -170,6 +170,8 @@ public class Quiz {
         else{
             correctAnswers.set(currentQuestion,0);
         }
+
+        System.out.println(correctAnswers);
     }
 
     public boolean userNavigation(){

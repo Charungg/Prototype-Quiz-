@@ -2,17 +2,17 @@ import java.io.*;
 import java.util.Scanner;
 
 public class FileSchool {
-    private Module moduleList;
+    private final Module moduleList;
 
-    private Bank bankList;
+    private final Bank bankList;
 
-    private Question questionList;
+    private final Question questionList;
 
-    private File moduleFile;
+    private final File moduleFile;
 
-    private File bankFile;
+    private final File bankFile;
 
-    private File questionFile;
+    private final File questionFile;
 
     public FileSchool(Module setModule, Bank setBank, Question setQuestion){
         moduleList = setModule;

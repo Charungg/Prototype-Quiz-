@@ -15,22 +15,6 @@ public class Module {
         System.out.println("Module Created");
     }
 
-    // Used to display how many module identifier there is.
-    public void displayModule(){
-        // If there is no module identifiers then display empty to the user.
-        if (moduleIdentifiers.isEmpty()){
-            System.out.println("There Is No Module");
-        }
-
-        // Else loop and display all the module identifiers to the user.
-        else{
-            System.out.println("----Display Module----");
-            for (String moduleIdentifier: moduleIdentifiers){
-                System.out.println(moduleIdentifier);
-            }
-            System.out.println("---------------------");
-        }
-    }
 
     // Used to add a module identifiers to the attribute.
     public void createModule(){
@@ -114,7 +98,6 @@ public class Module {
 
         catch(IOException e){
             System.out.println("Saving Module Error Occurred: ");
-            e.printStackTrace();
         }
     }
 

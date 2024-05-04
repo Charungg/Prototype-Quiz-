@@ -244,6 +244,10 @@ public class Question {
         return questionsIdentifiers.get(uniqueIdentifier).isEmpty();
     }
 
+    public boolean isQuestionIdentifierExist(String uniqueIdentifier){
+        return questionsIdentifiers.get(uniqueIdentifier) ==null;
+    }
+
 
     // Removes question identifier from key in HashMap if it does not contain any question.
     public void removeQuestionIdentifierIfEmpty(String uniqueIdentifier){
@@ -287,8 +291,7 @@ public class Question {
         }
 
         catch(IOException e){
-            System.out.println("Saving Module Error Occurred: ");
-            e.printStackTrace();
+            System.out.println("Saving Question Error Occurred: ");
         }
     }
 

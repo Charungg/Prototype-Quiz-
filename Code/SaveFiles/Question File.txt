@@ -6,27 +6,16 @@ bei
 lon
 mel
 0
-SingleChoiceQuestion
-Lol
-3
-Gragas
-Ahri
-Fizz
-0
 FillTheBlanks
-Lewis ___
-1
+Lewis ___, Ben ___, James ___
+3
 Perry
-
-charlie:food:
-FillTheBlanks
-Ben ___ 
-1
 Miller
-SingleChoiceQuestion
-Meat
+Green
+FillTheBlanks
+___ ___ ___
 3
-Chicken
-Beef
-Ham
-0
+Alan
+Henry
+Armin
+

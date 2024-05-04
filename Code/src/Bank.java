@@ -32,27 +32,25 @@ public class Bank {
 
 
     // Used to display how many bank identifier there is and associated to which module identifiers.
-    public void displayBank(){
+    public void searchQuestionBank(){
+        String moduleName;
+        Scanner console = new Scanner(System.in);
+
+        System.out.println("Enter Module Name");
+        moduleName = console.next();
+
         // If bank is empty display to the user that there is no bank identifiers.
-        if (bankIdentifiers.isEmpty()){
-            System.out.println("There Is No Bank");
+        if (bankIdentifiers.get(moduleName).isEmpty()){
+            System.out.println("This Module Does Not Contain A Bank");
         }
 
         // Displays the user each bank identifiers and their corresponding module.
         else{
-            System.out.println("-----Display Bank-----");
-                // These loops grab a new key name for each iteration that exist within the bankIdentifier HashMap.
-                for (String keyName : bankIdentifiers.keySet()){
-                    // Displays key name without any spaces before it.
-                    System.out.println(keyName + ":");
-                    // Within the key name another loop will happen which displays all
-                    // corresponding value of the key through index.
-                    for (int i=0; i<bankIdentifiers.get(keyName).size(); i++){
-                        // Display value of the key with four spaces before it to indicate it's a value not key.
-                        System.out.println("    " + bankIdentifiers.get(keyName).get(i));
-                    }
-                }
-            System.out.println("---------------------");
+            System.out.println("-----Display Question Bank-----");
+            for (String bankName: bankIdentifiers.get(moduleName)){
+                System.out.println("    " + moduleName + ":" + bankName);
+            }
+            System.out.println("-------------------------------");
         }
     }
 
@@ -128,9 +126,9 @@ public class Bank {
 
             // Goes through all module identifiers from the moduleIdentifiers and see if any matches with the user input.
             if (moduleList.moduleIdentifierExist(moduleIdentifier)){
-                    System.out.println("Found Existing Module Identifier");
-                    moduleFound = true;
-                    break;
+                System.out.println("Found Existing Module Identifier");
+                moduleFound = true;
+                break;
             }
 
             else{
@@ -190,7 +188,8 @@ public class Bank {
             // Before removing bank identifiers it needs to have access to the Question object and checking if the question
             // identifier (by concatenating module and bank identifier) does not exist because bank identifier
             // must not exist within the questionIdentifier within question object.
-            if (questionList.isQuestionIdentifierEmpty(moduleName + ":" +bankName)) {
+            System.out.println("ID = "+moduleName+":"+bankName);
+            if (questionList.isQuestionIdentifierExist(moduleName + ":" +bankName)) {
 
                 // After valid checking module and bank Identifier and question identifier does not exist then it
                 // will remove the bank identifier from the corresponding module identifier.
@@ -240,8 +239,7 @@ public class Bank {
         }
 
         catch(IOException e){
-            System.out.println("Saving Module Error Occurred: ");
-            e.printStackTrace();
+            System.out.println("Saving Bank Error Occurred: ");
         }
     }
 
