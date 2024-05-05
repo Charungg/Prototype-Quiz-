@@ -1,3 +1,2 @@
 shrek:
     donkey
-    dragon

@@ -93,7 +93,7 @@ public class Bank {
 
 
     /** Method to check whether a user input module identifier exist within the moduleIdentifier ArrayList.
-    // @return If module identifiers exists then it returns the index position of module identifier. */
+     // @return If module identifiers exists then it returns the index position of module identifier. */
     public String askUserModuleIdentifier(){
         String moduleIdentifier;
         // Used to check whether the module exist.
@@ -139,7 +139,7 @@ public class Bank {
                 System.out.println("Bank Name Is Valid");
                 bankNameValid = true;
 
-            // An example of a bank identifier will be shown if it's inputted wrong.
+                // An example of a bank identifier will be shown if it's inputted wrong.
             } else {
                 System.out.println("Too many Characters! ");
                 System.out.println("Example: QuestionBank01");
@@ -248,7 +248,7 @@ public class Bank {
     // Functions below are designed to save and load the Bank class.
 
     /** Method to save bank identifier into bank text file.
-     * @param file in order to have access to module file. */
+     * @param file in order to have access to bank file. */
     public void saveBank(FileWriter file){
         try{
             // Loops through the bankIdentifier key which contains the module name.

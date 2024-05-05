@@ -1,4 +1,6 @@
-/** @author Charlie Cheung */
+/** @author Charlie Cheung
+ * Question class is designed for mainly storing and saving question and queries of question.
+ * */
 
 // FileWriter allows the object to write in the module text file.
 // IOException is the catch for FileWriter
@@ -17,7 +19,6 @@ import java.util.InputMismatchException;
 // HashMap is used to store many unique key that can contain many non-unique values.
 import java.util.HashMap;
 
-// Question class is designed for mainly storing and saving question and queries of question.
 public class Question {
 
     private final Bank bankList; // Used to extra information about the bank.
@@ -28,17 +29,19 @@ public class Question {
     private final HashMap<String,ArrayList<Question>> questionsIdentifiers;
 
     protected String questionText; // Is used for subclass to have inherited question text
-                                   // without duplicated code on each subclass.
+    // without duplicated code on each subclass.
 
 
-    // Constructor to instantiate the question object.
+    /** Constructor to instantiate the question object.
+     * @param setBankList in order to have access to bank object.
+     * */
     public Question(Bank setBankList){
         bankList = setBankList;
         questionsIdentifiers = new HashMap<>();
     }
 
 
-    // Used to display all question identifier along with each question associated with the question identifier.
+    /** Method to display all question identifier along with each question associated with a question identifier. */
     public void displayQuestion() {
         if (questionsIdentifiers.isEmpty()){
             System.out.println("There Is No Question");
@@ -63,8 +66,7 @@ public class Question {
     }
 
 
-    // Creates a question object of a specific type (SingleChoice or FillTheBlanks) and adds it into the
-    // HashMap questionIdentifier.
+    /** Method to create a question object of a specific type (SingleChoice or FillTheBlanks) and adds it into the HashMap questionIdentifier. */
     public final void createQuestion(){
         String uniqueIdentifier;
         boolean createMoreQuestion;
@@ -98,7 +100,9 @@ public class Question {
     }
 
 
-    // Method to set question identifier in HashMap key.
+    /** Method to set question identifier in HashMap key.
+     * @return user input question identifier.
+     * */
     public final String askUserQuestionIdentifier(){
         String uniqueIdentifier;
         String userInputModuleIdentifier;
@@ -131,6 +135,10 @@ public class Question {
 
     // Checks whether the valid unique identifier already has an existing arrayList within the hashMap.
     // If the uniqueIdentifier does not contain an ArrayList then it will instantiate a new one which is tied to it.
+
+    /** Method to add unique identifier to question identifier if it doesn't exist as key
+     * @param uniqueIdentifier is a user inputted unique question identifier.
+     * */
     public void uniqueIdentifierExist(String uniqueIdentifier){
         if (questionsIdentifiers.get(uniqueIdentifier) == null){
             questionsIdentifiers.put(uniqueIdentifier,new ArrayList<>());
@@ -139,7 +147,7 @@ public class Question {
     }
 
 
-    // Method to set question text.
+    /** Method for user to add question text */
     public void setUserInputQuestionText(){
         String userQuestionText;
         Scanner console = new Scanner(System.in);
@@ -153,8 +161,9 @@ public class Question {
     }
 
 
-    // Method to create a question of a specific type decided by the user and
-    // added to the question identifier values in HashMap.
+    /** Method to create a question of a specific type decided by the user and added to the question identifier values in HashMap.
+     * @param  uniqueIdentifier is the current question identifier use to add question to.
+     * */
     public final void createQuestionType(String uniqueIdentifier){
         int questionType;
         boolean validQuestionType;
@@ -180,7 +189,9 @@ public class Question {
     }
 
 
-    // Method used to gather the user desired question type.
+    /** Method used to gather the user desired question type.
+     * @return the amount of question the user wants to partake.
+     * */
     public final int askUserQuestionType(){
         int questionType = -1;
         Scanner console = new Scanner(System.in);
@@ -204,8 +215,9 @@ public class Question {
     }
 
 
-    // Method used to return true or false whether the user
-    // wants to add more question to question identifier.
+    /** Method to ask the user if they want to add more question
+     * @return return true if they user wants to add more question else false.
+     * */
     public boolean moreQuestion(){
         String moreQuestionAnswerInput;
         Scanner console = new Scanner(System.in);
@@ -232,6 +244,8 @@ public class Question {
 
 
     // These functions below are designed for removing questions.
+
+    /** Method to remove a question from a specific question identifier. */
     public void removeQuestion(){
         int questionSelection;
         String uniqueIdentifier;
@@ -281,18 +295,26 @@ public class Question {
         removeQuestionIdentifierIfEmpty(uniqueIdentifier);
     }
 
-    // Checks if question identifier is empty within the HashMap questionIdentifier Key.
+    /** Method to check if question identifier is empty within the HashMap questionIdentifier Key.
+     * @param uniqueIdentifier is user selected question identifier.
+     * @return true if selected question identifier has an empty ArrayList in questionIdentifier else false.
+     * */
     public boolean isQuestionIdentifierEmpty(String uniqueIdentifier){
         return questionsIdentifiers.get(uniqueIdentifier).isEmpty();
     }
 
-    // Checks if question identifier exist within the HashMap questionIdentifier.
+    /** Method check if question identifier exist within the HashMap questionIdentifier.
+     * @param uniqueIdentifier is user selected question identifier.
+     * @return true if selected question identifier ArrayList in questionIdentifier does not exist else false.
+     * */
     public boolean isQuestionIdentifierExist(String uniqueIdentifier){
         return questionsIdentifiers.get(uniqueIdentifier) ==null;
     }
 
 
-    // Removes question identifier from key in HashMap if it does not contain any question.
+    /** Method to remove question identifier from key in HashMap if it does not contain any question.
+     * @param uniqueIdentifier is a question identifier to be checked.
+     * */
     public void removeQuestionIdentifierIfEmpty(String uniqueIdentifier){
         // Checks if argument question identifier has no question.
         if (isQuestionIdentifierEmpty(uniqueIdentifier)){
@@ -303,8 +325,10 @@ public class Question {
     }
 
 
-    // Used for the Quiz object to copy the ArrayList of Questions from a specific question identifier
-    // which will be used for the student to answer.
+    /** Method to get an ArrayList of questions from a specific question identifier.
+     * @param uniqueIdentifier is a question identifier which can extract ArrayList of questions from bankIdentifier.
+     * @return an ArrayList of questions of different type (SingleChoiceQuestion or FillTheBlanks).
+     * */
     public ArrayList<Question> getQuestionList(String uniqueIdentifier){
         return questionsIdentifiers.get(uniqueIdentifier);
     }
@@ -313,7 +337,8 @@ public class Question {
 
     // Methods below are designed to save and load the Question class.
 
-    // Method to save all questions created by the user.
+    /** Method to save question identifier into question text file.
+     * @param file in order to have access to question file. */
     public void saveQuestion(FileWriter file){
         try{
             // Loops through all HashMap key which contains question identifier.
@@ -336,8 +361,8 @@ public class Question {
     }
 
 
-    // Method to load question objects from question text file.
-    // Parameter reader will continue where text file line is left off.
+    /** Method to load the question identifiers within the question text file.
+     * @param reader used to have access to read from question text file and where it's left off.*/
     public void loadQuestion(Scanner reader){
         String textFileLine;
         String questionName;
