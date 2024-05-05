@@ -1,3 +1,5 @@
+/** @author Charlie Cheung */
+
 // FileWriter allows the object to write in the module text file.
 // IOException is the catch for FileWriter
 import java.io.FileWriter;
@@ -15,6 +17,7 @@ import java.util.InputMismatchException;
 // HashMap is used to store many unique key that can contain many non-unique values.
 import java.util.HashMap;
 
+// Question class is designed for mainly storing and saving question and queries of question.
 public class Question {
 
     private final Bank bankList; // Used to extra information about the bank.
@@ -61,13 +64,13 @@ public class Question {
 
 
     // Creates a question object of a specific type (SingleChoice or FillTheBlanks) and adds it into the
-    // HashMap questionIdentififer.
+    // HashMap questionIdentifier.
     public final void createQuestion(){
         String uniqueIdentifier;
         boolean createMoreQuestion;
 
         // Uses the parent class to set the question unique ID.
-        uniqueIdentifier = setQuestionIdentifier();
+        uniqueIdentifier = askUserQuestionIdentifier();
 
         // Checks whether the unique identifier already within the hashmap.
         uniqueIdentifierExist(uniqueIdentifier);
@@ -78,7 +81,7 @@ public class Question {
 
         do{
             // Asks the user to select a question type and instantiate it and add it to HashMap.
-            setQuestionType(uniqueIdentifier);
+            createQuestionType(uniqueIdentifier);
 
             // Determines if the user wants to create more questions
             createMoreQuestion = moreQuestion();
@@ -96,7 +99,7 @@ public class Question {
 
 
     // Method to set question identifier in HashMap key.
-    public final String setQuestionIdentifier(){
+    public final String askUserQuestionIdentifier(){
         String uniqueIdentifier;
         String userInputModuleIdentifier;
         String userInputBankIdentifier;
@@ -104,12 +107,12 @@ public class Question {
         Scanner console = new Scanner(System.in);
 
         do{
-            // User input of module identififer.
+            // User input of module identifier.
             System.out.println("Enter A Existing Module Identifier: ");
             userInputModuleIdentifier = console.next();
 
 
-            // User input of bank identififer.
+            // User input of bank identifier.
             System.out.println("Enter A Existing Bank Identifier: ");
             userInputBankIdentifier = console.next();
 
@@ -136,7 +139,8 @@ public class Question {
     }
 
 
-    public void setQuestionText(){
+    // Method to set question text.
+    public void setUserInputQuestionText(){
         String userQuestionText;
         Scanner console = new Scanner(System.in);
         // Allows the user to enter question text which contains spaces rather than one continues text.
@@ -149,14 +153,18 @@ public class Question {
     }
 
 
-    public final void setQuestionType(String uniqueIdentifier){
+    // Method to create a question of a specific type decided by the user and
+    // added to the question identifier values in HashMap.
+    public final void createQuestionType(String uniqueIdentifier){
         int questionType;
         boolean validQuestionType;
 
         validQuestionType = false;
         do{
-            questionType = setQuestionType();
+            questionType = askUserQuestionType();
+            // Switch case is used here for scalability if the user ever needs to add more question type.
             switch(questionType){
+                // Each case will instantiate a question object of a specific type.
                 case (1):
                     questionsIdentifiers.get(uniqueIdentifier).add(new SingleChoiceQuestion(bankList));
                     validQuestionType = true;
@@ -172,7 +180,8 @@ public class Question {
     }
 
 
-    public final int setQuestionType(){
+    // Method used to gather the user desired question type.
+    public final int askUserQuestionType(){
         int questionType = -1;
         Scanner console = new Scanner(System.in);
 
@@ -194,6 +203,9 @@ public class Question {
         return questionType;
     }
 
+
+    // Method used to return true or false whether the user
+    // wants to add more question to question identifier.
     public boolean moreQuestion(){
         String moreQuestionAnswerInput;
         Scanner console = new Scanner(System.in);
@@ -227,7 +239,7 @@ public class Question {
         Scanner console = new Scanner(System.in);
 
         // Gets the unique question identifier.
-        uniqueIdentifier = setQuestionIdentifier();
+        uniqueIdentifier = askUserQuestionIdentifier();
 
         // Create a temporarily ArrayList which holds the ArrayList of questions from a specific question identifier.
         // This is done to improve clarity of the code because without it many code will be repeated to get the ArrayList of question ID.
@@ -237,6 +249,7 @@ public class Question {
 
         do{
             System.out.println("Enter A Question Number To Be Deleted: ");
+            // Loop starts at one used to display question number.
             for (int index = 1 ; index<=questionObjects.size(); index++){
                 System.out.println("--------------------" + index + "--------------------");
                 questionObjects.get(index - 1).displayQuestion();
@@ -245,6 +258,8 @@ public class Question {
 
             try{
                 questionSelection = console.nextInt();
+
+                // If the question the user selected exist within the ArrayList then it will be deleted.
                 if (questionSelection >= 1 && questionSelection <= questionObjects.size()){
                     questionsIdentifiers.get(uniqueIdentifier).remove(questionSelection - 1);
                     System.out.println("Question Removed");
@@ -271,7 +286,7 @@ public class Question {
         return questionsIdentifiers.get(uniqueIdentifier).isEmpty();
     }
 
-    // Checks if question identififer exist within the HashMap questionIdentififer.
+    // Checks if question identifier exist within the HashMap questionIdentifier.
     public boolean isQuestionIdentifierExist(String uniqueIdentifier){
         return questionsIdentifiers.get(uniqueIdentifier) ==null;
     }
@@ -296,24 +311,20 @@ public class Question {
 
 
 
-    // Functions below are designed to save and load the Question class.
+    // Methods below are designed to save and load the Question class.
+
+    // Method to save all questions created by the user.
     public void saveQuestion(FileWriter file){
         try{
+            // Loops through all HashMap key which contains question identifier.
             for (String questionName: questionsIdentifiers.keySet()){
+
+                // Write module name and colon to signify it's a question identifier.
                 file.write(questionName + ":\n");
 
+                // Loops through all HashMap key which contains question object.
                 for (Question questionObject : questionsIdentifiers.get(questionName)){
-
-                    switch(questionObject.getClass().toString()){
-                        case ("class SingleChoiceQuestion"):
-                            ((SingleChoiceQuestion) questionObject).saveQuestion(file);
-                            break;
-                        case ("class FillTheBlanks"):
-                            ((FillTheBlanks) questionObject).saveQuestion(file);
-                            break;
-                        default:
-                            System.out.println("Question Type Cannot Be Found");
-                    }
+                    questionObject.saveQuestion(file);
                 }
             }
             file.close();
@@ -325,24 +336,38 @@ public class Question {
     }
 
 
+    // Method to load question objects from question text file.
+    // Parameter reader will continue where text file line is left off.
     public void loadQuestion(Scanner reader){
         String textFileLine;
         String questionName;
         String className;
         boolean allQuestionAdded;
 
+        // Keeps looping as long text file has lines to read.
         while(reader.hasNextLine()){
             textFileLine = reader.nextLine();
             System.out.println(textFileLine);
 
+            // Question identifiers are identifier through the text file
+            // by having a colon in the line.
             if (textFileLine.contains(":")){
+
+                // Removes the last character of the line which removes the ending
+                // colon, so it will only remain a question identifier.
                 questionName = textFileLine.substring(0,textFileLine.length()-1);
+
+                // questionIdentifier is instantiated with question identifier
+                // and an empty ArrayList.
                 questionsIdentifiers.put(questionName,new ArrayList<>());
 
                 allQuestionAdded = false;
                 do{
                     className = reader.nextLine();
 
+                    // This switch case is used to determine the next line in text file is indicating
+                    // which question type and passes the file reader object to the question type.
+                    // In order to instantiate the question.
                     switch (className){
                         case ("SingleChoiceQuestion"):
                             questionsIdentifiers.get(questionName).add(new SingleChoiceQuestion(bankList,reader));
@@ -350,6 +375,9 @@ public class Question {
                         case ("FillTheBlanks"):
                             questionsIdentifiers.get(questionName).add(new FillTheBlanks(bankList,reader));
                             break;
+
+                        // This blanks case is used when the next line in the text file is blank meaning
+                        // current question identifier is loaded and move to the next one.
                         case(""):
                             System.out.println("Next QuestionID");
                             allQuestionAdded = true;

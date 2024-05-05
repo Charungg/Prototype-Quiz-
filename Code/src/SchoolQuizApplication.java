@@ -1,9 +1,13 @@
+/**
+ * Main program which helps the user on getting started and a menu for the user to navigate the program.
+ * @author Charlie Cheung
+ *
+ * */
+
 // Scanner is used to grab user input.
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
-// Is the main program which helps the user on getting started and a menu for the user to navigate the program.
 public class SchoolQuizApplication {
 
     private final Module moduleList;  // Used to hold the Module object.
@@ -24,7 +28,7 @@ public class SchoolQuizApplication {
         menu.logIn();
     }
 
-    // Allows the application to have access to module, bank and question objects.
+    /** Contractor that allows the application object to have access to module, bank and question objects. */
     public SchoolQuizApplication() {
         // Below I instantiated Module, Bank and Question objects, they get passed through the next instantiation.
         // For example the Bank needs to have access to the Module object to check what module identifier is valid and links to.
@@ -52,7 +56,7 @@ public class SchoolQuizApplication {
     }
 
 
-    // Used to determine whether the user is a student or teacher.
+    /** Method used to determine whether the user is a student or teacher. */
     public void logIn() {
         String userInput;
         boolean loggedIn = false;
@@ -85,7 +89,7 @@ public class SchoolQuizApplication {
         while (!loggedIn);
     }
 
-    // Displays the teacher menu to the teacher user.
+    /** Method to display the teacher menu to the teacher user. */
     public void printTeacherMenu() {
         int userInput;
         boolean exit = false;
@@ -125,7 +129,10 @@ public class SchoolQuizApplication {
     }
 
 
-    // After the user enters a numerical value within the teacher menu it will run the corresponding function.
+    /** Method to process teacher user input to teacher menu
+     * @param teacherOption teacher's option from menu
+     * @return false once completed else it will exist program.
+     * */
     public boolean processTeacherMenu(int teacherOption) {
         // Each switch case represents a corresponding option from the teacher menu.
         switch (teacherOption) {
@@ -171,7 +178,7 @@ public class SchoolQuizApplication {
     }
 
 
-   // Displays the student menu to a student user.
+   /** Method to display the student menu to a student user. */
     public void printStudentMenu() {
         int userInput;
         boolean exit = false;
@@ -204,8 +211,10 @@ public class SchoolQuizApplication {
 
     }
 
-    // After the student user enters a numerical character within the range.
-    // It will then process the user input to run the corresponding task.
+    /** Method to process student user input to student menu
+     *  @param studentOption student's option from menu
+     *  @return false once completed else it will exit program.
+     * */
     public boolean processStudentMenu(int studentOption) {
         switch (studentOption) {
             case (1):
@@ -213,7 +222,8 @@ public class SchoolQuizApplication {
                 bankList.searchQuestionBank();
                 break;
             case (2):
-                quizProgram.quizSession();
+                System.out.println("Starting Quiz");
+                quizProgram.setUpQuiz();
                 break;
             case (3):
                 System.out.println("Change User");

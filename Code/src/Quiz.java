@@ -1,23 +1,37 @@
+/** @author Charlie Cheung */
+
+// ArrayList is an array which can grow and shrink in size.
+// Useful in this scenario because you can zero to many modules.
 import java.util.ArrayList;
-import java.util.InputMismatchException;
+
+// Scanner for user input.
+// InputMismatchException is the Exception for Scanner.
 import java.util.Scanner;
+import java.util.InputMismatchException;
+
+// Collection is used primarily for shuffling the ArrayList consisting Question objects.
 import java.util.Collections;
+
+// Quiz class is designed for the student to search up question banks in order to partake a test of question.
 public class Quiz {
 
-    private final Bank bankList;
+    private final Bank bankList;  // Used to extract information from bank object.
 
-    private final Question questionList;
+    private final Question questionList;  // Used to extract information from question object.
 
-    private long quizTimer;
+    private long quizTimer; // Used to store the starting time when the quiz class was started.
 
-    private ArrayList<Question> listOfQuestions;
+    private ArrayList<Question> listOfQuestions; // Used to copy the Question object ArrayList of questions.
 
-    private int amountOfQuestion;
+    private int amountOfQuestion; // Used to store the desired amount of question user wants to partake.
 
-    private int currentQuestion;
+    private int currentQuestion; // Holds index position of the question user is currently on.
 
-    private final ArrayList<Integer> correctAnswers;
+    private final ArrayList<Integer> correctAnswers; // Holds an ArrayList where for each index position will
+                                                     // signify question x has been answered correct or not.
 
+
+    // Constructor for Quiz class.
     public Quiz(Question setQuestionList, Bank setBankList){
         questionList = setQuestionList;
         bankList = setBankList;
@@ -26,25 +40,30 @@ public class Quiz {
     }
 
 
-    public void quizSession(){
+    // Method to set up the quiz before starting the quiz.
+    public void setUpQuiz(){
         String moduleName;
 
-        moduleName = listModuleBanks();
+        // Displays a list of module and the user must select one.
+        moduleName = listModuleBanksAndSelect();
 
+        // Displays a list of bank and the user must select one.
+        // After that it searches the question identifier and copy the
+        // ArrayList of question objects.
         selectBank(moduleName);
-        System.out.println(listOfQuestions);
 
-        setAmountOfQuestion();
-        System.out.println(amountOfQuestion);
+        // User inputs the amount of question they want to partake.
+        setUserInputAmountOfQuestion();
 
+        // Shuffles the questions around
         shuffleQuestions();
-        System.out.println(listOfQuestions);
 
         startQuiz();
     }
 
 
-    public String listModuleBanks() {
+    // Method to list all existing module and the user must select a module.
+    public String listModuleBanksAndSelect() {
         String moduleName;
         boolean moduleBankDisplayed = false;
         Scanner console = new Scanner(System.in);
@@ -70,6 +89,7 @@ public class Quiz {
     }
 
 
+    // Method to select an existing bank name from selected module.
     public void selectBank(String moduleName){
         String bankName;
         boolean bankSelected = false;
@@ -79,6 +99,8 @@ public class Quiz {
             System.out.println("Enter A Bank Which Links To The Module");
             bankName = console.next();
 
+            // Method to check if module name and bank name exist with the bank object HashMap
+            // as a key and value.
             if (bankList.moduleAndBankIdentifiersExist(moduleName, bankName)){
                 listOfQuestions = questionList.getQuestionList(moduleName + ":" + bankName);
                 bankSelected = true;
@@ -88,7 +110,8 @@ public class Quiz {
     }
 
 
-    public void setAmountOfQuestion(){
+    // Method to get the amount of questions the user wants to partake.
+    public void setUserInputAmountOfQuestion(){
         int userAmount;
         int questionBankSize;
         boolean amountNonNegative = false;
@@ -101,8 +124,12 @@ public class Quiz {
             try{
                 userAmount = console.nextInt();
 
-                if (userAmount <=questionBankSize && userAmount >= 0){
+                // Checks if user input of amount question to partake is valid.
+                if (userAmount >= 1 && userAmount <=questionBankSize){
                     amountOfQuestion = userAmount;
+
+                    // Once the amount is valid then correctAnswer ArrayList size must be same as the amount.
+                    // This is because each item is associated with a question which can indicate if answered correctly.
                     for (int index=0; index<amountOfQuestion; index++){
                         correctAnswers.add(-1);
                     }
@@ -127,17 +154,23 @@ public class Quiz {
     }
 
 
+    // Method to shuffle the ArrayList of questions so the user answer question in random order.
     public void shuffleQuestions(){
         Collections.shuffle(listOfQuestions);
+        // While loop is removing questions from a specific index until it meets the amount of question requirement.
         while (amountOfQuestion != listOfQuestions.size()){
             listOfQuestions.remove(amountOfQuestion);
         }
     }
 
 
+    // Method to start the quiz for the user to partake.
     public void startQuiz(){
+        // This int variable cannot be changed.
         final int millisToSecond = 1000;
+        // User starts at question 1.
         currentQuestion = 0;
+        // Holds the current system time.
         quizTimer = System.currentTimeMillis() / millisToSecond;
         boolean quizSessionOn;
         Question questionObject;
@@ -145,16 +178,20 @@ public class Quiz {
         do{
             System.out.println("Question " + (currentQuestion + 1));
             questionObject = listOfQuestions.get(currentQuestion);
-            question(questionObject);
+            // Reads the object class origin and starts the quiz for that question.
+            startQuestion(questionObject);
+            // Awaits for user input whether they want to navigate questions or end quiz.
             quizSessionOn = userNavigation();
             System.out.println();
         }while(quizSessionOn);
     }
 
 
-    public void question(Question questionObject){
+    public void startQuestion(Question questionObject){
         boolean isAnswerCorrect = false;
+        // Switch case is used find the question object type and start the question in quiz format.
         switch((questionObject.getClass()).toString()){
+            // Each case will start the question and return true if answered correctly else false.
             case ("class SingleChoiceQuestion"):
                 isAnswerCorrect = ((SingleChoiceQuestion) questionObject).startQuizQuestion();
                 break;
@@ -163,6 +200,7 @@ public class Quiz {
                 break;
         }
 
+        // These if else statements are used to indicate which question is answered correctly or false.
         if (isAnswerCorrect){
             correctAnswers.set(currentQuestion,1);
         }
@@ -170,10 +208,11 @@ public class Quiz {
         else{
             correctAnswers.set(currentQuestion,0);
         }
-
-        System.out.println(correctAnswers);
     }
 
+
+    // Method that returns false to exit program else change current question
+    // and return true to continue with quiz.
     public boolean userNavigation(){
         int userInput;
         boolean validNavigation = false;
@@ -214,7 +253,10 @@ public class Quiz {
         return false;
     }
 
+
+    // Method to change current question to the next question.
     public boolean nextQuestion(){
+        // Changes to the next question as long it's not currently on the last question.
         if (currentQuestion + 1 < amountOfQuestion){
             currentQuestion = currentQuestion + 1;
             System.out.println("Next Question");
@@ -226,7 +268,10 @@ public class Quiz {
         }
     }
 
+
+    // Method to change current question to the previous question.
     public boolean previousQuestion(){
+        // Changes to the previous question as long it's not currently on the first question.
         if (currentQuestion -1 > -1){
             currentQuestion = currentQuestion - 1;
             System.out.println("Previous Question");
@@ -241,21 +286,24 @@ public class Quiz {
     public void endQuiz(){
         int scoreCorrect = 0;
         int unAnsweredQuestion = 0;
+        // Static variable for conversion of units.
         final int millisToSecond = 1000;
         final int secondToMinute = 60;
+        // Calculating the total time to finish the quiz.
         long timeTook = (System.currentTimeMillis() / millisToSecond) - quizTimer;
 
-        System.out.println("quizTimer = " + quizTimer);
-        System.out.println("timeTook = " + timeTook);
-
+        // Goes through the ArrayList of answer status.
         for (int isAnswerCorrect: correctAnswers){
             switch (isAnswerCorrect){
+                // Answered the question correctly.
                 case (1):
                     scoreCorrect = scoreCorrect + 1;
                     break;
+                // Didn't Answer the question.
                 case (-1):
                     unAnsweredQuestion = unAnsweredQuestion + 1;
                     break;
+                // Answered the question incorrectly.
                 case (0):
                     break;
                 default:

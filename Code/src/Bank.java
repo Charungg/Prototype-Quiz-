@@ -1,3 +1,7 @@
+/** @author Charlie Cheung
+ * Bank class is designed for mainly storing and saving bank and queries of bank.
+ * */
+
 // FileWriter allows the object to write in the module text file.
 // IOException is the catch for FileWriter
 import java.io.FileWriter;
@@ -14,8 +18,6 @@ import java.util.HashMap;
 // Used to grab user input and manipulate user input.
 import java.util.Scanner;
 
-
-
 public class Bank {
 
     private final Module moduleList; // Holds the module object used to extract information about the module.
@@ -26,14 +28,16 @@ public class Bank {
     private final HashMap<String, ArrayList<String>> bankIdentifiers;
 
 
-    // Constructor to instantiate the bank object.
+    /** Constructor to instantiate the bank object.
+     * @param setModuleList in order to have access to module object.
+     * */
     public Bank(Module setModuleList) {
         moduleList = setModuleList;
         bankIdentifiers = new HashMap<>();
     }
 
 
-    // Used to display how many bank identifier there is and associated to which module identifiers.
+    /** Method to display question bank by searching module identifier. */
     public void searchQuestionBank(){
         String moduleName;
         Scanner console = new Scanner(System.in);
@@ -41,9 +45,9 @@ public class Bank {
         System.out.println("Enter Module Name");
         moduleName = console.next();
 
-        // If bank is empty display to the user that there is no bank identifiers.
-        if (bankIdentifiers.get(moduleName).isEmpty()){
-            System.out.println("This Module Does Not Contain A Bank");
+        // If bank is non-existent then display to the user that there is no module.
+        if (bankIdentifiers.get(moduleName) == null){
+            System.out.println("This Module Does Not Exist");
         }
 
         // Displays the user each bank identifiers and their corresponding module.
@@ -56,8 +60,10 @@ public class Bank {
         }
     }
 
-    // Designed to display just the values (bank identifier) of the given key name (module identifier).
-    // The function will be passed a module name which will run a function beforehand that checks if it's valid .
+    /** Method to display just the values (bank identifier) of the given key name (module identifier).
+     * @param  moduleName is a module identifier used to search for question banks.
+     * */
+
     public void displayBankFromModule(String moduleName){
         // Loops through the value of bankIdentifier HashMap of the given arguments of module identifier
         // therefore displaying only bank identifier that exist from the given module identifier.
@@ -67,16 +73,16 @@ public class Bank {
     }
 
 
-    // Used to add the user inputted bank identifier and from which module identifiers into the bank identifiers HashMap.
+    /** Method to create a bank identifier and put into the bankIdentifiers HashMap. */
     public void createBank() {
 
         // Returns the user inputted bank identifier.
         String userInputBankIdentifier = askUserBankIdentifier();
         // Returns the index position from a moduleIdentifiers ArrayList which is associated to the bank identifier.
-        String userInputModuleIdentifier = setModuleIdentifier();
+        String userInputModuleIdentifier = askUserModuleIdentifier();
 
-        // Checks if bank identififer does not contain the module identififer as a key.
-        // If module does not exist then it will put in the HashMap with a new ArrayList for bank identififer.
+        // Checks if bank identifier does not contain the module identifier as a key.
+        // If module does not exist then it will put in the HashMap with a new ArrayList for bank identifier.
         if (bankIdentifiers.get(userInputModuleIdentifier) == null){
             bankIdentifiers.put(userInputModuleIdentifier, new ArrayList<>());
         }
@@ -86,7 +92,38 @@ public class Bank {
     }
 
 
-    // Designed to return a minimum of 15 character bank identifier inputted by the user.
+    /** Method to check whether a user input module identifier exist within the moduleIdentifier ArrayList.
+    // @return If module identifiers exists then it returns the index position of module identifier. */
+    public String askUserModuleIdentifier(){
+        String moduleIdentifier;
+        // Used to check whether the module exist.
+        boolean moduleFound = false;
+        // Used to return a module identifier index position from the moduleIdentifier ArrayList from the module object.
+        Scanner console = new Scanner(System.in);
+
+
+        do {
+            System.out.println("Enter A Existing Module: ");
+            moduleIdentifier = console.next();
+
+            // Goes through all module identifiers from the moduleIdentifiers and see if any matches with the user input.
+            if (moduleList.moduleIdentifierExist(moduleIdentifier)){
+                System.out.println("Found Existing Module Identifier");
+                moduleFound = true;
+            }
+
+            else{
+                System.out.println("Module Identifier Could Not Be Found, Try Again");
+            }
+
+        }while(!moduleFound);
+
+        return moduleIdentifier;
+    }
+
+
+    /** Method to get user input of bank identifier that must be maximum size of 15 character
+     * @return bank identifier*/
     public String askUserBankIdentifier() {
         String bankIdentifier;
         // bankNameValid is used to check if the user has inputted in a correct format.
@@ -114,39 +151,11 @@ public class Bank {
     }
 
 
-    // Checks whether a user input module identifier exist within the moduleIdentifier ArrayList.
-    // If module identifiers exists then it returns the index position of module identifier.
-    public String setModuleIdentifier(){
-        String moduleIdentifier;
-        // Used to check whether the module exist.
-        boolean moduleFound = false;
-        // Used to return a module identifier index position from the moduleIdentifier ArrayList from the module object.
-        int moduleIdentifierIndex;
-        Scanner console = new Scanner(System.in);
-
-
-        do {
-            System.out.println("Enter A Existing Module: ");
-            moduleIdentifier = console.next();
-
-            // Goes through all module identifiers from the moduleIdentifiers and see if any matches with the user input.
-            if (moduleList.moduleIdentifierExist(moduleIdentifier)){
-                System.out.println("Found Existing Module Identifier");
-                moduleFound = true;
-                break;
-            }
-
-            else{
-                System.out.println("Module Identifier Could Not Be Found, Try Again");
-            }
-
-        }while(!moduleFound);
-
-        return moduleIdentifier;
-    }
-
-
-    // This checks whether the given argument of module name and bank name exist within bank identifier hash map.
+    /** Method to check whether the given argument of module name and bank name exist within bank identifier hash map.
+     * @param moduleNameExist module identifier.
+     * @param bankNameExist bank identifier.
+     * @return true if question identifier exist else false.
+     * */
     public boolean moduleAndBankIdentifiersExist(String moduleNameExist, String bankNameExist){
         // This is a for loop that goes all the module names first.
         for (String moduleName: bankIdentifiers.keySet()){
@@ -176,14 +185,15 @@ public class Bank {
 
 
 
-    // These functions below are designed in mind of removing values (bank identifier) from bankIdentifier
-    // and remove key (module identifier) if it is empty from bankIdentifier.
+    /** Method to removing values (bank identifier) from bankIdentifier and remove key (module identifier) if it is empty from bankIdentifier.
+     * @param questionList in order to have access to question object.
+     * */
     public void removeBank(Question questionList){
         String moduleName;
         String bankName;
 
         // Grabs user input of module identifier and bank identifier
-        moduleName = setModuleIdentifier();
+        moduleName = askUserModuleIdentifier();
         bankName = askUserBankIdentifier();
 
         // After grabbing inputs it will be passed to a function and passing arguments of module and bank user input
@@ -213,8 +223,9 @@ public class Bank {
     }
 
 
-    // Removes module identifier key from bankIdentifier HashMap if it does not contain
-    // any values (bank identifier).
+    /** Method to remove module identifier key from bankIdentifier HashMap if it does not contain any values (bank identifier).
+     * @param  moduleName module identifier.
+     * */
     public void removeModuleIfEmpty(String moduleName){
         // Checks if a module contains no bank identifier.
         if (bankIdentifiers.get(moduleName).isEmpty()){
@@ -225,7 +236,9 @@ public class Bank {
     }
 
 
-    // Checks if module identifier is empty/not exist within the HashMap bankIdentifier.
+    /** Method to check if module identifier does not exist within the HashMap bankIdentifier.
+     * @param moduleName module identifier.
+     * @return true if module identifier does not exist as a key in bankIdentifier HashMap else false*/
     public boolean isModuleEmpty(String moduleName){
         return bankIdentifiers.get(moduleName) == null;
     }
@@ -234,7 +247,8 @@ public class Bank {
 
     // Functions below are designed to save and load the Bank class.
 
-    // Method to save bank identifier into bank text file.
+    /** Method to save bank identifier into bank text file.
+     * @param file in order to have access to module file. */
     public void saveBank(FileWriter file){
         try{
             // Loops through the bankIdentifier key which contains the module name.
@@ -262,8 +276,8 @@ public class Bank {
     }
 
 
-    // Method to load the bank identifier from the bank text file.
-    // Parameter reader will continue where text file line is left off.
+    /** Method to load the bank identifiers within the bank text file.
+     * @param reader used to have access to read from bank text file and where it's left off.*/
     public void loadBank(Scanner reader){
 
         String textFileLine;
