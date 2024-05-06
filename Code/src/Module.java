@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class Module {
     private final ArrayList<String> moduleIdentifiers; // Used to hold all the unique identifiers of the module.
 
-    /** Constructor to instantiate the module object. */
+    /** Constructor to instantiate the module class. */
     public Module(){
         moduleIdentifiers = new ArrayList<>();
     }
@@ -61,7 +61,7 @@ public class Module {
     }
 
 
-    /** Method to remove the moduleIdentifier from the ArrayList
+    /** Method to remove the moduleIdentifier from the ArrayList.
      * @param  bankList in order to have access to check bank identifier does not contain the module identifier.
      * */
     public void removeModule(Bank bankList){
@@ -112,7 +112,8 @@ public class Module {
 
 
     /** Method to load the module identifiers within the module text file.
-     * @param reader used to have access to read from module text file and where it's left off.*/
+     * @param reader used to have access to read from module text file and where it's left off.
+     */
     public void loadModule(Scanner reader){
         // Continue to add module identifier from text file as there is still text next.
         while (reader.hasNextLine()){

@@ -28,7 +28,7 @@ public class Bank {
     private final HashMap<String, ArrayList<String>> bankIdentifiers;
 
 
-    /** Constructor to instantiate the bank object.
+    /** Constructor to instantiate the bank class.
      * @param setModuleList in order to have access to module object.
      * */
     public Bank(Module setModuleList) {
@@ -52,7 +52,7 @@ public class Bank {
 
         // Displays the user each bank identifiers and their corresponding module.
         else{
-            System.out.println("-----Display Question Bank-----");
+            System.out.println("-----Display Bank-----");
             for (String bankName: bankIdentifiers.get(moduleName)){
                 System.out.println("    " + moduleName + ":" + bankName);
             }
@@ -93,7 +93,7 @@ public class Bank {
 
 
     /** Method to check whether a user input module identifier exist within the moduleIdentifier ArrayList.
-    // @return If module identifiers exists then it returns the index position of module identifier. */
+     // @return If module identifiers exists then it returns the index position of module identifier. */
     public String askUserModuleIdentifier(){
         String moduleIdentifier;
         // Used to check whether the module exist.
@@ -108,7 +108,6 @@ public class Bank {
 
             // Goes through all module identifiers from the moduleIdentifiers and see if any matches with the user input.
             if (moduleList.moduleIdentifierExist(moduleIdentifier)){
-                System.out.println("Found Existing Module Identifier");
                 moduleFound = true;
             }
 
@@ -122,7 +121,7 @@ public class Bank {
     }
 
 
-    /** Method to get user input of bank identifier that must be maximum size of 15 character
+    /** Method to get user input of bank identifier that must be maximum size of 15 character.
      * @return bank identifier*/
     public String askUserBankIdentifier() {
         String bankIdentifier;
@@ -136,10 +135,9 @@ public class Bank {
 
             // User input must be minimum of 15 characters long.
             if (bankIdentifier.length() <= 15) {
-                System.out.println("Bank Name Is Valid");
                 bankNameValid = true;
 
-            // An example of a bank identifier will be shown if it's inputted wrong.
+                // An example of a bank identifier will be shown if it's inputted wrong.
             } else {
                 System.out.println("Too many Characters! ");
                 System.out.println("Example: QuestionBank01");
@@ -167,7 +165,6 @@ public class Bank {
                 for (int index=0; index<bankIdentifiers.get(moduleName).size(); index++){
                     // Checks whether the module key contains a bank name value matches with the given bank name.
                     if (bankIdentifiers.get(moduleName).get(index).equals(bankNameExist)){
-                        System.out.println("Question Identifier Exist");
                         // Both module and bank name has been found therefore returning a pass verification.
                         return true;
                     }
@@ -231,14 +228,14 @@ public class Bank {
         if (bankIdentifiers.get(moduleName).isEmpty()){
             // If true then it removes the module from the bankIdentifier HashMap.
             bankIdentifiers.remove(moduleName);
-            System.out.println("Removed Bank Since It's Empty");
         }
     }
 
 
     /** Method to check if module identifier does not exist within the HashMap bankIdentifier.
      * @param moduleName module identifier.
-     * @return true if module identifier does not exist as a key in bankIdentifier HashMap else false*/
+     * @return true if module identifier does not exist as a key in bankIdentifier HashMap else false
+     * */
     public boolean isModuleEmpty(String moduleName){
         return bankIdentifiers.get(moduleName) == null;
     }
@@ -248,7 +245,8 @@ public class Bank {
     // Functions below are designed to save and load the Bank class.
 
     /** Method to save bank identifier into bank text file.
-     * @param file in order to have access to module file. */
+     * @param file in order to have access to bank file.
+     * */
     public void saveBank(FileWriter file){
         try{
             // Loops through the bankIdentifier key which contains the module name.
@@ -277,7 +275,8 @@ public class Bank {
 
 
     /** Method to load the bank identifiers within the bank text file.
-     * @param reader used to have access to read from bank text file and where it's left off.*/
+     * @param reader used to have access to read from bank text file and where it's left off.
+     * */
     public void loadBank(Scanner reader){
 
         String textFileLine;

@@ -1,4 +1,6 @@
-/** @author Charlie Cheung */
+/** @author Charlie Cheung
+ * FileSchool class is used to save and load module, bank and question attributes.
+ * */
 
 // Used to create files and check if file exist.
 import java.io.File;
@@ -12,7 +14,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
-// FileSchool class is used to save and load module, bank and question attributes.
 public class FileSchool {
     private final Module moduleList; // Used to save and load module object.
 
@@ -20,27 +21,39 @@ public class FileSchool {
 
     private final Question questionList; // Used to save and load question object.
 
+    private final Scoreboard scoreboardList; // Used to save and load scoreboard object.
+
     private final File moduleFile; // Used to hold module file.
 
     private final File bankFile; // Used to hold bank file.
 
     private final File questionFile; // Used to hold question file.
 
+    private final File scoreboardFile; // Used to hold scoreboard file.
 
-    // Constructor for FileSchool class.
-    public FileSchool(Module setModule, Bank setBank, Question setQuestion){
+
+    /** Constructor to instantiate the files class.
+     * @param setModule in order to have access to module object.
+     * @param setBank in order to have access to bank object.
+     * @param setQuestion in order to have access to question object.
+     * @param setScoreboard in order to have access to scoreboard object.
+     * */
+    public FileSchool(Module setModule, Bank setBank, Question setQuestion, Scoreboard setScoreboard){
         moduleList = setModule;
         bankList = setBank;
         questionList = setQuestion;
+        scoreboardList = setScoreboard;
 
         // The parent is SaveFiles which is a directory followed by the name of the file itself.
         moduleFile = new File("SaveFiles", "Module File.txt");
         bankFile = new File("SaveFiles","Bank File.txt");
         questionFile = new File("SaveFiles","Question File.txt");
+        scoreboardFile = new File("SaveFiles","Scoreboard.txt");
+
     }
 
 
-    // Method to save module, bank and question attributes in their corresponding text file.
+    /** Method to save module, bank and question attributes in their corresponding text file. */
     public void saveApp(){
         // Checks if the module text file exist before starting saving into them.
         // Else it would be saving into nothing which produce an error.
@@ -54,6 +67,7 @@ public class FileSchool {
             moduleList.saveModule(new FileWriter(moduleFile));
             bankList.saveBank(new FileWriter(bankFile));
             questionList.saveQuestion(new FileWriter(questionFile));
+            scoreboardList.saveScoreBoard(new FileWriter(scoreboardFile));
         }
 
         catch(IOException e){
@@ -62,7 +76,7 @@ public class FileSchool {
     }
 
 
-    // Method to create the files if they don't already exist.
+    /** Method to create the files if they don't already exist. */
     public void createFile(){
         try{
             // Creates a SaveFile directory to store save files.
@@ -70,6 +84,7 @@ public class FileSchool {
             moduleFile.createNewFile();
             bankFile.createNewFile();
             questionFile.createNewFile();
+            scoreboardFile.createNewFile();
 
         }
         catch(IOException e){
@@ -78,7 +93,7 @@ public class FileSchool {
     }
 
 
-    // Method to load module, bank and question.
+    /** Method to load module, bank and question. */
     public void loadApp(){
         try{
             // As long the module file exist then it means save text file exist to load from.
@@ -86,6 +101,7 @@ public class FileSchool {
                 moduleList.loadModule(new Scanner(moduleFile));
                 bankList.loadBank(new Scanner(bankFile));
                 questionList.loadQuestion(new Scanner(questionFile));
+                scoreboardList.loadScoreBoard(new Scanner(scoreboardFile));
             }
         }
 

@@ -1,4 +1,6 @@
-/** @author Charlie Cheung */
+/** @author Charlie Cheung
+ * SingleChoiceQuestion class is a used to create a question of Question class as a child class.
+ * */
 
 // Allows the program to write to text files.
 import java.io.FileWriter;
@@ -13,18 +15,19 @@ import java.util.InputMismatchException;
 // ArrayList is used to store multiple item where storage can grow and shrink in accordance of the items.
 import java.util.ArrayList;
 
-// SingleChoiceQuestion class is a used to create a question of Question class as a child class.
 public class SingleChoiceQuestion extends Question{
     private int amountOfAnswerChoice; // Used to store the amount of answer choice.
 
     private final ArrayList<String> answerChoice; // Used to store multiple answer.
 
     private static final int maximumOfAnswerChoice = 10; // Used to ensure single choice question
-                                                         // can only have ten potential answer.
+    // can only have ten potential answer.
 
     private int correctChoiceIndex; // Stores the correct answer to question index position.
 
-    // Constructor for SingleChoiceQuestion class.
+    /** Constructor to instantiate the SingleChoiceQuestion class.
+     * @param setBankList in order to have access to bank object.
+     * */
     public SingleChoiceQuestion(Bank setBankList) {
         super(setBankList);
         answerChoice = new ArrayList<>(maximumOfAnswerChoice);
@@ -32,7 +35,7 @@ public class SingleChoiceQuestion extends Question{
     }
 
 
-    // Method to display question details.
+    /** Method to display single choice question details. */
     public void displayQuestion(){
         System.out.println("Question Text: ");
         System.out.println("    " + questionText);
@@ -47,7 +50,7 @@ public class SingleChoiceQuestion extends Question{
     }
 
 
-    // Method used by the question object to create a new single choice question.
+    /** Method used by the question object to create a new single choice question. */
     public void createSingleChoiceQuestion(){
         setUserInputQuestionText();
         setUserInputAmountOfAnswerChoice();
@@ -56,7 +59,7 @@ public class SingleChoiceQuestion extends Question{
     }
 
 
-    // Method to used store user designed amount of answer choice.
+    /** Method to store user input desired amount of answer choice. */
     public void setUserInputAmountOfAnswerChoice(){
         int amountOfAnswerChoiceIs = 0;
         boolean amountValid = false;
@@ -84,6 +87,7 @@ public class SingleChoiceQuestion extends Question{
     }
 
 
+    /** Method to store user input answer choice. */
     public void setUserInputAnswerChoice(){
         String answerChoiceText;
         Scanner console = new Scanner(System.in);
@@ -99,7 +103,7 @@ public class SingleChoiceQuestion extends Question{
     }
 
 
-    // Method to store the index position of correct answer.
+    /** Method to store the correct answer choice index position. */
     public void setUserInputCorrectAnswerChoiceIndex(){
         int correctAnswerElementPosition;
         boolean answerInputValid = false;
@@ -132,8 +136,9 @@ public class SingleChoiceQuestion extends Question{
 
 
 
-    // Method to start quiz for single choice question.
-    // Returns true if question is answered correct else false.
+    /** Method to start quiz for single choice question.
+     * @return true if question is answered correct else false.
+     */
     public boolean startQuizQuestion(){
         int userAnswer = -1;
         boolean validAnswer = false;
@@ -142,7 +147,7 @@ public class SingleChoiceQuestion extends Question{
         do{
             // Display question text.
             System.out.println("Single Choice Question:");
-            System.out.print("    " + questionText);
+            System.out.println("    " + questionText);
 
             System.out.println("Answer:");
             // Displays all answer choice.
@@ -177,6 +182,10 @@ public class SingleChoiceQuestion extends Question{
 
 
     // Methods below used save/load single choice question from question.txt.
+
+    /** Method to save single choice question to question.txt.
+     * @param file in order to have access to question file.
+     * */
     public void saveQuestion(FileWriter file){
         try{
             // Single choice question object attributes will be written in this format.
@@ -195,7 +204,10 @@ public class SingleChoiceQuestion extends Question{
     }
 
 
-    // Constructor used to load the single choice question from question.txt.
+    /** Constructor used to load the single choice question from question.txt.
+     * @param reader in order to carry on reading next line in question.txt.
+     * @param setBankList in order to have access to bank object.
+     * */
     public SingleChoiceQuestion(Bank setBankList,Scanner reader){
         super(setBankList);
         answerChoice = new ArrayList<>();

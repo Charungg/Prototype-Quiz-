@@ -18,10 +18,12 @@ public class SchoolQuizApplication {
 
     private final Quiz quizProgram; // Used to hold the Quiz object.
 
-    private final FileSchool fileData; //Used to hold the FileSchool object.
+    private final FileSchool fileData; // Used to hold the FileSchool object.
+
+    private final Scoreboard globalScoreBoard; //Used to hold global scoreboard.
 
 
-    // Upon starting the program it will bring the user to login as student or teacher.
+    /** Start up of the program which instantiate objects and ask the user to login. */
     public static void main(String[] args) {
         SchoolQuizApplication menu = new SchoolQuizApplication();
         // Program starts asking the user to login as a student or teacher.
@@ -36,12 +38,14 @@ public class SchoolQuizApplication {
         Bank userBank = new Bank(userModule);
         Question userQuestion = new Question(userBank);
 
+        Scoreboard userScoreBoard = new Scoreboard();
+
         // Quiz object will get the Question and Bank arguments to have access to valid Bank which will be used to gain
         // access to an ArrayList of questions.
-        Quiz userQuiz = new Quiz(userQuestion,userBank);
+        Quiz userQuiz = new Quiz(userQuestion,userBank,userScoreBoard);
 
         // Create an instance of FileSchool of which it will load any existing module, bank and question from text files.
-        FileSchool userFile = new FileSchool(userModule,userBank,userQuestion);
+        FileSchool userFile = new FileSchool(userModule,userBank,userQuestion,userScoreBoard);
 
         // Application will hold every instantiated object apart from SingleChoiceQuestion and FillTheBlanks class which is inheriting
         // from the Question class, in order to run specific functions of whatever the user navigates to.
@@ -50,6 +54,7 @@ public class SchoolQuizApplication {
         questionList = userQuestion;
         quizProgram = userQuiz;
         fileData = userFile;
+        globalScoreBoard = userScoreBoard;
 
         // Load any previous modules, banks and questions from text files.
         fileData.loadApp();
@@ -129,8 +134,8 @@ public class SchoolQuizApplication {
     }
 
 
-    /** Method to process teacher user input to teacher menu
-     * @param teacherOption teacher's option from menu
+    /** Method to process teacher user input to teacher menu.
+     * @param teacherOption teacher's option from menu.
      * @return false once completed else it will exist program.
      * */
     public boolean processTeacherMenu(int teacherOption) {
@@ -162,7 +167,7 @@ public class SchoolQuizApplication {
                 break;
             case (7):
                 System.out.println("Removing Question");
-                questionList.removeQuestion();
+                questionList.selectQuestionBankToRemoveQuestion();
                 break;
             case (8):
                 logIn();
@@ -178,7 +183,7 @@ public class SchoolQuizApplication {
     }
 
 
-   /** Method to display the student menu to a student user. */
+    /** Method to display the student menu to a student user. */
     public void printStudentMenu() {
         int userInput;
         boolean exit = false;
@@ -189,8 +194,9 @@ public class SchoolQuizApplication {
                     -------Student Menu-------\s
                     1) Search Question Bank\s
                     2) Start Quiz\s
-                    3) Change User\s
-                    4) Exit And Save\s
+                    3) Search Scoreboard\s
+                    4) Change User\s
+                    5) Exit And Save\s
                     ---------------------------""");
 
             System.out.println("Enter A Option (1-4): ");
@@ -211,8 +217,8 @@ public class SchoolQuizApplication {
 
     }
 
-    /** Method to process student user input to student menu
-     *  @param studentOption student's option from menu
+    /** Method to process student user input to student menu.
+     *  @param studentOption student's option from menu.
      *  @return false once completed else it will exit program.
      * */
     public boolean processStudentMenu(int studentOption) {
@@ -226,10 +232,14 @@ public class SchoolQuizApplication {
                 quizProgram.setUpQuiz();
                 break;
             case (3):
+                System.out.println("Starting Scoreboard");
+                globalScoreBoard.displayScoresFromAQuestionBank();
+                break;
+            case (4):
                 System.out.println("Change User");
                 logIn();
                 break;
-            case (4):
+            case (5):
                 fileData.saveApp();
                 System.out.println("Exist And Save");
                 System.exit(0);

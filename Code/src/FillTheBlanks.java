@@ -1,4 +1,6 @@
-/** @author Charlie Cheung */
+/** @author Charlie Cheung
+ * FillTheBlanks class is a used to create a question of Question class as a child class.
+ * */
 
 // Allows the program to write to text files.
 import java.io.FileWriter;
@@ -12,7 +14,6 @@ import java.util.Scanner;
 // ArrayList is used to store multiple item where storage can grow and shrink in accordance of the items.
 import java.util.ArrayList;
 
-// FillTheBlanks class is a used to create a question of Question class as a child class.
 public class FillTheBlanks extends Question{
 
     private int amountOfBlanks; // Used to store the amount of blanks in the question.
@@ -20,14 +21,17 @@ public class FillTheBlanks extends Question{
     private final ArrayList<String> answerForBlanks; // Used to store multiple answer for blank.
 
 
-    // Constructor for FillTheBlanks class.
+    /** Constructor to instantiate the FillTheBlanks class.
+     * @param setBankList in order to have access to bank object.
+     * */
     public FillTheBlanks(Bank setBankList) {
         super(setBankList);
         answerForBlanks = new ArrayList<>();
         createFillTheBlanks();
     }
 
-    // Method used to displays question details to user.
+
+    /** Method to display fill the blanks question details. */
     public void displayQuestion(){
         System.out.println("Question Text: ");
         System.out.println("    " + questionText);
@@ -40,13 +44,16 @@ public class FillTheBlanks extends Question{
         }
     }
 
+
+    /** Method used by the question object to create a new fill the blanks question. */
     public void createFillTheBlanks() {
         setUserInputQuestionTextUnderScore();
         setUserInputAmountOfBlanks();
         setUserInputAnswersBlanks();
-        displayQuestion();
     }
 
+
+    /** Method for user input of question text must contain blanks. */
     public void setUserInputQuestionTextUnderScore(){
         boolean questionTextContainsUnderScores = false;
         Scanner console = new Scanner(System.in);
@@ -71,7 +78,7 @@ public class FillTheBlanks extends Question{
     }
 
 
-    // Method used to store the amount of blanks in user input question text.
+    /** Method used to store the amount of blanks in user input question text. */
     public void setUserInputAmountOfBlanks(){
         String underScores = "___";
         // sentenceSize has been reduced by 3 because last 2 characters of questionText will never contain three underscores.
@@ -87,7 +94,7 @@ public class FillTheBlanks extends Question{
     }
 
 
-    // Method used to store a user inputted answer for each blank in question text.
+    /** Method used to store a user input answer for each blank in question text. */
     public void setUserInputAnswersBlanks(){
         String answerText;
         Scanner console = new Scanner(System.in);
@@ -106,8 +113,9 @@ public class FillTheBlanks extends Question{
 
     // Functions below are designed specifically for quiz session.
 
-    // Method to start quiz for fill the blanks question.
-    // Returns true if question is answered correct else false.
+    /** Method to start quiz for fill the blanks question.
+     @return true if question is answered correct else false.
+     */
     public boolean startQuizQuestion(){
         ArrayList<String> userAnswerList = new ArrayList<>();
         Scanner console = new Scanner(System.in);
@@ -127,6 +135,10 @@ public class FillTheBlanks extends Question{
 
 
     // Methods below used save/load fill the blanks question from question.txt.
+
+    /** Method to save fill the blanks question to question.txt.
+     * @param file in order to have access to question file.
+     * */
     public void saveQuestion(FileWriter file){
         try{
             file.write("FillTheBlanks\n");
@@ -143,7 +155,10 @@ public class FillTheBlanks extends Question{
     }
 
 
-    // Constructor used to load the fill the blanks question from question.txt.
+    /** Constructor used to load the fill the blanks question from question.txt.
+     * @param reader in order to carry on reading next line in question.txt.
+     * @param setBankList in order to have access to bank object.
+     * */
     public FillTheBlanks (Bank setBankList,Scanner reader){
         super(setBankList);
         answerForBlanks = new ArrayList<>();
