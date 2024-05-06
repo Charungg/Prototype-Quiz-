@@ -350,7 +350,6 @@ public class Question {
         // Keeps looping as long text file has lines to read.
         while (reader.hasNextLine()) {
             textFileLine = reader.nextLine();
-            System.out.println(textFileLine);
 
             // Question identifiers are identifier through the text file
             // by having a colon in the line.

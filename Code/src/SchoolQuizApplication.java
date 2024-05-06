@@ -142,42 +142,44 @@ public class SchoolQuizApplication {
         // Each switch case represents a corresponding option from the teacher menu.
         switch (teacherOption) {
             case (1):
+                System.out.println("Searching Question Bank\n");
                 bankList.searchQuestionBank();
                 System.out.println();
                 break;
             case (2):
-                System.out.println("ADDING MODULE");
+                System.out.println("Adding Module\n");
                 moduleList.createModule();
                 break;
             case (3):
-                System.out.println("ADDING QB");
+                System.out.println("Adding Question Bank\n");
                 bankList.createBank();
                 break;
             case (4):
-                System.out.println("ADDING Q");
+                System.out.println("Adding Question\n");
                 questionList.createQuestion();
                 break;
             case (5):
-                System.out.println("REMOVING MODULE");
+                System.out.println("Removing Module\n");
                 moduleList.removeModule(bankList);
                 break;
             case (6):
-                System.out.println("REMOVING Question Bank");
+                System.out.println("Removing Question Bank\n");
                 bankList.removeBank(questionList);
                 break;
             case (7):
-                System.out.println("Removing Question");
+                System.out.println("Removing Question\n");
                 questionList.selectQuestionBankToRemoveQuestion();
                 break;
             case (8):
+                System.out.println("Changing User\n");
                 logIn();
                 break;
             case (9):
                 fileData.saveApp();
-                System.out.println("Exit And Save");
+                System.out.println("Exit And Save\n");
                 System.exit(0);
             default:
-                System.out.println("Invalid Input, Please Try Again");
+                System.out.println("Invalid Input, Please Try Again\n");
         }
         return false;
     }
@@ -224,27 +226,27 @@ public class SchoolQuizApplication {
     public boolean processStudentMenu(int studentOption) {
         switch (studentOption) {
             case (1):
-                System.out.println("Searching Question Bank");
+                System.out.println("Searching Question Bank\n");
                 bankList.searchQuestionBank();
                 break;
             case (2):
-                System.out.println("Starting Quiz");
+                System.out.println("Starting Quiz\n");
                 quizProgram.setUpQuiz();
                 break;
             case (3):
-                System.out.println("Starting Scoreboard");
+                System.out.println("Starting Scoreboard\n");
                 globalScoreBoard.displayScoresFromAQuestionBank();
                 break;
             case (4):
-                System.out.println("Change User");
+                System.out.println("Changing User\n");
                 logIn();
                 break;
             case (5):
                 fileData.saveApp();
-                System.out.println("Exist And Save");
+                System.out.println("Exist And Save\n");
                 System.exit(0);
             default:
-                System.out.println("Invalid Input, Please Try Again");
+                System.out.println("Invalid Input, Please Try Again\n");
         }
         return false;
     }

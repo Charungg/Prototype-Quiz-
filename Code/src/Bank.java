@@ -136,6 +136,7 @@ public class Bank {
             // User input must be minimum of 15 characters long.
             if (bankIdentifier.length() <= 15) {
                 bankNameValid = true;
+                System.out.println("Bank Identifier Is Valid");
 
                 // An example of a bank identifier will be shown if it's inputted wrong.
             } else {
