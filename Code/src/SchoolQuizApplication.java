@@ -71,7 +71,6 @@ public class SchoolQuizApplication {
             // User should input whether they are a teacher or student.
             System.out.println("Enter To Log In As Student(S) Or Teacher(T): ");
             userInput = console.next();
-            System.out.println(userInput);
 
             // If the user inputs the letter S then student menu will appear.
             if (userInput.equalsIgnoreCase("s")){

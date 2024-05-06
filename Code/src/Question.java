@@ -184,7 +184,6 @@ public class Question {
         }
         catch (InputMismatchException e){
             console.nextLine();
-            System.out.println("Invalid Input, Try Again");
         }
 
         return questionType;
