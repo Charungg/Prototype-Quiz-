@@ -7,6 +7,9 @@
 import java.io.FileWriter;
 import java.io.IOException;
 
+// Randomness function.
+import java.util.Random;
+
 // ArrayList is an array which can grow and shrink in size.
 // Useful in this scenario because you can zero to many modules.
 import java.util.ArrayList;
@@ -30,7 +33,6 @@ public class Question {
 
     protected String questionText; // Is used for subclass to have inherited question text
     // without duplicated code on each subclass.
-
 
     /** Constructor to instantiate the question class.
      * @param setBankList in order to have access to bank object.
@@ -108,7 +110,6 @@ public class Question {
 
         return uniqueIdentifier;
     }
-
 
     // Checks whether the valid unique identifier already has an existing arrayList within the hashMap.
     // If the uniqueIdentifier does not contain an ArrayList then it will instantiate a new one which is tied to it.
@@ -305,7 +306,6 @@ public class Question {
      * @return an ArrayList of questions of different type (SingleChoiceQuestion or FillTheBlanks).
      * */
     public ArrayList<Question> getQuestionList(String uniqueIdentifier){
-        System.out.println(questionsIdentifiers.get(uniqueIdentifier));
         return questionsIdentifiers.get(uniqueIdentifier);
     }
 

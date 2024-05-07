@@ -34,6 +34,8 @@ public class Quiz {
     private ArrayList<Integer> correctAnswers; // Holds an ArrayList where for each index position will
     // signify question x has been answered correct or not.
 
+    private ArrayList<String> questionOrder;
+
 
     /** Constructor to instantiate the Quiz class.
      * @param setBankList in order to have access to bank object.
@@ -113,7 +115,13 @@ public class Quiz {
             if (bankList.moduleAndBankIdentifiersExist(moduleName, bankName)){
                 questionIdentifier = (moduleName + ":" + bankName);
                 listOfQuestions = questionList.getQuestionList(questionIdentifier);
-                bankSelected = true;
+                if (listOfQuestions != null){
+                    bankSelected = true;
+                }
+                else{
+                    System.out.println("Question Bank Does Not Contain Any Question");
+                }
+
             }
 
         }while(!bankSelected);
@@ -137,18 +145,12 @@ public class Quiz {
                 // Checks if user input of amount question to partake is valid.
                 if (userAmount >= 1 && userAmount <=questionBankSize){
                     amountOfQuestion = userAmount;
-
-                    // Once the amount is valid then correctAnswer ArrayList size must be same as the amount.
-                    // This is because each item is associated with a question which can indicate if answered correctly.
-                    correctAnswers = new ArrayList<>();
-                    for (int index=0; index<amountOfQuestion; index++){
-                        correctAnswers.add(-1);
-                    }
                     amountNonNegative = true;
                 }
 
                 else if(userAmount > questionBankSize){
                     amountOfQuestion = questionBankSize;
+                    amountNonNegative = true;
                 }
 
                 else{
@@ -162,12 +164,49 @@ public class Quiz {
             }
         }while(!amountNonNegative);
 
+        // Once the amount is valid then correctAnswer ArrayList size must be same as the amount.
+        // This is because each item is associated with a question which can indicate if answered correctly.
+        correctAnswers = new ArrayList<>();
+        for (int index=0; index<amountOfQuestion; index++){
+            correctAnswers.add(-1);
+        }
     }
 
 
     /** Method to shuffle the ArrayList of questions so the user answer question in random order. */
-    public void shuffleQuestions(){
+    public void shuffleQuestions() {
+        int arraySize = listOfQuestions.size();
+        ArrayList<String> newQuestionNumberOrder = new ArrayList<>();
+        ArrayList<Question> originalQuestion = new ArrayList<>();
+
+        // Creates a temporary ArrayList which holds the original questions.
+        for (int indexCopy = 0; indexCopy < arraySize; indexCopy++) {
+            originalQuestion.add(listOfQuestions.get(indexCopy));
+        }
+
+        // Shuffles the questions.
         Collections.shuffle(listOfQuestions);
+
+        // Loops through the shuffled ArrayList.
+        for (int indexShuffled = 0; indexShuffled < arraySize; indexShuffled++) {
+            // Loops through the original ArrayList.
+            for (int indexOriginal = 0; indexOriginal < arraySize; indexOriginal++) {
+                // Checks if shuffled element is same as original element.
+                if (listOfQuestions.get(indexShuffled) == originalQuestion.get(indexOriginal)) {
+                    // Add text Q followed by the original element.
+                    newQuestionNumberOrder.add("Q" + (indexOriginal + 1));
+                }
+            }
+        }
+
+        // Displays the new question order.
+        System.out.println("Question Order: ");
+        for (int indexDisplay = 0; indexDisplay<amountOfQuestion; indexDisplay++){
+            System.out.print(newQuestionNumberOrder.get(indexDisplay) + " ");
+        }
+        System.out.println("\n");
+
+        questionOrder = newQuestionNumberOrder;
     }
 
 
@@ -183,7 +222,7 @@ public class Quiz {
         Question questionObject;
 
         do{
-            System.out.println("Question " + (currentQuestion + 1));
+            System.out.println("Question " + (questionOrder.get(currentQuestion)));
             questionObject = listOfQuestions.get(currentQuestion);
             // Reads the object class origin and starts the quiz for that question.
             startQuestion(questionObject);

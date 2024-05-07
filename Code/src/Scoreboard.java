@@ -42,7 +42,6 @@ public class Scoreboard {
         questionIdentifierScore.get(questionIdentifier).add(username);
         questionIdentifierScore.get(questionIdentifier).add(String.valueOf(score));
         questionIdentifierScore.get(questionIdentifier).add(String.valueOf(amountOfQuestion));
-        System.out.println(questionIdentifierScore);
     }
 
 

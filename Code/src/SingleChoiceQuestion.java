@@ -222,5 +222,4 @@ public class SingleChoiceQuestion extends Question{
 
         correctChoiceIndex = Integer.parseInt(reader.nextLine());
     }
-
 }

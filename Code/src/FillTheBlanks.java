@@ -36,6 +36,7 @@ public class FillTheBlanks extends Question{
         System.out.println("Question Text: ");
         System.out.println("    " + questionText);
 
+
         System.out.println("Amount Of Blanks: \n" + "    " + amountOfBlanks);
 
         System.out.println("Answers for Blanks: ");
