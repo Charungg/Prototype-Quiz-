@@ -1,0 +1,36 @@
+WHILE file still has next line
+	SET textFileLine from file next line
+	
+	IF textFileLine contain a : THEN
+		Set questionName to textFileLine without colon
+		Add questionName to questionIdentifer as key AND new ArrayList as value
+		
+		SET allQuestionLoaded to false
+		
+		DO 
+			SET className from file next line
+			
+			SWITCH className
+				CASE SingleChoiceQuestion
+					ADD new SinlgeChoiceQuestion object to questionIdentifier value
+				END CASE
+				
+				CASE FillTheBlanks
+					ADD new FillTheBlanks object to questionIdentifier value
+				END CASE
+				
+				CASE blank
+					SET allQuestionLoaded to true
+				END CASE
+
+				DEFAULT
+					DISPLAY Error Question Type Found
+			END SWITCH		
+		
+		WHILE allQuestionLoaded is false AND file still has next line	
+	
+	END IF
+END WHILE	
+
+
+
